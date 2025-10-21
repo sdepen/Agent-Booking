@@ -1,0 +1,615 @@
+<html lang="fr" class="scroll-smooth" style="scroll-padding-top: 80px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentation : Agent de Réservation 24/7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #101726;
+            color: #d1d5db; /* text-gray-300 */
+        }
+        .text-glow {
+            color: #67e8f9; /* Tailwind's cyan-400 */
+            text-shadow: 0 0 8px rgba(103, 232, 249, 0.7), 0 0 20px rgba(103, 232, 249, 0.5);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .active-tab {
+            border-color: #67e8f9;
+            color: #67e8f9;
+            font-weight: 700;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+     <header id="header" class="bg-[#101726]/90 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-cyan-500/5">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    
+    <!-- 🔹 LOGO -->
+    <div class="flex items-center space-x-3">
+      <img src="/logo.png" alt="Agent Booking Logo" class="h-10 w-auto drop-shadow-[0_0_8px_#00FFFF]" />
+      <div class="text-2xl font-bold text-white">
+        <span class="text-cyan-400 drop-shadow-[0_0_8px_#00FFFF]">Agent</span>
+        <span class="text-gray-300">Booking</span>
+      </div>
+    </div>
+
+    <!-- 🔹 MENU DESKTOP -->
+    <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
+      <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition-colors">Avantages</a>
+      <a href="#features" class="text-gray-300 hover:text-cyan-400 transition-colors">Fonctionnalités</a>
+      <a href="#roadmap" class="text-gray-300 hover:text-cyan-400 transition-colors">Futur</a>
+      <a href="#pricing" class="text-gray-300 hover:text-cyan-400 transition-colors">Tarifs</a>
+      <button class="open-modal-trigger bg-cyan-500 text-white px-5 py-2 rounded-full hover:bg-cyan-600 transition-all shadow-md">
+        Planifier une Démo
+      </button>
+    </div>
+
+    <!-- 🔹 BOUTON MENU MOBILE -->
+    <div class="md:hidden">
+      <button id="menu-btn" class="text-gray-300 focus:outline-none">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 🔹 MENU MOBILE -->
+  <div id="mobile-menu" class="hidden flex flex-col items-center space-y-3 px-6 pb-6 bg-[#101726]/95 md:hidden border-t border-gray-700">
+    <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition-colors">Avantages</a>
+    <a href="#features" class="text-gray-300 hover:text-cyan-400 transition-colors">Fonctionnalités</a>
+    <a href="#roadmap" class="text-gray-300 hover:text-cyan-400 transition-colors">Futur</a>
+    <a href="#pricing" class="text-gray-300 hover:text-cyan-400 transition-colors">Tarifs</a>
+    <button class="open-modal-trigger bg-cyan-500 text-white px-6 py-2 rounded-full hover:bg-cyan-600 transition-all mt-2 shadow-md">
+      Planifier une Démo
+    </button>
+  </div>
+
+  <!-- 🔹 SCRIPT POUR LE MENU MOBILE -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    });
+  </script>
+</header>
+
+    <main>
+        <!-- Hero Section --><section class="pt-20 md:pt-32 pb-12 bg-[#101726]">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight uppercase">
+                    <span class="text-glow">Ne perdez plus</span> une seule<br> réservation.
+                </h1>
+                <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+                    Visualisez comment notre agent IA transforme vos demandes de messages en réservations confirmées et rentables, 24h/24, 7j/7.
+                </p>
+                <div class="mt-10">
+                    <a href="#features" class="bg-cyan-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-cyan-600 transition-all transform hover:scale-105">
+                        Découvrir la solution
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section --><section id="how-it-works" class="pt-12 pb-20 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Comment Ça Marche ?</h2>
+                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                        De la prise de contact à la confirmation, l'agent gère tout le processus de manière autonome.
+                    </p>
+                </div>
+                <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-6">
+                    <!-- Step 1 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
+                        <div class="text-4xl mb-4">💬</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">1. Prise de Contact</h3>
+                        <p class="text-sm text-gray-300">Un client vous écrit sur la plateforme de votre choix, à n'importe quelle heure.</p>
+                    </div>
+        
+                    <div class="text-cyan-400 text-2xl font-light hidden md:flex items-center">→</div>
+        
+                    <!-- Step 2 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
+                        <div class="text-4xl mb-4">🤖</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">2. Collecte d'Infos</h3>
+                        <p class="text-sm text-gray-300">L'agent demande la date, les bouteilles et toutes les informations requises pour la réservation.</p>
+                    </div>
+        
+                    <div class="text-cyan-400 text-2xl font-light hidden md:flex items-center">→</div>
+                    
+                    <!-- Step 3 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
+                        <div class="text-4xl mb-4">✅</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">3. Validation</h3>
+                        <p class="text-sm text-gray-300">Un récapitulatif complet est envoyé pour confirmation par le client.</p>
+                    </div>
+        
+                    <div class="text-cyan-400 text-2xl font-light hidden md:flex items-center">→</div>
+        
+                    <!-- Step 4 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
+                        <div class="text-4xl mb-4">📊</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">4. Sauvegarde</h3>
+                        <p class="text-sm text-gray-300">La réservation est automatiquement ajoutée à votre Google Sheets et un message indiquant la réservation est directement envoyé à un membre de votre équipe.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Benefits Section --><section id="benefits" class="py-20 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Les Avantages pour Votre Établissement</h2>
+                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                        Plus qu'un simple outil, c'est un véritable levier de croissance et d'efficacité.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                        <div class="text-4xl mb-4">📈</div>
+                        <h3 class="text-xl font-bold mb-2 text-white">Zéro Perte de Réservation</h3>
+                        <p class="text-gray-300">L'agent est disponible 24/7 et répond instantanément, capturant chaque client potentiel même lorsque vous êtes fermé.</p>
+                    </div>
+                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                        <div class="text-4xl mb-4">⏱️</div>
+                        <h3 class="text-xl font-bold mb-2 text-white">Gain de Temps Massif</h3>
+                        <p class="text-gray-300">Votre personnel est libéré de la gestion manuelle des messages et peut se concentrer sur l'accueil et le service client sur place.</p>
+                    </div>
+                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                        <div class="text-4xl mb-4">💲</div>
+                        <h3 class="text-xl font-bold mb-2 text-white">Optimisation des Revenus</h3>
+                        <p class="text-gray-300">Application intelligente des offres du vendredi et respect strict des minimums pour maximiser le chiffre d'affaires de chaque table.</p>
+                    </div>
+                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                        <div class="text-4xl mb-4">🗄️</div>
+                        <h3 class="text-xl font-bold mb-2 text-white">Données Centralisées</h3>
+                        <p class="text-gray-300">Toutes les réservations sont consignées dans un Google Sheets unique, consultable en temps réel par toute votre équipe.</p>
+                    </div>
+                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                        <div class="text-4xl mb-4">⭐</div>
+                        <h3 class="text-xl font-bold mb-2 text-white">Expérience Client Premium</h3>
+                        <p class="text-gray-300">Offrez à vos clients des réponses rapides, professionnelles et un processus de réservation simple et moderne, digne de votre établissement.</p>
+                    </div>
+                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                        <div class="text-4xl mb-4">⚙️</div>
+                        <h3 class="text-xl font-bold mb-2 text-white">100% Personnalisable</h3>
+                        <p class="text-gray-300">Intégrez vos outils et configurez l'agent selon vos envies pour une solution entièrement sur mesure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section --><section id="features" class="py-20 bg-[#101726]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Une solution complète et intelligente</h2>
+                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                        L'agent est pré-configuré pour gérer toutes les situations, des plus simples aux plus complexes.
+                    </p>
+                </div>
+                
+                <!-- Tabs Navigation --><div class="flex justify-center border-b border-gray-700 mb-8">
+                    <button data-tab="tab-auto" class="tab-btn active-tab py-3 px-6 text-lg border-b-2 transition-colors">Automatisation</button>
+                    <button data-tab="tab-rules" class="tab-btn border-transparent text-gray-400 py-3 px-6 text-lg border-b-2 transition-colors">Règles & Zones</button>
+                    <button data-tab="tab-catalog" class="tab-btn border-transparent text-gray-400 py-3 px-6 text-lg border-b-2 transition-colors">Catalogue & Tarifs</button>
+                </div>
+        
+                <!-- Tab Content --><div>
+                    <!-- Automatisation Tab --><div id="tab-auto" class="tab-content">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="prose prose-invert max-w-none text-gray-300">
+                                <h3 class="text-2xl font-bold text-white mb-4">Automatisation Totale, 24/7</h3>
+                                <p>L'agent prend en charge l'intégralité du processus de réservation sans aucune intervention humaine. Chaque client reçoit une réponse instantanée, à toute heure du jour ou de la nuit.</p>
+                                <ul class="list-none p-0 mt-6 space-y-4">
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Collecte d'infos complète</strong> : date, heure, personnes, nom, téléphone, et requêtes spéciales.</div></li>
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Validation et récapitulatif</strong> avant confirmation pour éviter les erreurs.</div></li>
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Sauvegarde automatique</strong> et instantanée dans un Google Sheets centralisé.</div></li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-xl shadow-lg relative h-[500px] overflow-y-auto">
+                               <div class="sticky top-0 bg-gray-800 py-2 z-10">
+                                    <p class="text-white font-bold text-center">Simulation de conversation</p>
+                                </div>
+                                <div class="space-y-4 text-sm">
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Bonjour, je suis l'assistant de [votre nom] ! Comment puis-je vous aider aujourd'hui ? Souhaitez-vous faire une réservation ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">oui</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Quelle date et à quelle heure souhaitez-vous réserver ?</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">vendredi pro à 1h</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Combien de personnes seront présentes ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">7</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Quelles bouteilles souhaitez-vous ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">2 grey goose 70 cl</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Les 2 bouteilles Grey Goose 70 cl en vendredi correspondent à l'offre spéciale :</p>
+                                        <p class="text-white mt-2">Récap bouteilles :<br>2× Grey Goose 70 cl — 180 € (Offre spéciale vendredi 🎉)</p>
+                                        <p class="text-white mt-2">Quelles softs souhaitez-vous ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">redbull 5 canettes</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Avez-vous une requête spéciale à nous signaler (anniversaire, surprise, envoi particulier, ou autre) ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">c’est mon anniversaire</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">D'accord, je prends note, elle sera transmise à l'équipe ! Parfait. Pouvez-vous me donner un nom et un numéro de téléphone pour confirmer la réservation ?</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">[Nom] [Numéro]</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">
+                                            Récapitulatif :<br>
+                                            📅 24/10/2025<br>
+                                            🕒 1h00<br>
+                                            👥 7 personnes<br>
+                                            📍 Zone Standard<br>
+                                            🍾 Bouteilles : 2× Grey Goose 70 cl — 180 € (Offre spéciale vendredi 🎉)<br>
+                                            🧃 Softs : Red Bull 5 canettes<br>
+                                            ✨ Requête Spéciale : c’est mon anniversaire<br>
+                                            💰 Total : 180 €<br>
+                                            Confirmez-vous que toutes les informations sont correctes ?
+                                        </p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">oui</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Votre réservation est maintenant confirmée ! Merci beaucoup, et à très bientôt ! Si vous avez d'autres questions, n'hésitez pas à demander. 🍾🥂</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Règles & Zones Tab --><div id="tab-rules" class="tab-content hidden">
+                         <div class="grid md:grid-cols-2 gap-10 items-start">
+                            <div class="prose prose-invert max-w-none text-gray-300">
+                                <h3 class="text-2xl font-bold text-white mb-4">Gestion Intelligente des Règles</h3>
+                                <p>L'agent connaît et applique vos règles spécifiques : heure limite d'arrivée, minimum de consommation par zone, âge requis, etc.</p>
+                                <ul class="list-none p-0 mt-6 space-y-4">
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Validation d'heure d'arrivée</strong> : Il refuse poliment les demandes après 2h30 et informe de la politique du club.</div></li>
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Gestion des zones (Standard/VIP)</strong> : Il informe du minimum de 1000€ pour la zone VIP et guide les clients.</div></li>
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Adaptabilité</strong> : Toutes les règles sont 100% configurables selon les besoins de votre établissement.</div></li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-xl shadow-lg relative h-[500px] overflow-y-auto">
+                                <div class="sticky top-0 bg-gray-800 py-2 z-10">
+                                    <p class="text-white font-bold text-center">Simulation de conversation</p>
+                                </div>
+                                <div class="space-y-4 text-sm">
+                                     <!-- Scenario 1: Too late --><div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">Salut, possible de réserver pour 4 personnes ce soir à 3h ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Bonjour ! Malheureusement, nous ne prenons plus de réservations après 2h30. Pour garantir votre table, je vous invite à arriver avant cette heure. Puis-je vous aider avec un autre horaire ?</p>
+                                    </div>
+                                     <!-- Scenario 2: VIP request --><div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">Je voudrais une table VIP pour 8 personnes samedi avec un magnum de Belvedere.</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Bonjour ! Bien sûr. Pour la zone VIP, le minimum de consommation est de 1000€. Un magnum de Belvedere est à 500€. Souhaitez-vous ajouter d'autres bouteilles pour atteindre ce montant et confirmer votre table VIP ?</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Catalogue & Tarifs Tab --><div id="tab-catalog" class="tab-content hidden">
+                         <div class="grid md:grid-cols-2 gap-10 items-start">
+                            <div class="prose prose-invert max-w-none text-gray-300">
+                                <h3 class="text-2xl font-bold text-white mb-4">Connaissance Parfaite du Catalogue</h3>
+                                <p>L'agent a accès à votre catalogue complet et peut répondre précisément à toutes les demandes, même les plus vagues.</p>
+                                <ul class="list-none p-0 mt-6 space-y-4">
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Recherche Intelligente</strong> : Un client demande "du ruinart" ? L'agent liste toutes les options disponibles avec les prix.</div></li>
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Clarté et Précision</strong> : Il différencie les formats (75cl, 1.5L) et guide le client dans son choix pour éviter toute confusion.</div></li>
+                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Calcul Automatique</strong> : Le total est calculé instantanément et présenté au client avant la confirmation finale.</div></li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-xl shadow-lg relative h-[500px] overflow-y-auto">
+                                <div class="sticky top-0 bg-gray-800 py-2 z-10">
+                                    <p class="text-white font-bold text-center">Simulation de conversation</p>
+                                </div>
+                                <div class="space-y-4 text-sm">
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">Bonsoir, je voudrais du ruinart svp</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Bien sûr, voici nos options pour le Ruinart :<br>
+                                            - Ruinart Brut (75 cl) — 150 €<br>
+                                            - Ruinart Blanc de Blancs (75 cl) — 220 €<br>
+                                            - Ruinart Rosé (75 cl) — 150 €<br>
+                                            - Ruinart Brut (1.5 L) — 300 €<br>
+                                            - Ruinart Blanc de Blancs (1.5 L) — 490 €<br>
+                                            - Dom Ruinart (75 cl) — 300 €<br>
+                                            Laquelle vous ferait plaisir ?</p>
+                                    </div>
+                                     <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">je vais prendre deux ruinart brut</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Parfait ! Vous les souhaitez en format 75 cl ou 1.5 L ?</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
+                                        <p class="font-bold text-gray-300">Client</p>
+                                        <p class="text-white">1.5 L</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
+                                        <p class="font-bold text-cyan-400">Agent</p>
+                                        <p class="text-white">Excellent choix. Cela fera un total de 600 € pour les deux magnums de Ruinart Brut. Est-ce que cela vous convient ?</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section --><section id="roadmap" class="py-20 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">💡 Fonctionnalités Futures</h2>
+                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                        Nous évoluons constamment pour vous offrir les outils les plus performants. Voici un aperçu de ce qui arrive bientôt.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="border border-gray-700 p-6 rounded-xl text-center">
+                        <div class="text-3xl mb-4">📅</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Disponibilité en Temps Réel</h3>
+                        <p class="text-sm text-gray-300">L'agent vérifiera si les tables sont complètes et proposera des alternatives (VIP, autre date).</p>
+                    </div>
+                     <div class="border border-gray-700 p-6 rounded-xl text-center">
+                        <div class="text-3xl mb-4">💳</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Paiement en Ligne Sécurisé</h3>
+                        <p class="text-sm text-gray-300">Possibilité pour les clients de payer un acompte ou la totalité via un lien sécurisé (Stripe/PayPal).</p>
+                    </div>
+                     <div class="border border-gray-700 p-6 rounded-xl text-center">
+                        <div class="text-3xl mb-4">🗺️</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Plan Interactif du Club</h3>
+                        <p class="text-sm text-gray-300">Les clients pourront choisir leur table sur un plan, avec des prix ajustés selon la zone.</p>
+                    </div>
+                     <div class="border border-gray-700 p-6 rounded-xl text-center">
+                        <div class="text-3xl mb-4">🔔</div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Relance Automatique</h3>
+                        <p class="text-sm text-gray-300">Envoi d'un message 1h après si le client n'a pas répondu, pour ne manquer aucune opportunité.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section --><section id="pricing" class="py-20 bg-[#101726]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nos Offres Flexibles</h2>
+                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">Des solutions adaptées à chaque besoin, sans engagement, pour maximiser votre rentabilité.</p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                    
+                    <!-- Essentiel Plan --><div class="bg-gray-800 p-8 rounded-2xl flex flex-col shadow-lg">
+                        <h3 class="text-2xl font-bold text-white">Essentiel</h3>
+                        <p class="text-gray-400 mt-1 mb-6">Idéal pour démarrer l'automatisation.</p>
+                        <ul class="space-y-3 text-gray-300 flex-grow">
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Automatisation 24/7</li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Collecte & Sauvegarde</li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Catalogue de base</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 text-center bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors font-semibold">Choisir Essentiel</a>
+                    </div>
+        
+                    <!-- Pro Plan (Most Popular) --><div class="bg-gray-800 p-8 rounded-2xl flex flex-col shadow-2xl border-2 border-cyan-400 relative transform scale-105">
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-cyan-400 text-gray-900 px-4 py-1 rounded-full text-sm font-bold">LE PLUS POPULAIRE</span>
+                        <h3 class="text-2xl font-bold text-white">Pro</h3>
+                        <p class="text-cyan-300 mt-1 mb-6">La solution complète pour optimiser.</p>
+                        <ul class="space-y-3 text-gray-300 flex-grow">
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span><strong class="font-semibold">Tout Essentiel, et plus :</strong></li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Gestion des règles & zones</li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Gestion des offres spéciales</li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Support prioritaire</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 text-center bg-cyan-500 text-white py-3 rounded-lg hover:bg-cyan-600 transition-colors font-semibold">Choisir Pro</a>
+                    </div>
+        
+                    <!-- Sur Mesure Plan --><div class="bg-gray-800 p-8 rounded-2xl flex flex-col shadow-lg">
+                        <h3 class="text-2xl font-bold text-white">Sur Mesure</h3>
+                        <p class="text-gray-400 mt-1 mb-6">Pour les besoins uniques et complexes.</p>
+                        <ul class="space-y-3 text-gray-300 flex-grow">
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span><strong class="font-semibold">Tout Pro, et plus :</strong></li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Intégrations API spécifiques</li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Développement de fonctionnalités</li>
+                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Accompagnement dédié</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 text-center bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors font-semibold">Nous Contacter</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section --><section id="contact" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold text-white">Prêt à transformer vos réservations ?</h2>
+                 <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                     Discutons de la manière dont cet agent peut optimiser votre gestion et augmenter vos revenus dès ce week-end.
+                 </p>
+                 <div class="mt-10">
+                    <button id="open-modal-btn" class="open-modal-trigger bg-cyan-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-cyan-600 transition-all transform hover:scale-105">
+                        Planifier une démo
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-8">
+  <div class="container mx-auto px-6 text-center text-gray-200">
+    <p class="text-base">
+      © 2025 Agent Booking – Raison sociale : Sacha Depenweiller. Tous droits réservés.
+    </p>
+    <div class="mt-2 text-sm">
+<a href="/mentions-legales.html" target="_top" class="underline hover:text-cyan-300">Mentions légales</a>
+<span class="mx-2">|</span>
+<a href="/confidentialite.html" target="_top" class="underline hover:text-cyan-300">Politique de confidentialité et de cookies</a>
+
+    </div>
+  </div>
+</footer>
+
+    <!-- Calendly Modal --><div id="calendly-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-2xl w-full max-w-4xl h-[90vh] flex flex-col relative">
+            <button id="close-modal-btn" class="absolute -top-3 -right-3 text-white bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-500 transition-colors z-10">&times;</button>
+            <div class="w-full h-full rounded-2xl overflow-hidden">
+                <!-- IMPORTANT: Le lien a été mis à jour avec votre Calendly -->
+                <iframe src="https://calendly.com/sachadepenweiller1/30min" frameborder="0" class="w-full h-full"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when a link is clicked
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a, button');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // We only close the menu if it's a link, not the modal trigger button on mobile
+                    if(link.tagName === 'A'){
+                         mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Tabs for Features section
+            const tabs = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.tab);
+
+                    tabs.forEach(t => {
+                        t.classList.remove('active-tab');
+                        t.classList.add('border-transparent', 'text-gray-400');
+                    });
+                    tab.classList.add('active-tab');
+                    tab.classList.remove('border-transparent', 'text-gray-400');
+
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    target.classList.remove('hidden');
+                });
+            });
+
+            // Calendly Modal Logic
+            const openModalBtns = document.querySelectorAll('.open-modal-trigger');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modal = document.getElementById('calendly-modal');
+
+            openModalBtns.forEach(btn => {
+                if (btn && modal) {
+                    btn.addEventListener('click', () => {
+                        modal.classList.remove('hidden');
+                        mobileMenu.classList.add('hidden'); // Also close mobile menu if open
+                    });
+                }
+            });
+
+
+            if (closeModalBtn && modal) {
+                closeModalBtn.addEventListener('click', () => {
+                    modal.classList.add('hidden');
+                });
+            }
+            
+            // Close modal on outside click
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            }
+        });
+
+    </script>
+</body>
+</html>
