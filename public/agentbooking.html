@@ -47,10 +47,9 @@
 <body class="antialiased">
 
     <!-- Header & Navigation -->
-     <header id="header" class="bg-[#101726]/90 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-cyan-500/5">
+     <header id="header" class="bg-[#101726]/90 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-cyan-500/5 relative">
   <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-    
-    <!-- 🔹 LOGO -->
+    <!-- LOGO -->
     <div class="flex items-center space-x-3">
       <img src="/logo.png" alt="Agent Booking Logo" class="h-10 w-auto drop-shadow-[0_0_8px_#00FFFF]" />
       <div class="text-2xl font-bold text-white">
@@ -59,7 +58,7 @@
       </div>
     </div>
 
-    <!-- 🔹 MENU DESKTOP -->
+    <!-- MENU DESKTOP -->
     <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
       <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition-colors">Avantages</a>
       <a href="#features" class="text-gray-300 hover:text-cyan-400 transition-colors">Fonctionnalités</a>
@@ -70,20 +69,19 @@
       </button>
     </div>
 
-    <!-- 🔹 BOUTON MENU MOBILE -->
+    <!-- BOUTON MENU MOBILE -->
     <div class="md:hidden">
-      <button id="menu-btn" class="text-gray-300 focus:outline-none">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 6h16M4 12h16m-7 6h7" />
+      <button id="menu-btn" class="text-gray-300 focus:outline-none" aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
         </svg>
       </button>
     </div>
   </nav>
 
-  <!-- 🔹 MENU MOBILE -->
-  <div id="mobile-menu" class="hidden flex flex-col items-center space-y-3 px-6 pb-6 bg-[#101726]/95 md:hidden border-t border-gray-700">
+  <!-- MENU MOBILE -->
+  <div id="mobile-menu"
+       class="hidden md:hidden absolute left-0 right-0 top-full bg-[#101726]/95 border-t border-gray-700 px-6 pb-6 flex flex-col items-center space-y-3">
     <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition-colors">Avantages</a>
     <a href="#features" class="text-gray-300 hover:text-cyan-400 transition-colors">Fonctionnalités</a>
     <a href="#roadmap" class="text-gray-300 hover:text-cyan-400 transition-colors">Futur</a>
@@ -92,17 +90,6 @@
       Planifier une Démo
     </button>
   </div>
-
-  <!-- 🔹 SCRIPT POUR LE MENU MOBILE -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const menuBtn = document.getElementById('menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    });
-  </script>
 </header>
 
     <main>
@@ -538,78 +525,75 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Mobile Menu Toggle
-            const menuBtn = document.getElementById('menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // Close mobile menu when a link is clicked
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a, button');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    // We only close the menu if it's a link, not the modal trigger button on mobile
-                    if(link.tagName === 'A'){
-                         mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
+document.addEventListener('DOMContentLoaded', function () {
+  // ----- Mobile Menu -----
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
 
-            // Tabs for Features section
-            const tabs = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
+  function toggleMenu() {
+    const isHidden = mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden');
+    menuBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    // lock/unlock scroll when menu open on mobile
+    document.body.style.overflow = isHidden ? 'hidden' : '';
+  }
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = document.getElementById(tab.dataset.tab);
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', toggleMenu, { passive: true });
+  }
 
-                    tabs.forEach(t => {
-                        t.classList.remove('active-tab');
-                        t.classList.add('border-transparent', 'text-gray-400');
-                    });
-                    tab.classList.add('active-tab');
-                    tab.classList.remove('border-transparent', 'text-gray-400');
+  // Close on link click (and keep button working for modal)
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
 
-                    tabContents.forEach(content => {
-                        content.classList.add('hidden');
-                    });
-                    target.classList.remove('hidden');
-                });
-            });
+  // ----- Tabs (inchangé) -----
+  const tabs = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = document.getElementById(tab.dataset.tab);
+      tabs.forEach(t => t.classList.remove('active-tab','text-white'));
+      tabs.forEach(t => t.classList.add('border-transparent','text-gray-400'));
+      tab.classList.add('active-tab','text-white');
+      tab.classList.remove('border-transparent','text-gray-400');
+      tabContents.forEach(c => c.classList.add('hidden'));
+      target.classList.remove('hidden');
+    });
+  });
 
-            // Calendly Modal Logic
-            const openModalBtns = document.querySelectorAll('.open-modal-trigger');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const modal = document.getElementById('calendly-modal');
+  // ----- Calendly modal (inchangé) -----
+  const openModalBtns = document.querySelectorAll('.open-modal-trigger');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+  const modal = document.getElementById('calendly-modal');
 
-            openModalBtns.forEach(btn => {
-                if (btn && modal) {
-                    btn.addEventListener('click', () => {
-                        modal.classList.remove('hidden');
-                        mobileMenu.classList.add('hidden'); // Also close mobile menu if open
-                    });
-                }
-            });
+  openModalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      mobileMenu.classList.add('hidden'); // ferme le menu si ouvert
+      menuBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  if (closeModalBtn && modal) {
+    closeModalBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+});
+</script>
 
-
-            if (closeModalBtn && modal) {
-                closeModalBtn.addEventListener('click', () => {
-                    modal.classList.add('hidden');
-                });
-            }
-            
-            // Close modal on outside click
-            if (modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.add('hidden');
-                    }
-                });
-            }
-        });
-
-    </script>
 </body>
 </html>
