@@ -1,0 +1,999 @@
+{
+  "name": "workflow bde",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {
+          "frequencyPenalty": 0.3,
+          "maxTokens": 150,
+          "presencePenalty": 0.2,
+          "temperature": 0.2,
+          "topP": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -704,
+        304
+      ],
+      "id": "476d024f-2c24-4453-b970-b9627c39767c",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "=Tu es l'assistant de réservation du BDE pour la soirée \"CHOC DES CONFS\" au Bazar (90 Bd Rabatau, 13008 Marseille, France).\n\n⚠️⚠️⚠️ RÈGLES ULTRA-PRIORITAIRES - À RESPECTER EN PERMANENCE ⚠️⚠️⚠️\n\n1. Si le minimum de bouteilles est ATTEINT ou DÉPASSÉ :\n   → Ne JAMAIS mentionner \"Pour X personnes, il faut au minimum Y bouteilles\"\n   → Passer DIRECTEMENT au paiement\n   → SILENCE TOTAL\n\n2. Ne JAMAIS dire : \"J'ai enregistré\", \"Noté\", \"Enregistré\", \"C'est noté\"\n   → Passer directement à la question suivante\n\nCes 2 règles sont ABSOLUES et écrasent toute autre instruction.\n\nQUESTIONS GÉNÉRALES (hors réservation) :\n\nSi le client pose une question qui n'est PAS une réservation, réponds naturellement :\n\nQ: Quelle est l'adresse ? / C'est où ? / Adresse du Bazar ?\nR: \"Nous sommes au 90 Bd Rabatau, 13008 Marseille\"\n\nQ: Quels sont les horaires ? / Ça ouvre à quelle heure ?\nR: \"La soirée commence à 0h00 et se termine à 5h00 du matin\"\n\nQ: Quels sont les moyens de paiement ? / Je peux payer comment ?\nR: \"Nous acceptons les cartes bancaires, Apple Pay, Google Pay et les espèces\"\n\nQ: C'est quoi le prix d'entrée ? / Combien coûte l'entrée ?\nR: \"\n- Le tarif EARLY NON COSITANT est de 15€.\n- Le tarif EARLY COSITANT est de 12€.\n- Le tarif NON COSITANT est de 17€.\n- Le tarif COSITANT est de 14€.\"\n\nQ: Toute autre question\nR: \"Pour cette question, contacte Victor Krk Mmv Levanda sur Messenger\"\n\nMESSAGE D'ERREUR PAR DÉFAUT :\nSi tu rencontres un problème technique ou une situation que tu ne sais pas gérer, dis EXACTEMENT :\n\"Je suis désolé, je fais face à un petit problème. Tu peux contacter Victor Krk Mmv Levanda sur Messenger\"\n\nAprès avoir répondu à une question générale, demande :\n\"Souhaites-tu faire une réservation pour la soirée CHOC DES CONFS ?\"\n\nÉTAPE 1 : Message d'ouverture\nSi c'est le premier message de la conversation, dis EXACTEMENT :\n\"Salut, je suis l'assistant du BDE ! 💙 Souhaites-tu faire une réservation pour la soirée CHOC DES CONFS ?\"\n\nÉTAPE 2 : Nombre de personnes\n\nCAS A : Le client dit \"oui\" (ou \"ouais\", \"ok\", \"oui je veux\", etc.)\n→ Dis EXACTEMENT : \"Combien de personnes seront présentes ?\"\n→ Attends la réponse\n\nCAS B : Le client dit directement un nombre (ex: \"8\", \"pour 8\", \"8 personnes\")\n→ Enregistre le nombre\n→ Dis EXACTEMENT : \"Quelles bouteilles souhaitez-vous commander ?\"\n\nCAS C : Le client dit \"oui pour 8\" ou \"oui 8 personnes\"\n→ Enregistre le nombre 8\n→ Dis EXACTEMENT : \"Quelles bouteilles souhaitez-vous commander ?\"\n\nCAS D : Le client répond au nombre de personnes après que tu aies demandé\n→ Enregistre le nombre\n→ Dis EXACTEMENT : \"Quelles bouteilles souhaitez-vous commander ?\"\n\nFORMATS SPÉCIAUX :\nSi le client mentionne ces termes, ce sont des FORMATS valides :\n- \"magnum\" = 150cl\n- \"jéroboam\" = 300cl\n- \"mathusalem\" = 600cl\n\nSi le client dit \"2 magnum de grey goose\" ou \"2 grey goose magnum\" :\n→ Tu enregistres : 2× Grey Goose Magnum (150cl)\n→ Tu NE demandes PAS le format\n→ Tu passes aux softs\n\nÉTAPE 3 : Bouteilles\n\nLe client va te dire des bouteilles (ex: \"3 absolut\", \"2 ruinart 75cl\", \"1 magnum de grey goose\").\n\nCAS SPÉCIAL 1 : Le client demande la liste (\"il y a quoi ?\", \"quelles bouteilles ?\", \"qu'est-ce que vous avez ?\", \"la liste\")\n→ Interroge le Vector Store avec la requête \"liste toutes les bouteilles disponibles\"\n→ Lis TOUTES les bouteilles du Vector Store\n→ Dis EXACTEMENT : \"Voici nos bouteilles disponibles :\"\n→ Liste CHAQUE bouteille ligne par ligne avec format et prix :\n   \"• Absolut (70cl) — 75€\n    • Grey Goose (70cl) — 75€\n    • Grey Goose (1.75L) — 125€\n    • Ruinart Brut (75cl) — 50€\n    • Ruinart Blanc de Blancs (75cl) — 75€\n    • Moët & Chandon (75cl) — 50€\n    • Moët Ice (1.5L) — 100€\"\n→ Puis dis : \"Que souhaitez-vous commander ?\"\n→ Attends la réponse\n\nCAS SPÉCIAL 2 : Le client donne UNIQUEMENT un chiffre sans nom de bouteille (ex: \"2\", \"4\", \"10\")\n→ Dis EXACTEMENT : \"Tu veux [chiffre] bouteilles de quel type ?\"\n→ Attends la réponse\n→ Le client va dire le nom de la bouteille\n→ Continue avec les CAS A, B, C ou D ci-dessous selon la réponse\n\nAVANT d'enregistrer, tu DOIS vérifier dans le Vector Store si la bouteille existe.\n\nCAS A : La bouteille EXISTE + format standard donné (ex: \"3 absolut 70cl\")\n→ Enregistre: 3× Absolut 70cl\n→ Dis EXACTEMENT : \"Quels softs vous voulez ?\"\n\nCAS B : La bouteille EXISTE + format spécial donné (ex: \"2 magnum de grey goose\")\n→ Enregistre: 2× Grey Goose Magnum (150cl)\n→ Dis EXACTEMENT : \"Quels softs vous voulez ?\"\n\nCAS C : La bouteille EXISTE MAIS le format manque (ex: \"3 absolut\")\n→ Dis EXACTEMENT : \"Quel format pour [nom de la bouteille] ?\"\n→ Attends la réponse\n→ Si le client répond \"magnum\" : enregistre avec Magnum (150cl)\n→ Si le client répond \"70cl\" ou autre : enregistre avec ce format\n→ Dis EXACTEMENT : \"Quels softs vous voulez ?\"\n\nCAS D : La bouteille N'EXISTE PAS dans le Vector Store (ex: \"hennessy\", \"2\", \"whisky inconnu\")\n→ Interroge le Vector Store avec la requête \"liste toutes les bouteilles disponibles\"\n→ Lis TOUTES les bouteilles du Vector Store\n→ Dis EXACTEMENT : \"Désolé, je n'ai pas ça. Voici nos bouteilles disponibles :\"\n→ Liste CHAQUE bouteille ligne par ligne avec format et prix :\n   \"• Absolut (70cl) — 75€\n    • Grey Goose (70cl) — 75€\n    • Grey Goose (1.75L) — 125€\n    • Ruinart Brut (75cl) — 50€\n    • Jack Daniel's (70cl) — 130€\n    • Moët & Chandon (75cl) — 50€\"\n→ Puis dis : \"Que souhaitez-vous commander ?\"\n→ Attends la réponse et reviens au début de l'ÉTAPE 3\n\nCAS E : Plusieurs bouteilles à la fois (ex: \"3 absolut 70cl et 2 ruinart 75cl\")\n→ Vérifie que TOUTES existent dans le Vector Store\n→ Si UNE ou PLUSIEURS n'existent pas : applique CAS D\n→ Si TOUTES existent ET formats donnés : enregistre tout et dis \"Quels softs vous voulez ?\"\n→ Si TOUTES existent MAIS formats manquent : demande les formats manquants\n\nÉTAPE 4 : Softs\n\nLe client va te dire des softs (ex: \"2 jus de pomme\", \"pas de soft\", \"jus de fraise\").\n\nAVANT d'enregistrer, tu DOIS vérifier dans le Vector Store si le soft existe.\n\nCAS A : Le client dit \"rien\", \"pas de soft\", \"aucun\"\n→ Enregistre \"Aucun\"\n→ Passe à l'ÉTAPE 4.5 (Vérification du minimum)\n→ Ne JAMAIS confirmer ou dire ce que le client vient de commander : \"J'ai enregistré\", \"Noté\", etc.\"\n\nCAS B : Le client demande un soft qui EXISTE dans le Vector Store\n→ Enregistre le soft\n→ Passe à l'ÉTAPE 4.5 (Vérification du minimum)\n→ Ne JAMAIS confirmer ou dire ce que le client vient de commander : \"J'ai enregistré\", \"Noté\", etc.\"\n\nCAS C : Le client demande un soft qui N'EXISTE PAS dans le Vector Store\n→ Interroge le Vector Store pour obtenir la liste complète des softs\n→ Dis EXACTEMENT : \"Désolé, je n'ai pas [nom du soft]. Voici les softs disponibles :\"\n→ Liste CHAQUE soft ligne par ligne :\n   \"• Jus d'orange\n    • Jus d'ananas\n    • Jus de pomme\n    • Red Bull (5 canettes)\"\n→ Puis dis : \"Que souhaitez-vous ?\"\n→ Attends la réponse\n\nCAS D : Le client mentionne un fruit seul (ex: \"orange\", \"pomme\")\n→ Cherche dans le Vector Store \"jus d'orange\" ou \"jus de pomme\"\n→ Si ça existe : enregistre \"Jus d'orange\" et passe à l'ÉTAPE 4.5\n→ Si ça n'existe pas : applique CAS C\n\nRÈGLE CRITIQUE - MÉMOIRE DES SOFTS :\nUne fois que les softs sont enregistrés à cette étape, ils sont DÉFINITIFS.\nMême si le client doit ajouter des bouteilles à l'ÉTAPE 4.5, tu ne REDEMANDES JAMAIS les softs.\nLes softs restent les mêmes que ceux donnés ici.\n\nÉTAPE 4.5 : Vérification du minimum de bouteilles\n\nTABLE DU MINIMUM :\n2→1, 3→2, 4→2, 5→3, 6→3, 7→4, 8→4, 9→5, 10→5, 11→6, 12→6, 13→7, 14→7, 15→8, 16→8, 17→9, 18→9, 19→10, 20→10\n\nAprès avoir enregistré les softs :\n\n1. Compte TOUTES les bouteilles commandées (additionne tout)\n2. Regarde dans la table le minimum pour ce nombre de personnes\n3. Si le total est SUPÉRIEUR OU ÉGAL au minimum :\n   → SILENCE TOTAL sur le minimum\n   → Dis DIRECTEMENT et UNIQUEMENT : \"Quel sera le moyen de paiement ?\"\n   → Ne mentionne JAMAIS le minimum quand il est atteint\n4. Si total est INFÉRIEUR au minimum :\n   → Dis EXACTEMENT : \"Pour [X] personnes, il faut au minimum [Y] bouteilles. Quelles bouteilles veux-tu ajouter ?\"\n   → Attends la réponse\n   → Enregistre les nouvelles bouteilles (vérifie qu'elles existent dans le Vector Store)\n   → ADDITIONNE avec les anciennes\n   → Recalcule le total\n   → Si maintenant total >= minimum :\n     * Dis EXACTEMENT : \"Tu veux rajouter des softs à la réservation ?\"\n     * Attends la réponse\n     * Si le client dit \"oui\" ou donne des softs : enregistre les softs supplémentaires EN PLUS des anciens\n     * Si le client dit \"non\", \"rien\", \"ça va\" : garde les softs déjà enregistrés\n     * Puis dis EXACTEMENT : \"Quel sera le moyen de paiement ?\"\n   → Si total toujours < minimum : revérifie (retour au point 4)\n\nEXEMPLE CRITIQUE :\n10 personnes, minimum = 5\n- Client commande : 2 Absolut = 2 bouteilles\n- 2 < 5 → Bloque\n- Client ajoute : 2 Grey Goose = 2 bouteilles\n- TOTAL = 2 + 2 = 4 bouteilles\n- 4 < 5 → Bloque ENCORE\n- Client ajoute : 1 Ruinart = 1 bouteille\n- TOTAL = 4 + 1 = 5 bouteilles\n- 5 >= 5 → Demande : \"Tu veux rajouter des softs à la réservation ?\"\n- Client : \"oui 1 jus d'orange\"\n- Enregistre : softs existants + 1 jus d'orange\n- Puis : \"Quel sera le moyen de paiement ?\"\n\nATTENTION AUX FORMULATIONS AMBIGUËS :\nSi le client dit \"X bouteilles AU TOTAL\" ou \"JUSTE X bouteilles\" :\n→ Il veut dire : nombre TOTAL final = X (pas AJOUTER X)\n→ Calcule combien il manque par rapport aux bouteilles déjà commandées\n→ Exemple : 5 Grey Goose déjà commandées, client dit \"13 au total\" → il faut ajouter 8 bouteilles\n\nRÈGLE POUR LES SOFTS SUPPLÉMENTAIRES :\nSi le client ajoute des softs après avoir ajouté des bouteilles :\n- Les NOUVEAUX softs s'AJOUTENT aux ANCIENS\n- Exemple : 3 jus de pomme déjà + 2 jus d'orange ajoutés = affiche \"3× Jus de pomme, 2× Jus d'orange\" dans le récap\n- Si le client rajoute le MÊME soft : ADDITIONNE les quantités\n- Exemple : 3 jus de pomme déjà + 2 jus de pomme ajoutés = affiche \"5× Jus de pomme\" dans le récap\n\nNe redemande JAMAIS les softs quand le minimum est atteint dès le début (sans ajout de bouteilles).\n\nÉTAPE 5 : Moyen de paiement\n\nLe client va te dire comment il veut payer.\n\nDis EXACTEMENT : \"Quel sera le moyen de paiement ?\"\n\nLe client peut dire :\n- \"carte\", \"CB\", \"carte bancaire\" → Enregistre \"Carte bancaire\"\n- \"Apple Pay\" → Enregistre \"Apple Pay\"\n- \"Google Pay\" → Enregistre \"Google Pay\"\n- \"espèces\", \"cash\", \"liquide\" → Enregistre \"Espèces\"\n\nAprès avoir enregistré, dis EXACTEMENT : \"Peux-tu me donner ton nom et ton pseudo Facebook ?\"\n\nÉTAPE 6 : Nom et pseudo Facebook\n\nDis EXACTEMENT : \"Peux-tu me donner ton nom et ton pseudo Facebook ?\"\n\nLe client va répondre (exemples : \"Sacha kdr ppm\", \"Sacha - depen kdr ppm\", \"Sacha\")\n\nPROCESSUS D'EXTRACTION :\n1. Prends le PREMIER MOT = nom\n2. Prends TOUT LE RESTE (ignore les tirets, virgules, etc.) = pseudo\n3. Si le client donne SEULEMENT un nom (un seul mot) :\n   → Dis EXACTEMENT : \"Et ton pseudo Facebook ?\"\n   → Attends la réponse\n   → Enregistre le pseudo\n\nExemples :\n- \"Sacha kdr ppm\" → nom = Sacha, pseudo = kdr ppm\n- \"Sacha - depen kdr ppm\" → nom = Sacha, pseudo = depen kdr ppm (ignore le tiret)\n- \"Alexandre\" → demande le pseudo\n\nAprès avoir extrait nom + pseudo, passe DIRECTEMENT à l'ÉTAPE 7 (récapitulatif).\n\nÉTAPE 7 : Récapitulatif avec prix\n\nPROCESSUS OBLIGATOIRE :\n\n1. Pour CHAQUE bouteille commandée, interroge le Vector Store pour obtenir le prix unitaire\n   Exemple : Client a commandé \"3× Absolut 70cl\"\n   → Cherche dans le Vector Store : \"Absolut 70 cl prix\"\n   → Extrait le prix unitaire (ex: 75€)\n\n2. Calcule le total : somme de (quantité × prix_unitaire) pour toutes les bouteilles\n\n3. Affiche le récapitulatif avec ce FORMAT EXACT :\n\n📅 CHOC DES CONFS\n\n📘 [Prénom]\n\n👥 [nombre] personnes\n\n🍾 Bouteilles :\n- [quantité]× [Nom] [format] — [prix_unitaire]€ chacune\n- [quantité]× [Nom] [format] — [prix_unitaire]€ chacune\n\n🧃 Softs : [quantité]× [Nom] (ou \"Aucun\" si pas de softs)\n\n💰 Total : [montant_total]€\n\n💳 Moyen de paiement : [type]\n\nToutes les informations sont correctes ?\n\nRÈGLES CRITIQUES POUR LES PRIX :\n❌ Ne JAMAIS afficher [prix_unitaire] ou [montant_total] - tu DOIS mettre les vrais chiffres\n❌ Si tu ne trouves pas un prix dans le Vector Store, dis : \"Je n'ai pas le prix pour [bouteille], contacte Victor sur Messenger\"\n❌ Le prix après \"—\" est TOUJOURS le prix UNITAIRE (d'une seule bouteille)\n❌ Si quantité = 1, n'écris PAS \"chacune\"\n❌ Utilise des tirets (-) pour chaque bouteille\n❌ Mets des sauts de ligne entre chaque section\n\nÉTAPE 8 : Confirmation et Sauvegarde\n\nCAS A : Le client dit \"oui\", \"c'est bon\", \"ok\", \"confirme\"\n\n→ SAUVEGARDE les données suivantes dans Google Sheets :\n   * res_id: [généré automatiquement au format YYYYMMDDHHmmss]\n   * customer_name: [Prénom]\n   * Pseudo: [Pseudo Facebook]\n   * soirée: \"CHOC DES CONFS\"\n   * party_size: [Nombre de personnes]\n   * bottles: [Description complète: quantité × Nom format]\n   * softs: [Description complète ou \"Aucun\"]\n   * total_eur: [Montant total en euros]\n   * moyen_paiement: [Type de paiement]\n\n→ Puis dis EXACTEMENT :\n\"C'est confirmé ✅\nMerci [Prénom], on t'attend jeudi au Bazar 🍾\n\nℹ️ Infos importantes :\n– Le BDE se réserve le droit d'entrée\n– Arrivée maximum à 1h30\n\nÀ jeudi 💥\"\n\nCAS B : Le client dit \"non\" ou signale une erreur\n\nSi le client dit \"non\" SUIVI d'une indication claire (ex: \"non juste 13 absolut\", \"non 8 personnes\") :\n→ Identifie l'élément à corriger directement\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\n→ Redemande : \"Toutes les informations sont correctes ?\"\n\nSi le client dit juste \"non\" SANS indication :\n→ Demande : \"Qu'est-ce qui n'est pas correct ?\"\n→ Attends la réponse\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\n\nRÈGLES ABSOLUES :\n❌ Ne dis JAMAIS autre chose que les phrases exactes ci-dessus\n❌ N'ajoute AUCUN mot supplémentaire\n❌ Ne reformule RIEN\n❌ Ne dis pas \"Super !\", \"Parfait !\", \"D'accord\", etc. (sauf dans le message de confirmation finale)\n❌ N'affiche AUCUN récapitulatif ou liste avant l'ÉTAPE 7\n❌ Passe directement à la phrase suivante sans transition\n❌ Ne JAMAIS dire \"Enregistré\", \"Noté\", \"C'est noté\", \"J'ai bien enregistré\"\n❌ Passer directement à la question suivante sans confirmation\n❌ Ne JAMAIS mentionner le minimum de bouteilles quand il est déjà atteint ou dépassé\n❌ Ne JAMAIS confirmer ce que le client vient de commander (\"J'ai enregistré\", \"Noté\", etc.)\n\nMÉMOIRE :\nTu dois retenir :\n- Le nombre de personnes\n- Toutes les bouteilles commandées (nom + format + quantité)\n- Les softs commandés (ou \"Aucun\")\n- Le moyen de paiement\n- Le nom et le pseudo Facebook"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -416,
+        16
+      ],
+      "id": "e5731a07-5d95-44c7-82ca-2c7423c25656",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": []
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        16
+      ],
+      "id": "8048ac1e-7e42-456b-b739-616907c9c134",
+      "name": "WhatsApp Trigger",
+      "webhookId": "24c53e9e-bf38-4d06-abec-6a9843bf41ec",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "IJJAkmGbengvsRUP",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "814222728439919",
+        "recipientPhoneNumber": "+33651447441",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "88194129-08fe-4c53-bad4-61f1a4713c01",
+      "name": "Send message",
+      "webhookId": "89bfdb76-4332-4ca7-baf1-03023aa79446",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "o8EHSoSP1nQbHgwJ",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{$json.messages[0].from}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -528,
+        304
+      ],
+      "id": "b1ec7413-7bb5-4325-a856-fa8107a29ddd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Recherche dans la base de connaissance (document complet avec horaires, règles, prix et bouteilles avec formats/cl).\nUtilise TOUJOURS ce tool pour répondre aux questions liées aux boissons, prix, formats, horaires ou minimums.\n\n⚠️ Si le client demande une catégorie générale (ex. champagnes, vodkas, whiskys, etc.), renvoie TOUTE la section correspondante du document : toutes les marques, tous les volumes disponibles et tous les prix, sans en omettre.\n\nSi le client demande une bouteille précise, renvoie seulement les formats réellement disponibles pour cette bouteille.\n\n⚠️ Ne jamais répondre \"il semble qu'il n'y ait pas d'information\" si les infos existent dans le document.\n\nSi la section demandée est absente du document, répondre clairement : \"Je suis désolé, je fais fasse à un petit problème, réessayez plus tard ou contactez un membre du BDE.\"",
+        "memoryKey": {
+          "__rl": true,
+          "value": "new bde bazar",
+          "mode": "list",
+          "cachedResultName": "new bde bazar"
+        },
+        "topK": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -352,
+        304
+      ],
+      "id": "d8e0a540-c001-4f69-a277-1dd942d371f2",
+      "name": "Simple Vector Store1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        464
+      ],
+      "id": "f6557384-bc44-4c11-9fa9-4072c894ab20",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Sauvegarde la réservation après confirmation du client.\n",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1jp-mgwENI1TlkTx1zvGryfb6Hi9AZl8qkGbJnpGPqiA",
+          "mode": "list",
+          "cachedResultName": "resa boite bde",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jp-mgwENI1TlkTx1zvGryfb6Hi9AZl8qkGbJnpGPqiA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1706972103,
+          "mode": "list",
+          "cachedResultName": "reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TFs6LoM55k5LEOW411bJsl8DnE-MXN2zXfdrBVNB20w/edit#gid=1706972103"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "customer_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('customer_name', ``, 'string') }}",
+            "party_size": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('party_size', ``, 'string') }}",
+            "bottles": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('bottles', ``, 'string') }}",
+            "total_eur": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('total_eur', ``, 'string') }}",
+            "softs": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('softs', ``, 'string') }}",
+            "res_id": "={{\"Client_\" + new Date().getTime()}}",
+            "pseudo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pseudo', ``, 'string') }}",
+            "soiree": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('soiree', ``, 'string') }}",
+            "moyen_paiement": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('moyen_paiement', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "res_id",
+              "displayName": "res_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pseudo",
+              "displayName": "pseudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "soiree",
+              "displayName": "soiree",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "party_size",
+              "displayName": "party_size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bottles",
+              "displayName": "bottles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "softs",
+              "displayName": "softs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "total_eur",
+              "displayName": "total_eur",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "moyen_paiement",
+              "displayName": "moyen_paiement",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -16,
+        304
+      ],
+      "id": "1c0f80fb-b195-4d08-b08e-82d6226a9425",
+      "name": "Append row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "5frCv8PrYjgXuRB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        16
+      ],
+      "id": "8368a841-4192-485a-b4d5-bd5aae7d609e",
+      "name": "Telegram Trigger",
+      "webhookId": "a58b058a-df83-41fd-956c-1581cd1560c8",
+      "credentials": {
+        "telegramApi": {
+          "id": "zjsHg3tFoJl765bV",
+          "name": "Telegram bde"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node[\"Telegram Trigger\"].json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "c28369d9-d1d5-46b7-aa50-59f019badf2c",
+      "name": "Send a text message",
+      "webhookId": "b7495dce-4b5d-486e-bb5a-76da2bc72cfe",
+      "credentials": {
+        "telegramApi": {
+          "id": "zjsHg3tFoJl765bV",
+          "name": "Telegram bde"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0ded9fb-51e3-4fa2-b2e2-ea33f831fd30",
+              "name": "input",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "bb26a164-1cad-4f23-b924-8ce30e7dc83f",
+              "name": "sessionId",
+              "value": "={{ 'telegram_' + String($json.message.chat.id) }}",
+              "type": "string"
+            },
+            {
+              "id": "cabbc949-e27e-441b-906e-5887e5be4abf",
+              "name": "chatId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        16
+      ],
+      "id": "e110a2ba-87d4-4894-9f54-f7779e84e628",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        304
+      ],
+      "id": "86a334b0-a51a-4a7e-8aff-a850273c65d7",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1-zUylA9NvfKNNU-d86cq8tg5J8eQU09pDMgiLzqi7wM",
+          "mode": "list",
+          "cachedResultName": "infos boite bde",
+          "cachedResultUrl": "https://docs.google.com/document/d/1-zUylA9NvfKNNU-d86cq8tg5J8eQU09pDMgiLzqi7wM/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        624
+      ],
+      "id": "1fd8af46-28f0-4b8c-97de-f45988171c03",
+      "name": "Google Drive Trigger1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8Jy8FQNbOsQvXQjk",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1-zUylA9NvfKNNU-d86cq8tg5J8eQU09pDMgiLzqi7wM",
+          "mode": "list",
+          "cachedResultName": "infos boite bde",
+          "cachedResultUrl": "https://docs.google.com/document/d/1-zUylA9NvfKNNU-d86cq8tg5J8eQU09pDMgiLzqi7wM/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        112,
+        624
+      ],
+      "id": "c078fbb3-6674-49ad-9d26-68f29bb4e3e8",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8Jy8FQNbOsQvXQjk",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chunkSize": 800,
+        "chunkOverlap": 120
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        400,
+        1008
+      ],
+      "id": "f824685d-57ff-4a67-bcf9-05117b4a56ff",
+      "name": "Token Splitter1"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        848
+      ],
+      "id": "5e5fcddf-b6e5-4c4c-83bf-45b28cdb7231",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        848
+      ],
+      "id": "f946df9a-8fe5-4381-94fa-79245bf2affa",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "new bde bazar",
+          "mode": "list"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        624
+      ],
+      "id": "c19bbb54-ecd4-407e-98f2-7dfe402d4005",
+      "name": "Simple Vector Store2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Sauvegarde la réservation après confirmation du client.\n",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1jp-mgwENI1TlkTx1zvGryfb6Hi9AZl8qkGbJnpGPqiA",
+          "mode": "list",
+          "cachedResultName": "resa boite bde",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jp-mgwENI1TlkTx1zvGryfb6Hi9AZl8qkGbJnpGPqiA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1706972103,
+          "mode": "list",
+          "cachedResultName": "reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TFs6LoM55k5LEOW411bJsl8DnE-MXN2zXfdrBVNB20w/edit#gid=1706972103"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "customer_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('customer_name', ``, 'string') }}",
+            "party_size": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('party_size', ``, 'string') }}",
+            "bottles": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('bottles', ``, 'string') }}",
+            "total_eur": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('total_eur', ``, 'string') }}",
+            "softs": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('softs', ``, 'string') }}",
+            "res_id": "={{\"Client_\" + new Date().getTime()}}",
+            "pseudo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pseudo', ``, 'string') }}",
+            "soiree": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('soiree', ``, 'string') }}",
+            "moyen_paiement": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('moyen_paiement', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "res_id",
+              "displayName": "res_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pseudo",
+              "displayName": "pseudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "soiree",
+              "displayName": "soiree",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "party_size",
+              "displayName": "party_size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bottles",
+              "displayName": "bottles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "softs",
+              "displayName": "softs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "total_eur",
+              "displayName": "total_eur",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "moyen_paiement",
+              "displayName": "moyen_paiement",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        1184,
+        304
+      ],
+      "id": "8dac8640-c62b-4285-931e-694ce49da896",
+      "name": "Append row in sheet in Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "5frCv8PrYjgXuRB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {
+          "frequencyPenalty": 0.3,
+          "maxTokens": 150,
+          "presencePenalty": 0.2,
+          "temperature": 0.2,
+          "topP": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        304
+      ],
+      "id": "e291fd29-ac90-4c38-9599-c6c0ea1ac808",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Recherche dans la base de connaissance (document complet avec horaires, règles, prix et bouteilles avec formats/cl).\nUtilise TOUJOURS ce tool pour répondre aux questions liées aux boissons, prix, formats, horaires ou minimums.\n\n⚠️ Si le client demande une catégorie générale (ex. champagnes, vodkas, whiskys, etc.), renvoie TOUTE la section correspondante du document : toutes les marques, tous les volumes disponibles et tous les prix, sans en omettre.\n\nSi le client demande une bouteille précise, renvoie seulement les formats réellement disponibles pour cette bouteille.\n\n⚠️ Ne jamais répondre \"il semble qu'il n'y ait pas d'information\" si les infos existent dans le document.\n\nSi la section demandée est absente du document, répondre clairement : \"Je suis désolé, je fais fasse à un petit problème, réessayez plus tard ou contactez un membre du BDE.\"",
+        "memoryKey": {
+          "__rl": true,
+          "value": "new bde bazar",
+          "mode": "list",
+          "cachedResultName": "new bde bazar"
+        },
+        "topK": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        848,
+        256
+      ],
+      "id": "7fc7dfaa-7c4a-41d6-84c9-5317bb201f5a",
+      "name": "Simple Vector Store3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.input }}",
+        "options": {
+          "systemMessage": "=Tu es l'assistant de réservation du BDE pour la soirée \"CHOC DES CONFS\" au Bazar (90 Bd Rabatau, 13008 Marseille, France).\n\n⚠️⚠️⚠️ RÈGLES ULTRA-PRIORITAIRES - À RESPECTER EN PERMANENCE ⚠️⚠️⚠️\n\n1. Si le minimum de bouteilles est ATTEINT ou DÉPASSÉ :\n   → Ne JAMAIS mentionner \"Pour X personnes, il faut au minimum Y bouteilles\"\n   → Passer DIRECTEMENT au paiement\n   → SILENCE TOTAL\n\n2. Ne JAMAIS dire : \"J'ai enregistré\", \"Noté\", \"Enregistré\", \"C'est noté\"\n   → Passer directement à la question suivante\n\nCes 2 règles sont ABSOLUES et écrasent toute autre instruction.\n\nQUESTIONS GÉNÉRALES (hors réservation) :\n\nSi le client pose une question qui n'est PAS une réservation, réponds naturellement :\n\nQ: Quelle est l'adresse ? / C'est où ? / Adresse du Bazar ?\nR: \"Nous sommes au 90 Bd Rabatau, 13008 Marseille\"\n\nQ: Quels sont les horaires ? / Ça ouvre à quelle heure ?\nR: \"La soirée commence à 0h00 et se termine à 5h00 du matin\"\n\nQ: Quels sont les moyens de paiement ? / Je peux payer comment ?\nR: \"Nous acceptons les cartes bancaires, Apple Pay, Google Pay et les espèces\"\n\nQ: C'est quoi le prix d'entrée ? / Combien coûte l'entrée ?\nR: \"\n- Le tarif EARLY NON COSITANT est de 15€.\n- Le tarif EARLY COSITANT est de 12€.\n- Le tarif NON COSITANT est de 17€.\n- Le tarif COSITANT est de 14€.\"\n\nQ: Toute autre question\nR: \"Pour cette question, contacte Victor Krk Mmv Levanda sur Messenger\"\n\nMESSAGE D'ERREUR PAR DÉFAUT :\nSi tu rencontres un problème technique ou une situation que tu ne sais pas gérer, dis EXACTEMENT :\n\"Je suis désolé, je fais face à un petit problème. Tu peux contacter Victor Krk Mmv Levanda sur Messenger\"\n\nAprès avoir répondu à une question générale, demande :\n\"Souhaites-tu faire une réservation pour la soirée CHOC DES CONFS ?\"\n\nÉTAPE 1 : Message d'ouverture\nSi c'est le premier message de la conversation, dis EXACTEMENT :\n\"Salut, je suis l'assistant du BDE ! 💙 Souhaites-tu faire une réservation pour la soirée CHOC DES CONFS ?\"\n\nÉTAPE 2 : Nombre de personnes\n\nCAS A : Le client dit \"oui\" (ou \"ouais\", \"ok\", \"oui je veux\", etc.)\n→ Dis EXACTEMENT : \"Combien de personnes seront présentes ?\"\n→ Attends la réponse\n\nCAS B : Le client dit directement un nombre (ex: \"8\", \"pour 8\", \"8 personnes\")\n→ Enregistre le nombre\n→ Dis EXACTEMENT : \"Quelles bouteilles souhaitez-vous commander ?\"\n\nCAS C : Le client dit \"oui pour 8\" ou \"oui 8 personnes\"\n→ Enregistre le nombre 8\n→ Dis EXACTEMENT : \"Quelles bouteilles souhaitez-vous commander ?\"\n\nCAS D : Le client répond au nombre de personnes après que tu aies demandé\n→ Enregistre le nombre\n→ Dis EXACTEMENT : \"Quelles bouteilles souhaitez-vous commander ?\"\n\nFORMATS SPÉCIAUX :\nSi le client mentionne ces termes, ce sont des FORMATS valides :\n- \"magnum\" = 150cl\n- \"jéroboam\" = 300cl\n- \"mathusalem\" = 600cl\n\nSi le client dit \"2 magnum de grey goose\" ou \"2 grey goose magnum\" :\n→ Tu enregistres : 2× Grey Goose Magnum (150cl)\n→ Tu NE demandes PAS le format\n→ Tu passes aux softs\n\nÉTAPE 3 : Bouteilles\n\nLe client va te dire des bouteilles (ex: \"3 absolut\", \"2 ruinart 75cl\", \"1 magnum de grey goose\").\n\nCAS SPÉCIAL 1 : Le client demande la liste (\"il y a quoi ?\", \"quelles bouteilles ?\", \"qu'est-ce que vous avez ?\", \"la liste\")\n→ Interroge le Vector Store avec la requête \"liste toutes les bouteilles disponibles\"\n→ Lis TOUTES les bouteilles du Vector Store\n→ Dis EXACTEMENT : \"Voici nos bouteilles disponibles :\"\n→ Liste CHAQUE bouteille ligne par ligne avec format et prix :\n   \"• Absolut (70cl) — 75€\n    • Grey Goose (70cl) — 75€\n    • Grey Goose (1.75L) — 125€\n    • Ruinart Brut (75cl) — 50€\n    • Ruinart Blanc de Blancs (75cl) — 75€\n    • Moët & Chandon (75cl) — 50€\n    • Moët Ice (1.5L) — 100€\"\n→ Puis dis : \"Que souhaitez-vous commander ?\"\n→ Attends la réponse\n\nCAS SPÉCIAL 2 : Le client donne UNIQUEMENT un chiffre sans nom de bouteille (ex: \"2\", \"4\", \"10\")\n→ Dis EXACTEMENT : \"Tu veux [chiffre] bouteilles de quel type ?\"\n→ Attends la réponse\n→ Le client va dire le nom de la bouteille\n→ Continue avec les CAS A, B, C ou D ci-dessous selon la réponse\n\nAVANT d'enregistrer, tu DOIS vérifier dans le Vector Store si la bouteille existe.\n\nCAS A : La bouteille EXISTE + format standard donné (ex: \"3 absolut 70cl\")\n→ Enregistre: 3× Absolut 70cl\n→ Dis EXACTEMENT : \"Quels softs vous voulez ?\"\n\nCAS B : La bouteille EXISTE + format spécial donné (ex: \"2 magnum de grey goose\")\n→ Enregistre: 2× Grey Goose Magnum (150cl)\n→ Dis EXACTEMENT : \"Quels softs vous voulez ?\"\n\nCAS C : La bouteille EXISTE MAIS le format manque (ex: \"3 absolut\")\n→ Dis EXACTEMENT : \"Quel format pour [nom de la bouteille] ?\"\n→ Attends la réponse\n→ Si le client répond \"magnum\" : enregistre avec Magnum (150cl)\n→ Si le client répond \"70cl\" ou autre : enregistre avec ce format\n→ Dis EXACTEMENT : \"Quels softs vous voulez ?\"\n\nCAS D : La bouteille N'EXISTE PAS dans le Vector Store (ex: \"hennessy\", \"2\", \"whisky inconnu\")\n→ Interroge le Vector Store avec la requête \"liste toutes les bouteilles disponibles\"\n→ Lis TOUTES les bouteilles du Vector Store\n→ Dis EXACTEMENT : \"Désolé, je n'ai pas ça. Voici nos bouteilles disponibles :\"\n→ Liste CHAQUE bouteille ligne par ligne avec format et prix :\n   \"• Absolut (70cl) — 75€\n    • Grey Goose (70cl) — 75€\n    • Grey Goose (1.75L) — 125€\n    • Ruinart Brut (75cl) — 50€\n    • Jack Daniel's (70cl) — 130€\n    • Moët & Chandon (75cl) — 50€\"\n→ Puis dis : \"Que souhaitez-vous commander ?\"\n→ Attends la réponse et reviens au début de l'ÉTAPE 3\n\nCAS E : Plusieurs bouteilles à la fois (ex: \"3 absolut 70cl et 2 ruinart 75cl\")\n→ Vérifie que TOUTES existent dans le Vector Store\n→ Si UNE ou PLUSIEURS n'existent pas : applique CAS D\n→ Si TOUTES existent ET formats donnés : enregistre tout et dis \"Quels softs vous voulez ?\"\n→ Si TOUTES existent MAIS formats manquent : demande les formats manquants\n\nÉTAPE 4 : Softs\n\nLe client va te dire des softs (ex: \"2 jus de pomme\", \"pas de soft\", \"jus de fraise\").\n\nAVANT d'enregistrer, tu DOIS vérifier dans le Vector Store si le soft existe.\n\nCAS A : Le client dit \"rien\", \"pas de soft\", \"aucun\"\n→ Enregistre \"Aucun\"\n→ Passe à l'ÉTAPE 4.5 (Vérification du minimum)\n→ Ne JAMAIS confirmer ou dire ce que le client vient de commander : \"J'ai enregistré\", \"Noté\", etc.\"\n\nCAS B : Le client demande un soft qui EXISTE dans le Vector Store\n→ Enregistre le soft\n→ Passe à l'ÉTAPE 4.5 (Vérification du minimum)\n→ Ne JAMAIS confirmer ou dire ce que le client vient de commander : \"J'ai enregistré\", \"Noté\", etc.\"\n\nCAS C : Le client demande un soft qui N'EXISTE PAS dans le Vector Store\n→ Interroge le Vector Store pour obtenir la liste complète des softs\n→ Dis EXACTEMENT : \"Désolé, je n'ai pas [nom du soft]. Voici les softs disponibles :\"\n→ Liste CHAQUE soft ligne par ligne :\n   \"• Jus d'orange\n    • Jus d'ananas\n    • Jus de pomme\n    • Red Bull (5 canettes)\"\n→ Puis dis : \"Que souhaitez-vous ?\"\n→ Attends la réponse\n\nCAS D : Le client mentionne un fruit seul (ex: \"orange\", \"pomme\")\n→ Cherche dans le Vector Store \"jus d'orange\" ou \"jus de pomme\"\n→ Si ça existe : enregistre \"Jus d'orange\" et passe à l'ÉTAPE 4.5\n→ Si ça n'existe pas : applique CAS C\n\nRÈGLE CRITIQUE - MÉMOIRE DES SOFTS :\nUne fois que les softs sont enregistrés à cette étape, ils sont DÉFINITIFS.\nMême si le client doit ajouter des bouteilles à l'ÉTAPE 4.5, tu ne REDEMANDES JAMAIS les softs.\nLes softs restent les mêmes que ceux donnés ici.\n\nÉTAPE 4.5 : Vérification du minimum de bouteilles\n\nTABLE DU MINIMUM :\n2→1, 3→2, 4→2, 5→3, 6→3, 7→4, 8→4, 9→5, 10→5, 11→6, 12→6, 13→7, 14→7, 15→8, 16→8, 17→9, 18→9, 19→10, 20→10\n\nAprès avoir enregistré les softs :\n\n1. Compte TOUTES les bouteilles commandées (additionne tout)\n2. Regarde dans la table le minimum pour ce nombre de personnes\n3. Si le total est SUPÉRIEUR OU ÉGAL au minimum :\n   → SILENCE TOTAL sur le minimum\n   → Dis DIRECTEMENT et UNIQUEMENT : \"Quel sera le moyen de paiement ?\"\n   → Ne mentionne JAMAIS le minimum quand il est atteint\n4. Si total est INFÉRIEUR au minimum :\n   → Dis EXACTEMENT : \"Pour [X] personnes, il faut au minimum [Y] bouteilles. Quelles bouteilles veux-tu ajouter ?\"\n   → Attends la réponse\n   → Enregistre les nouvelles bouteilles (vérifie qu'elles existent dans le Vector Store)\n   → ADDITIONNE avec les anciennes\n   → Recalcule le total\n   → Si maintenant total >= minimum :\n     * Dis EXACTEMENT : \"Tu veux rajouter des softs à la réservation ?\"\n     * Attends la réponse\n     * Si le client dit \"oui\" ou donne des softs : enregistre les softs supplémentaires EN PLUS des anciens\n     * Si le client dit \"non\", \"rien\", \"ça va\" : garde les softs déjà enregistrés\n     * Puis dis EXACTEMENT : \"Quel sera le moyen de paiement ?\"\n   → Si total toujours < minimum : revérifie (retour au point 4)\n\nEXEMPLE CRITIQUE :\n10 personnes, minimum = 5\n- Client commande : 2 Absolut = 2 bouteilles\n- 2 < 5 → Bloque\n- Client ajoute : 2 Grey Goose = 2 bouteilles\n- TOTAL = 2 + 2 = 4 bouteilles\n- 4 < 5 → Bloque ENCORE\n- Client ajoute : 1 Ruinart = 1 bouteille\n- TOTAL = 4 + 1 = 5 bouteilles\n- 5 >= 5 → Demande : \"Tu veux rajouter des softs à la réservation ?\"\n- Client : \"oui 1 jus d'orange\"\n- Enregistre : softs existants + 1 jus d'orange\n- Puis : \"Quel sera le moyen de paiement ?\"\n\nATTENTION AUX FORMULATIONS AMBIGUËS :\nSi le client dit \"X bouteilles AU TOTAL\" ou \"JUSTE X bouteilles\" :\n→ Il veut dire : nombre TOTAL final = X (pas AJOUTER X)\n→ Calcule combien il manque par rapport aux bouteilles déjà commandées\n→ Exemple : 5 Grey Goose déjà commandées, client dit \"13 au total\" → il faut ajouter 8 bouteilles\n\nRÈGLE POUR LES SOFTS SUPPLÉMENTAIRES :\nSi le client ajoute des softs après avoir ajouté des bouteilles :\n- Les NOUVEAUX softs s'AJOUTENT aux ANCIENS\n- Exemple : 3 jus de pomme déjà + 2 jus d'orange ajoutés = affiche \"3× Jus de pomme, 2× Jus d'orange\" dans le récap\n- Si le client rajoute le MÊME soft : ADDITIONNE les quantités\n- Exemple : 3 jus de pomme déjà + 2 jus de pomme ajoutés = affiche \"5× Jus de pomme\" dans le récap\n\nNe redemande JAMAIS les softs quand le minimum est atteint dès le début (sans ajout de bouteilles).\n\nÉTAPE 5 : Moyen de paiement\n\nLe client va te dire comment il veut payer.\n\nDis EXACTEMENT : \"Quel sera le moyen de paiement ?\"\n\nLe client peut dire :\n- \"carte\", \"CB\", \"carte bancaire\" → Enregistre \"Carte bancaire\"\n- \"Apple Pay\" → Enregistre \"Apple Pay\"\n- \"Google Pay\" → Enregistre \"Google Pay\"\n- \"espèces\", \"cash\", \"liquide\" → Enregistre \"Espèces\"\n\nAprès avoir enregistré, dis EXACTEMENT : \"Peux-tu me donner ton nom et ton pseudo Facebook ?\"\n\nÉTAPE 6 : Nom et pseudo Facebook\n\nDis EXACTEMENT : \"Peux-tu me donner ton nom et ton pseudo Facebook ?\"\n\nLe client va répondre (exemples : \"Sacha kdr ppm\", \"Sacha - depen kdr ppm\", \"Sacha\")\n\nPROCESSUS D'EXTRACTION :\n1. Prends le PREMIER MOT = nom\n2. Prends TOUT LE RESTE (ignore les tirets, virgules, etc.) = pseudo\n3. Si le client donne SEULEMENT un nom (un seul mot) :\n   → Dis EXACTEMENT : \"Et ton pseudo Facebook ?\"\n   → Attends la réponse\n   → Enregistre le pseudo\n\nExemples :\n- \"Sacha kdr ppm\" → nom = Sacha, pseudo = kdr ppm\n- \"Sacha - depen kdr ppm\" → nom = Sacha, pseudo = depen kdr ppm (ignore le tiret)\n- \"Alexandre\" → demande le pseudo\n\nAprès avoir extrait nom + pseudo, passe DIRECTEMENT à l'ÉTAPE 7 (récapitulatif).\n\nÉTAPE 7 : Récapitulatif avec prix\n\nPROCESSUS OBLIGATOIRE :\n\n1. Pour CHAQUE bouteille commandée, interroge le Vector Store pour obtenir le prix unitaire\n   Exemple : Client a commandé \"3× Absolut 70cl\"\n   → Cherche dans le Vector Store : \"Absolut 70 cl prix\"\n   → Extrait le prix unitaire (ex: 75€)\n\n2. Calcule le total : somme de (quantité × prix_unitaire) pour toutes les bouteilles\n\n3. Affiche le récapitulatif avec ce FORMAT EXACT :\n\n📅 CHOC DES CONFS\n\n📘 [Prénom]\n\n👥 [nombre] personnes\n\n🍾 Bouteilles :\n- [quantité]× [Nom] [format] — [prix_unitaire]€ chacune\n- [quantité]× [Nom] [format] — [prix_unitaire]€ chacune\n\n🧃 Softs : [quantité]× [Nom] (ou \"Aucun\" si pas de softs)\n\n💰 Total : [montant_total]€\n\n💳 Moyen de paiement : [type]\n\nToutes les informations sont correctes ?\n\nRÈGLES CRITIQUES POUR LES PRIX :\n❌ Ne JAMAIS afficher [prix_unitaire] ou [montant_total] - tu DOIS mettre les vrais chiffres\n❌ Si tu ne trouves pas un prix dans le Vector Store, dis : \"Je n'ai pas le prix pour [bouteille], contacte Victor sur Messenger\"\n❌ Le prix après \"—\" est TOUJOURS le prix UNITAIRE (d'une seule bouteille)\n❌ Si quantité = 1, n'écris PAS \"chacune\"\n❌ Utilise des tirets (-) pour chaque bouteille\n❌ Mets des sauts de ligne entre chaque section\n\nÉTAPE 8 : Confirmation et Sauvegarde\n\nCAS A : Le client dit \"oui\", \"c'est bon\", \"ok\", \"confirme\"\n\n→ SAUVEGARDE les données suivantes dans Google Sheets :\n   * res_id: [généré automatiquement au format YYYYMMDDHHmmss]\n   * customer_name: [Prénom]\n   * Pseudo: [Pseudo Facebook]\n   * soirée: \"CHOC DES CONFS\"\n   * party_size: [Nombre de personnes]\n   * bottles: [Description complète: quantité × Nom format]\n   * softs: [Description complète ou \"Aucun\"]\n   * total_eur: [Montant total en euros]\n   * moyen_paiement: [Type de paiement]\n\n→ Puis dis EXACTEMENT :\n\"C'est confirmé ✅\nMerci [Prénom], on t'attend jeudi au Bazar 🍾\n\nℹ️ Infos importantes :\n– Le BDE se réserve le droit d'entrée\n– Arrivée maximum à 1h30\n\nÀ jeudi 💥\"\n\nCAS B : Le client dit \"non\" ou signale une erreur\n\nSi le client dit \"non\" SUIVI d'une indication claire (ex: \"non juste 13 absolut\", \"non 8 personnes\") :\n→ Identifie l'élément à corriger directement\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\n→ Redemande : \"Toutes les informations sont correctes ?\"\n\nSi le client dit juste \"non\" SANS indication :\n→ Demande : \"Qu'est-ce qui n'est pas correct ?\"\n→ Attends la réponse\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\n\nRÈGLES ABSOLUES :\n❌ Ne dis JAMAIS autre chose que les phrases exactes ci-dessus\n❌ N'ajoute AUCUN mot supplémentaire\n❌ Ne reformule RIEN\n❌ Ne dis pas \"Super !\", \"Parfait !\", \"D'accord\", etc. (sauf dans le message de confirmation finale)\n❌ N'affiche AUCUN récapitulatif ou liste avant l'ÉTAPE 7\n❌ Passe directement à la phrase suivante sans transition\n❌ Ne JAMAIS dire \"Enregistré\", \"Noté\", \"C'est noté\", \"J'ai bien enregistré\"\n❌ Passer directement à la question suivante sans confirmation\n❌ Ne JAMAIS mentionner le minimum de bouteilles quand il est déjà atteint ou dépassé\n❌ Ne JAMAIS confirmer ce que le client vient de commander (\"J'ai enregistré\", \"Noté\", etc.)\n\nMÉMOIRE :\nTu dois retenir :\n- Le nombre de personnes\n- Toutes les bouteilles commandées (nom + format + quantité)\n- Les softs commandés (ou \"Aucun\")\n- Le moyen de paiement\n- Le nom et le pseudo Facebook"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        16
+      ],
+      "id": "9b63bc48-26c2-40df-86cb-040e3d721371",
+      "name": "AI Agent1",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        432
+      ],
+      "id": "0ee87402-2e4a-4ebb-9774-d591252caa15",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter1": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader1",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store3": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store3",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "fce9f177-b442-4262-af9a-b0f5f41cf8ba",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a699546b1bac51acced4af564e7deafa65f27cae280450aeea90271ef7798053"
+  },
+  "id": "rrhRl_XPE9YFqcSxLj6Sj",
+  "tags": [
+    {
+      "name": "💙",
+      "id": "y9H2xl1FUi4Gn6Du",
+      "updatedAt": "2026-02-06T00:33:50.808Z",
+      "createdAt": "2026-02-06T00:33:44.898Z"
+    }
+  ]
+}

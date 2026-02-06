@@ -1,0 +1,73 @@
+{
+  "name": "Alerte erreurs puff",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "93a164eb-c189-4ee7-b765-4f21bb9955d6",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "6247527696",
+        "text": "=🚨 ERREUR n8n\n\nWorkflow : {{$json.workflow?.name || '—'}}\nExecution ID : {{$json.execution?.id || '—'}}\nURL : {{$json.execution?.url || '—'}}\n",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4f77bf85-5dc6-446b-9981-649d9b49c94d",
+      "name": "Send a text message",
+      "webhookId": "89044ada-c030-45fb-a3c6-9b64eccb4687",
+      "credentials": {
+        "telegramApi": {
+          "id": "sGqnkBnF9WbI0SLA",
+          "name": "Telegram puff"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "066d23a5-0909-44f8-b7c2-fd4f027f14f8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b2b7375ce185f0cc77c5a0e7fe26572da8e8d2ca8f78894d511c2a1605d0eb20"
+  },
+  "id": "I73jK7gTA0Ub_Bw7049aL",
+  "tags": [
+    {
+      "updatedAt": "2026-02-05T21:43:30.419Z",
+      "createdAt": "2026-01-29T02:43:13.753Z",
+      "id": "NpQ6UKWW5UwvXUHk",
+      "name": "💨"
+    }
+  ]
+}

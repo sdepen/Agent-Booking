@@ -1,0 +1,169 @@
+{
+  "name": "Notification puff",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo",
+          "mode": "list",
+          "cachedResultName": "puff",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1706972103,
+          "mode": "list",
+          "cachedResultName": "reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo/edit#gid=1706972103"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cded779a-c46a-4862-9865-7f46f7bdbc50",
+      "name": "Fr",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "f2ZsMIIEdcTWwAFv",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8038698556",
+        "text": "=🔔 NOUVELLE RÉSERVATION\n\n👤 Nom : {{ $json.customer_name }}\n📱 numéro de téléphone : {{ $json.phone }}\n💨 Puff : {{ $json.Puff }}\n💰 Total : {{ $json.total_eur }} €\n💳 Paiement : {{ $json.moyen_de_paiement }}\n🚚 Livraison : {{ $json['livraison '] }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "c71c1676-308b-471b-86e7-0871c11edacf",
+      "name": "Notification d2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        112
+      ],
+      "webhookId": "a7a0b1dd-da3f-4eaf-a48b-3cd41eb9a6ee",
+      "credentials": {
+        "telegramApi": {
+          "id": "sGqnkBnF9WbI0SLA",
+          "name": "Telegram puff"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6247527696",
+        "text": "=🔔 NOUVELLE RÉSERVATION\n\n👤 Nom : {{ $json.customer_name }}\n📱 Tel / snap : {{ $json.phone }}\n💨 Puff : {{ $json.Puff }}\n💰 Total : {{ $json.total_eur }} €\n💳 Paiement : {{ $json.moyen_de_paiement }}\n🚚 Livraison : {{ $json['livraison '] }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "0aa19a4f-cea2-4e98-9c91-2153aed82e1d",
+      "name": "Notification depen",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        -128
+      ],
+      "webhookId": "a7a0b1dd-da3f-4eaf-a48b-3cd41eb9a6ee",
+      "credentials": {
+        "telegramApi": {
+          "id": "sGqnkBnF9WbI0SLA",
+          "name": "Telegram puff"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1808802138",
+        "text": "=🔔 NOUVELLE RÉSERVATION\n\n👤 Nom : {{ $json.customer_name }}\n📱 numéro de téléphone : {{ $json.phone }}\n💨 Puff : {{ $json.Puff }}\n💰 Total : {{ $json.total_eur }} €\n💳 Paiement : {{ $json.moyen_de_paiement }}\n🚚 Livraison : {{ $json['livraison '] }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a0a69107-0b76-4ca9-8e94-bdb8ae123cc0",
+      "name": "Notification seif",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        0
+      ],
+      "webhookId": "a7a0b1dd-da3f-4eaf-a48b-3cd41eb9a6ee",
+      "credentials": {
+        "telegramApi": {
+          "id": "sGqnkBnF9WbI0SLA",
+          "name": "Telegram puff"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Fr": {
+      "main": [
+        [
+          {
+            "node": "Notification d2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notification depen",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notification seif",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notification d2": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "I73jK7gTA0Ub_Bw7049aL"
+  },
+  "versionId": "368e6475-6685-419d-9022-40637c8550b0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b2b7375ce185f0cc77c5a0e7fe26572da8e8d2ca8f78894d511c2a1605d0eb20"
+  },
+  "id": "o0nGAo844V_cHB3yqsSXZ",
+  "tags": [
+    {
+      "updatedAt": "2026-02-05T21:43:30.419Z",
+      "createdAt": "2026-01-29T02:43:13.753Z",
+      "id": "NpQ6UKWW5UwvXUHk",
+      "name": "💨"
+    }
+  ]
+}

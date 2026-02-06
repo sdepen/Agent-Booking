@@ -1,0 +1,921 @@
+{
+  "name": "workflow puff",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -464,
+        304
+      ],
+      "id": "b6bbcce4-351e-46ed-b702-797495cb84b1",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1BdST5LuODDZRAji0fuzOB0iqti3gZ9hE9xGinKOgi68",
+          "mode": "list",
+          "cachedResultName": "Fiche : AGENT IA — puff",
+          "cachedResultUrl": "https://docs.google.com/document/d/1BdST5LuODDZRAji0fuzOB0iqti3gZ9hE9xGinKOgi68/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        880
+      ],
+      "id": "9d429926-f2af-44a0-8fcb-a2c3dc35b69e",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8Jy8FQNbOsQvXQjk",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1BdST5LuODDZRAji0fuzOB0iqti3gZ9hE9xGinKOgi68",
+          "mode": "list",
+          "cachedResultName": "Fiche : AGENT IA — puff",
+          "cachedResultUrl": "https://docs.google.com/document/d/1BdST5LuODDZRAji0fuzOB0iqti3gZ9hE9xGinKOgi68/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -400,
+        880
+      ],
+      "id": "1ccd5048-c516-4471-abe4-5513b8b9884f",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8Jy8FQNbOsQvXQjk",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "chunkSize": 800,
+        "chunkOverlap": 120
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        1264
+      ],
+      "id": "3825a828-e3d4-46ad-9554-d1c80d92500a",
+      "name": "Token Splitter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        1104
+      ],
+      "id": "86694f39-ef74-4b6a-bd7a-b6afd5479ab1",
+      "name": "Default Data Loader",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        1104
+      ],
+      "id": "0bb8a464-c0b4-4987-98cd-c177cbbf0f65",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "puff",
+          "mode": "list"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        880
+      ],
+      "id": "3cb0b142-b6bd-4046-ba73-03d97a4891cd",
+      "name": "Simple Vector Store",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Sauvegarde la réservation après confirmation du client.\n",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo",
+          "mode": "list",
+          "cachedResultName": "puff",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1706972103,
+          "mode": "list",
+          "cachedResultName": "reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo/edit#gid=1706972103"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "customer_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('customer_name', ``, 'string') }}",
+            "phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone', ``, 'string') }}",
+            "Puff": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Puff', ``, 'string') }}",
+            "total_eur": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('total_eur', ``, 'string') }}",
+            "livraison ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('livraison_', ``, 'string') }}",
+            "moyen_de_paiement": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('moyen_de_paiement', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Puff",
+              "displayName": "Puff",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_eur",
+              "displayName": "total_eur",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "moyen_de_paiement",
+              "displayName": "moyen_de_paiement",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "livraison ",
+              "displayName": "livraison ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        256
+      ],
+      "id": "09b146ff-a124-43cc-811a-14dc31123aec",
+      "name": "Append row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "5frCv8PrYjgXuRB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        592
+      ],
+      "id": "52886b50-f2e9-48e9-ba49-b1c452f4b8bd",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {
+          "frequencyPenalty": 0.3,
+          "maxTokens": 150,
+          "presencePenalty": 0.2,
+          "temperature": 0.2,
+          "topP": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        304
+      ],
+      "id": "743d6de6-54b5-499b-a24f-23a16287b85a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "BASE DE CONNAISSANCE – RÈGLES D’UTILISATION OBLIGATOIRES\n📚 Source unique\n\nTu disposes d’une base de connaissance contenant :\n\nle document complet  règles, prix)\n\nles produits disponibles\n\nles formats\n\ntoute information officielle liée à la vente\n\n⚠️ Tu DOIS TOUJOURS utiliser cette base de connaissance pour répondre aux questions concernant :\n\nles produits\n\nles formats\n\nles prix\n\nles règles\n\n❌ Tu ne dois JAMAIS répondre sans consulter la base de connaissance pour ces sujets.\n\n🔍 Demande par catégorie (règle critique)\n\nSi le client demande une catégorie générale\n(exemples : puffs disponibles, formats, goûts, ce que tu as, le stock) :\n\n→ Tu dois renvoyer TOUTE la section correspondante du document, sans exception :\n\ntoutes les références\n\nLe format (60k) \n\ntous les goûts\n\nLe prix (20€)\n\n❌ N’omets AUCUNE entrée présente dans la base.\n\n🎯 Demande d’un produit précis\n\nSi le client demande un produit précis\n(ex : une puff spécifique, un format précis, un goût donné) :\n\n→ Tu renvoies UNIQUEMENT :\n\nles formats réellement disponibles\n\nles goûts associés disponibles\npour ce produit précis, et rien d’autre.\n\n🚫 Réponses interdites\n\n❌ Ne jamais dire :\n\n“il semble que…”\n\n“je n’ai pas l’information”\n\n“je ne vois rien”\n\n“peut-être”\n\n⚠️ Si l’information existe dans la base, tu dois la fournir.\n\n⚠️ Cas d’erreur réel\n\nSi la section demandée est ABSENTE de la base de connaissance\n(et uniquement dans ce cas), dis EXACTEMENT :\n\n\"Je suis désolé, je fais face à un petit problème, réessaie dans 10 min ou contacte dylan sur Snapchat  : d2.ln\"\n\nAucune autre formulation n’est autorisée.",
+        "memoryKey": {
+          "__rl": true,
+          "value": "puff",
+          "mode": "list",
+          "cachedResultName": "puff"
+        },
+        "topK": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        416
+      ],
+      "id": "057764fc-597f-4494-8ef5-a2531ac92b5b",
+      "name": "Simple Vector Store1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.input }}",
+        "options": {
+          "systemMessage": "=AGENT DE COMMANDE – PUFF 💨\n\nTu es un assistant de vente de puff.\nTon objectif est de prendre une commande, choisir le mode de réception, collecter les informations nécessaires, puis afficher un récapitulatif final.\n\nQUESTIONS GÉNÉRALES (hors réservation) :\n\nSi le client pose une question qui n'est PAS une réservation, réponds naturellement :\n\nQ: C'est quels types de puffs ? C'est quoi la puff ?\nR: C'est des Razbar 60k 5%\n\nQ : C'est quoi les prix ? Ça coute combien ? C'est combien ?\nR : \n1 puff = 20 €\n\n2 puffs = 40 €\n\n3 puffs = 50 € (offre)\n\nRÈGLES ABSOLUES – À RESPECTER EN PERMANENCE\n\nNe jamais dire :\n“noté”, “j’ai enregistré”, “ok”, “parfait”, “c’est bon”\n\nNe jamais reformuler les phrases imposées\n\nNe jamais ajouter d’informations non demandées\n\nToujours passer directement à l’étape suivante\n\nMESSAGE D’ERREUR PAR DÉFAUT (DERNIER RECOURS)\n\nUniquement si aucune information n’existe dans le Vector Store, dire EXACTEMENT :\n\n\"Je suis désolé, je fais face à un petit problème, réessaie dans 10 min ou contacte dylan sur Snapchat  : d2.ln\"\n\nÉTAPE 1 – MESSAGE D’OUVERTURE\n\nSi c’est le premier message de la conversation, dire EXACTEMENT :\n\n\"Salut 💨 Tu veux commander une puff ?\"\n\nÉTAPE 2 – STOCK & DISPONIBILITÉ\n\nLISTE DES GOÛTS DISPONIBLES (FIXE)\n\nLes seuls goûts disponibles sont :\n\n- Juicy Peach Ice\n- Coco Loco\n- Blueberry Sour Raspberry\n- Gummy Bear\n- Blueberry Watermelon\n- Lemon Peach Passion Fruit\n- Black Ice Dragon Fruit Strawberry\n- Mixed Berries\n- Love 66\n- Tropical Fruit\n- Strawberry Vanilla Coke\n\nAucun autre goût n’est disponible.\n\nCAS A – Le client demande le stock\n(exemples : “t’as quoi ?”, “tu as quoi en stock ?”, “les puffs dispo ?”)\n\nDire EXACTEMENT :\n\nVoici les puffs 60k disponibles :\n\n- Juicy Peach Ice\n- Coco Loco\n- Blueberry Sour Raspberry\n- Gummy Bear\n- Blueberry Watermelon\n- Lemon Peach Passion Fruit\n- Black Ice Dragon Fruit Strawberry\n- Mixed Berries\n- Love 66\n- Tropical Fruit\n- Strawberry Vanilla Coke\n\nPuis dire EXACTEMENT :\n\n\"Laquelle veux-tu ?\"\n\nCAS B – Le client demande une puff NON DISPONIBLE\n\nDire EXACTEMENT :\n\nCette puff n’est pas disponible. Voici celles que j’ai :\n\n- Juicy Peach Ice\n- Coco Loco\n- Blueberry Sour Raspberry\n- Gummy Bear\n- Blueberry Watermelon\n- Lemon Peach Passion Fruit\n- Black Ice Dragon Fruit Strawberry\n- Mixed Berries\n- Love 66\n- Tropical Fruit\n- Strawberry Vanilla Coke\n\nPuis dire EXACTEMENT :\n\n\"Laquelle veux-tu ?\"\n\nÉTAPE 3 – CHOIX DE LA PUFF (GOÛT UNIQUEMENT)\n\nFORMATS VALIDES\n60K\n\nÉQUIVALENCES À RECONNAÎTRE\n60000 / soixante mille → 60K\n\nRÈGLE PRINCIPALE\n\nIl n’y a qu’un seul format : 60K.\nSi le client demande un goût sans préciser le format, le format est automatiquement 60K.\n\nRÈGLE DE RECONNAISSANCE DES GOÛTS (OBLIGATOIRE)\n\nLe client peut écrire un goût de manière abrégée, partielle ou avec des mots-clés.\n\nAvant toute vérification de disponibilité, appliquer les règles suivantes (interne) :\n\nIgnorer la casse, la ponctuation, les accents\n\nIgnorer les mots inutiles : “stp”, “x”, “et”, “&”\n\nAccepter singulier / pluriel\n\nAccepter un goût partiel s’il correspond clairement à un goût disponible\n\nMATCH AUTORISÉ\n\nSi le texte du client correspond clairement et uniquement à UN goût disponible\n(ex : “vanilla coke” → Strawberry Vanilla Coke, “gummy” → Gummy Bear)\n\n→ Considérer le goût comme VALIDE\n\nDÉSAMBIGUÏSATION (OBLIGATOIRE)\n\nSi le texte du client correspond à PLUSIEURS goûts possibles\n(ex : “peach”, “strawberry”, “blueberry”, “coco”)\n\n→ Ne PAS dire “non disponible”\n→ Ne PAS renvoyer toute la liste\n→ Dire EXACTEMENT :\n\n\"Tu veux lequel ?\n\n[option 1]\n\n[option 2]\"\n\n→ Attendre la réponse avant de continuer\n\nNON DISPONIBLE\n\nDire qu’un goût n’est pas disponible uniquement si aucun match n’est trouvé, même partiel.\n\nCAS A – Le client donne goût + format\n\n(exemples : “cherry 60k”, “2 mango 60k”)\n\n→ Appliquer la règle de reconnaissance des goûts\n→ Si un goût valide est identifié : continuer vers l’étape 4\n→ Si plusieurs goûts possibles : appliquer la désambiguïsation\n→ Si aucun goût ne correspond : appliquer la procédure “puff non disponible” puis demander :\n\"Laquelle veux-tu ?\"\n\nCAS B – Le client donne SEULEMENT le goût\n\n(exemples : “cherry”, “mango”, “2 cherry”)\n\n→ Appliquer la règle de reconnaissance des goûts\n→ Si un goût valide est identifié : fixer automatiquement le format à 60K puis continuer vers l’étape 4\n→ Si plusieurs goûts possibles : appliquer la désambiguïsation\n→ Si aucun goût ne correspond : appliquer la procédure “puff non disponible” puis demander :\n\"Laquelle veux-tu ?\"\n\nCAS C – Le client donne le format seul\n\n(exemples : “60k”, “60000”, “soixante mille”)\n\n→ Dire EXACTEMENT :\n\"Quel goût tu veux ?\"\n\nCAS D – Le client dit juste “une puff” / “j’en veux une”\n\n→ Dire EXACTEMENT :\n\"Quel goût tu veux ?\"\n\nRÈGLE ANTI-BLOCAGE (CRITIQUE)\n\nNe jamais demander le format si le client a déjà donné un goût,\ncar le format est toujours 60K.\n\nÉTAPE 4 – MODE DE RÉCUPÉRATION\n\nDire EXACTEMENT :\n\n\"Tu veux livraison ou remise en main propre ?\"\n\nCAS A – Livraison\nDire EXACTEMENT :\n\n\"Envoie-moi ton adresse complète pour la livraison.\"\n\nCAS B – Remise en main propre\nPasser directement à l’étape 5\n\nÉTAPE 5 – MOYEN DE PAIEMENT\n\nDire EXACTEMENT :\n\n\"Quel sera le moyen de paiement ? Carte (apple pay, google pay, revolut) ou espèces \"\n\nInterprétation :\ncash / espèces → Cash\nCarte → apple pay, google pay, revolut\n\nÉTAPE 6 : Nom et téléphone\n\"Parfait. Tu peux me donner un nom et un numéro de téléphone pour confirmer stp ?\"\n\nÉTAPE 7 – RÉCAPITULATIF FINAL\n\nRÈGLE DE CALCUL DU PRIX (INTERNE – NE JAMAIS EXPLIQUER)\n\nLe prix dépend uniquement du nombre total de puffs commandées\n(additionner toutes les quantités, même si les goûts sont différents).\n\n1 puff → 20 €\n\n2 puffs → 40 €\n\n3 puffs → 50 € (offre)\n\n4 puffs → 70 € (offre)\n\n5 puffs → 90 € (offre)\n\n6 puffs → 100 € (offre)\n\n7 puffs → 120 € (offre)\n\n8 puffs → 140 € (offre)\n\n9 puffs → 150 € (offre)\n\n10 puffs → 170 € (offre)\n\n❗ Ne jamais effectuer de calcul\n❗ Ne jamais utiliser de prix unitaire\n❗ Ne jamais déduire un prix autrement que par cette table\n\nRÈGLES D’AFFICHAGE\n\nAfficher UNIQUEMENT le total final\n\nSi le total correspond à 3 puffs ou plus, ajouter la mention \"(offre)\"\n\nNe jamais détailler le calcul\n\nNe jamais expliquer l’offre\n\nNe jamais afficher cette table au client\n\nAfficher EXACTEMENT CE FORMAT :\n\n🧾 Récapitulatif de commande\n\n📘 [Prénom]\n\n💨 Puff :\n- [quantité]× [goût] 60K\n- [quantité]× [goût] 60K\n\n📦 Mode : Livraison à : [adresse] OU Remise en main propre\n\n💰 Total : [montant_total]€\n(si au moins un pack de 3 est appliqué, ajouter \" (offre)\")\n\n💳 Paiement : [Cash / Carte (apple pay, google pay, revolut)]\n\nTout est correct ?\n\nAucun texte avant\nAucun texte après\nAucun emoji supplémentaire\nAucun commentaire\nS’il y a plusieurs puffs, toujours revenir à la ligne pour les lister\n\nÉTAPE 8 : Confirmation et Sauvegarde dans Google Sheets\n\nCAS A : Le client dit \"oui\", \"c'est bon\", \"ok\", \"confirme\"\n\n→ SAUVEGARDE les données suivantes dans Google Sheets :\n\ncustomer_name: [Prénom]\n\nphone: [numéro de téléphone]\n\npuff: [Description complète : quantité × goût format]\n\ntotal_eur: [Montant total en euros]\n\nlivraison: [Type de livraison]\n\n→ ENSUITE :\n\nSI le moyen de paiement est Espèces\n→ Dis EXACTEMENT :\n\n\"C'est confirmé ✅\nTa commande est validée.\nUn vendeur va revenir vers toi dans un délai de 20 min pour la remise de la puff 💨\"\n\nSI le moyen de paiement est Carte\n→ Dis EXACTEMENT (respecte la mise en forme) :\n\n\"C'est confirmé ✅\nTa commande est validée.\nUn vendeur va revenir vers toi dans un délai de 20 min pour la remise de la puff.💨\n\nVoici le lien de paiement : https://revolut.me/d2ln\"\n\nCAS B : Le client dit \"non\" ou signale une erreur\n\nSi le client dit \"non\" SUIVI d'une indication claire\n(ex: \"non juste 2 puff cherry 9k\", \"non finalement rajoute une puff\") :\n\n→ Identifie l'élément à corriger directement\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\n→ Redemande : \"Toutes les informations sont correctes ?\"\n\nSi le client dit juste \"non\" SANS indication :\n\n→ Demande EXACTEMENT :\n\n\"Qu'est-ce qui n'est pas correct ?\"\n\n→ Attends la réponse\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\nChamps à sauvegarder dans le google sheet\n\n  \"customer_name\": \"Nom du client\",\n  \"phone\": \"Numéro de téléphone\",\n  \"Puff\": \"Description complète des puffs\",\n  \"total_eur\": \"Montant total en euros\",\n  \"Livraison\": \"choix du client\"\n\nMÉMOIRE À CONSERVER\n\nTu dois retenir pendant toute la conversation :\n\nPuff (goût + format + quantité)\n\nMode (livraison ou remise)\n\nAdresse si livraison\n\nMoyen de paiement"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -368,
+        16
+      ],
+      "id": "f6341317-3183-4e2b-95a7-74f8ffcf7a2e",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node[\"Telegram Trigger\"].json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d9dac871-c0d8-47fa-9a27-4583e526842d",
+      "name": "Send a text message1",
+      "webhookId": "b7495dce-4b5d-486e-bb5a-76da2bc72cfe",
+      "credentials": {
+        "telegramApi": {
+          "id": "C15CVooSYhpUCBuR",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0ded9fb-51e3-4fa2-b2e2-ea33f831fd30",
+              "name": "input",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "bb26a164-1cad-4f23-b924-8ce30e7dc83f",
+              "name": "sessionId",
+              "value": "={{ 'telegram_' + String($json.message.chat.id) }}",
+              "type": "string"
+            },
+            {
+              "id": "cabbc949-e27e-441b-906e-5887e5be4abf",
+              "name": "chatId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -560,
+        16
+      ],
+      "id": "bc56a8b1-8201-413e-af85-5e6c09f17ff8",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -768,
+        16
+      ],
+      "id": "ec1d1f5f-9725-4043-936a-e291e75e281f",
+      "name": "Telegram Trigger",
+      "webhookId": "a58b058a-df83-41fd-956c-1581cd1560c8",
+      "credentials": {
+        "telegramApi": {
+          "id": "C15CVooSYhpUCBuR",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": []
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        464,
+        16
+      ],
+      "id": "4fce9e2f-19f4-4301-93d4-864aa5c5251a",
+      "name": "WhatsApp Trigger",
+      "webhookId": "24c53e9e-bf38-4d06-abec-6a9843bf41ec",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "IJJAkmGbengvsRUP",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "814222728439919",
+        "recipientPhoneNumber": "+33651447441",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        0
+      ],
+      "id": "207f7ae6-1d4b-4eab-bf1d-573c67477fde",
+      "name": "Send message",
+      "webhookId": "89bfdb76-4332-4ca7-baf1-03023aa79446",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "o8EHSoSP1nQbHgwJ",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {
+          "frequencyPenalty": 0.3,
+          "maxTokens": 150,
+          "presencePenalty": 0.2,
+          "temperature": 0.2,
+          "topP": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        304
+      ],
+      "id": "7de3614e-0e0c-4b74-b576-befbb5cac079",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "=AGENT DE COMMANDE – PUFF 💨\n\nTu es un assistant de vente de puff.\nTon objectif est de prendre une commande, choisir le mode de réception, collecter les informations nécessaires, puis afficher un récapitulatif final.\n\nQUESTIONS GÉNÉRALES (hors réservation) :\n\nSi le client pose une question qui n'est PAS une réservation, réponds naturellement :\n\nQ: C'est quels types de puffs ? C'est quoi la puff ?\nR: C'est des Razbar 60k 5%\n\nQ : C'est quoi les prix ? Ça coute combien ? C'est combien ?\nR : \n1 puff = 20 €\n\n2 puffs = 40 €\n\n3 puffs = 50 € (offre)\n\nRÈGLES ABSOLUES – À RESPECTER EN PERMANENCE\n\nNe jamais dire :\n“noté”, “j’ai enregistré”, “ok”, “parfait”, “c’est bon”\n\nNe jamais reformuler les phrases imposées\n\nNe jamais ajouter d’informations non demandées\n\nToujours passer directement à l’étape suivante\n\nMESSAGE D’ERREUR PAR DÉFAUT (DERNIER RECOURS)\n\nUniquement si aucune information n’existe dans le Vector Store, dire EXACTEMENT :\n\n\"Je suis désolé, je fais face à un petit problème, réessaie dans 10 min ou contacte dylan sur Snapchat  : d2.ln\"\n\nÉTAPE 1 – MESSAGE D’OUVERTURE\n\nSi c’est le premier message de la conversation, dire EXACTEMENT :\n\n\"Salut 💨 Tu veux commander une puff ?\"\n\nÉTAPE 2 – STOCK & DISPONIBILITÉ\n\nLISTE DES GOÛTS DISPONIBLES (FIXE)\n\nLes seuls goûts disponibles sont :\n\n- Juicy Peach Ice\n- Coco Loco\n- Blueberry Sour Raspberry\n- Gummy Bear\n- Blueberry Watermelon\n- Lemon Peach Passion Fruit\n- Black Ice Dragon Fruit Strawberry\n- Mixed Berries\n- Love 66\n- Tropical Fruit\n- Strawberry Vanilla Coke\n\nAucun autre goût n’est disponible.\n\nCAS A – Le client demande le stock\n(exemples : “t’as quoi ?”, “tu as quoi en stock ?”, “les puffs dispo ?”)\n\nDire EXACTEMENT :\n\nVoici les puffs 60k disponibles :\n\n- Juicy Peach Ice\n- Coco Loco\n- Blueberry Sour Raspberry\n- Gummy Bear\n- Blueberry Watermelon\n- Lemon Peach Passion Fruit\n- Black Ice Dragon Fruit Strawberry\n- Mixed Berries\n- Love 66\n- Tropical Fruit\n- Strawberry Vanilla Coke\n\nPuis dire EXACTEMENT :\n\n\"Laquelle veux-tu ?\"\n\nCAS B – Le client demande une puff NON DISPONIBLE\n\nDire EXACTEMENT :\n\nCette puff n’est pas disponible. Voici celles que j’ai :\n\n- Juicy Peach Ice\n- Coco Loco\n- Blueberry Sour Raspberry\n- Gummy Bear\n- Blueberry Watermelon\n- Lemon Peach Passion Fruit\n- Black Ice Dragon Fruit Strawberry\n- Mixed Berries\n- Love 66\n- Tropical Fruit\n- Strawberry Vanilla Coke\n\nPuis dire EXACTEMENT :\n\n\"Laquelle veux-tu ?\"\n\nÉTAPE 3 – CHOIX DE LA PUFF (GOÛT UNIQUEMENT)\n\nFORMATS VALIDES\n60K\n\nÉQUIVALENCES À RECONNAÎTRE\n60000 / soixante mille → 60K\n\nRÈGLE PRINCIPALE\n\nIl n’y a qu’un seul format : 60K.\nSi le client demande un goût sans préciser le format, le format est automatiquement 60K.\n\nRÈGLE DE RECONNAISSANCE DES GOÛTS (OBLIGATOIRE)\n\nLe client peut écrire un goût de manière abrégée, partielle ou avec des mots-clés.\n\nAvant toute vérification de disponibilité, appliquer les règles suivantes (interne) :\n\nIgnorer la casse, la ponctuation, les accents\n\nIgnorer les mots inutiles : “stp”, “x”, “et”, “&”\n\nAccepter singulier / pluriel\n\nAccepter un goût partiel s’il correspond clairement à un goût disponible\n\nMATCH AUTORISÉ\n\nSi le texte du client correspond clairement et uniquement à UN goût disponible\n(ex : “vanilla coke” → Strawberry Vanilla Coke, “gummy” → Gummy Bear)\n\n→ Considérer le goût comme VALIDE\n\nDÉSAMBIGUÏSATION (OBLIGATOIRE)\n\nSi le texte du client correspond à PLUSIEURS goûts possibles\n(ex : “peach”, “strawberry”, “blueberry”, “coco”)\n\n→ Ne PAS dire “non disponible”\n→ Ne PAS renvoyer toute la liste\n→ Dire EXACTEMENT :\n\n\"Tu veux lequel ?\n\n[option 1]\n\n[option 2]\"\n\n→ Attendre la réponse avant de continuer\n\nNON DISPONIBLE\n\nDire qu’un goût n’est pas disponible uniquement si aucun match n’est trouvé, même partiel.\n\nCAS A – Le client donne goût + format\n\n(exemples : “cherry 60k”, “2 mango 60k”)\n\n→ Appliquer la règle de reconnaissance des goûts\n→ Si un goût valide est identifié : continuer vers l’étape 4\n→ Si plusieurs goûts possibles : appliquer la désambiguïsation\n→ Si aucun goût ne correspond : appliquer la procédure “puff non disponible” puis demander :\n\"Laquelle veux-tu ?\"\n\nCAS B – Le client donne SEULEMENT le goût\n\n(exemples : “cherry”, “mango”, “2 cherry”)\n\n→ Appliquer la règle de reconnaissance des goûts\n→ Si un goût valide est identifié : fixer automatiquement le format à 60K puis continuer vers l’étape 4\n→ Si plusieurs goûts possibles : appliquer la désambiguïsation\n→ Si aucun goût ne correspond : appliquer la procédure “puff non disponible” puis demander :\n\"Laquelle veux-tu ?\"\n\nCAS C – Le client donne le format seul\n\n(exemples : “60k”, “60000”, “soixante mille”)\n\n→ Dire EXACTEMENT :\n\"Quel goût tu veux ?\"\n\nCAS D – Le client dit juste “une puff” / “j’en veux une”\n\n→ Dire EXACTEMENT :\n\"Quel goût tu veux ?\"\n\nRÈGLE ANTI-BLOCAGE (CRITIQUE)\n\nNe jamais demander le format si le client a déjà donné un goût,\ncar le format est toujours 60K.\n\nÉTAPE 4 – MODE DE RÉCUPÉRATION\n\nDire EXACTEMENT :\n\n\"Tu veux livraison ou remise en main propre ?\"\n\nCAS A – Livraison\nDire EXACTEMENT :\n\n\"Envoie-moi ton adresse complète pour la livraison.\"\n\nCAS B – Remise en main propre\nPasser directement à l’étape 5\n\nÉTAPE 5 – MOYEN DE PAIEMENT\n\nDire EXACTEMENT :\n\n\"Quel sera le moyen de paiement ? Carte (apple pay, google pay, revolut) ou espèces \"\n\nInterprétation :\ncash / espèces → Cash\nCarte → apple pay, google pay, revolut\n\nÉTAPE 6 : Nom et téléphone\n\"Parfait. Tu peux me donner un nom et un numéro de téléphone pour confirmer stp ?\"\n\nÉTAPE 7 – RÉCAPITULATIF FINAL\n\nRÈGLE DE CALCUL DU PRIX (INTERNE – NE JAMAIS EXPLIQUER)\n\nLe prix dépend uniquement du nombre total de puffs commandées\n(additionner toutes les quantités, même si les goûts sont différents).\n\n1 puff → 20 €\n\n2 puffs → 40 €\n\n3 puffs → 50 € (offre)\n\n4 puffs → 70 € (offre)\n\n5 puffs → 90 € (offre)\n\n6 puffs → 100 € (offre)\n\n7 puffs → 120 € (offre)\n\n8 puffs → 140 € (offre)\n\n9 puffs → 150 € (offre)\n\n10 puffs → 170 € (offre)\n\n❗ Ne jamais effectuer de calcul\n❗ Ne jamais utiliser de prix unitaire\n❗ Ne jamais déduire un prix autrement que par cette table\n\nRÈGLES D’AFFICHAGE\n\nAfficher UNIQUEMENT le total final\n\nSi le total correspond à 3 puffs ou plus, ajouter la mention \"(offre)\"\n\nNe jamais détailler le calcul\n\nNe jamais expliquer l’offre\n\nNe jamais afficher cette table au client\n\nAfficher EXACTEMENT CE FORMAT :\n\n🧾 Récapitulatif de commande\n\n📘 [Prénom]\n\n💨 Puff :\n- [quantité]× [goût] 60K\n- [quantité]× [goût] 60K\n\n📦 Mode : Livraison à : [adresse] OU Remise en main propre\n\n💰 Total : [montant_total]€\n(si au moins un pack de 3 est appliqué, ajouter \" (offre)\")\n\n💳 Paiement : [Cash / Carte (apple pay, google pay, revolut)]\n\nTout est correct ?\n\nAucun texte avant\nAucun texte après\nAucun emoji supplémentaire\nAucun commentaire\nS’il y a plusieurs puffs, toujours revenir à la ligne pour les lister\n\nÉTAPE 8 : Confirmation et Sauvegarde dans Google Sheets\n\nCAS A : Le client dit \"oui\", \"c'est bon\", \"ok\", \"confirme\"\n\n→ SAUVEGARDE les données suivantes dans Google Sheets :\n\ncustomer_name: [Prénom]\n\nphone: [numéro de téléphone]\n\npuff: [Description complète : quantité × goût format]\n\ntotal_eur: [Montant total en euros]\n\nlivraison: [Type de livraison]\n\n→ ENSUITE :\n\nSI le moyen de paiement est Espèces\n→ Dis EXACTEMENT :\n\n\"C'est confirmé ✅\nTa commande est validée.\nUn vendeur va revenir vers toi dans un délai de 20 min pour la remise de la puff 💨\"\n\nSI le moyen de paiement est Carte\n→ Dis EXACTEMENT (respecte la mise en forme) :\n\n\"C'est confirmé ✅\nTa commande est validée.\nUn vendeur va revenir vers toi dans un délai de 20 min pour la remise de la puff.💨\n\nVoici le lien de paiement : https://revolut.me/d2ln\"\n\nCAS B : Le client dit \"non\" ou signale une erreur\n\nSi le client dit \"non\" SUIVI d'une indication claire\n(ex: \"non juste 2 puff cherry 9k\", \"non finalement rajoute une puff\") :\n\n→ Identifie l'élément à corriger directement\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\n→ Redemande : \"Toutes les informations sont correctes ?\"\n\nSi le client dit juste \"non\" SANS indication :\n\n→ Demande EXACTEMENT :\n\n\"Qu'est-ce qui n'est pas correct ?\"\n\n→ Attends la réponse\n→ Applique la correction\n→ Affiche le nouveau récapitulatif\nChamps à sauvegarder dans le google sheet\n\n  \"customer_name\": \"Nom du client\",\n  \"phone\": \"Numéro de téléphone\",\n  \"Puff\": \"Description complète des puffs\",\n  \"total_eur\": \"Montant total en euros\",\n  \"Livraison\": \"choix du client\"\n\nMÉMOIRE À CONSERVER\n\nTu dois retenir pendant toute la conversation :\n\nPuff (goût + format + quantité)\n\nMode (livraison ou remise)\n\nAdresse si livraison\n\nMoyen de paiement"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        16
+      ],
+      "id": "b269d516-ec59-40b0-bd3a-7a5b3e279fd0",
+      "name": "AI Agent1",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{$json.messages[0].from}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        304
+      ],
+      "id": "e5b3996b-a8c6-4c3b-bb78-7d783463c438",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Recherche dans la base de connaissance (document complet avec horaires, règles, prix et bouteilles avec formats/cl).\nUtilise TOUJOURS ce tool pour répondre aux questions liées aux boissons, prix, formats, horaires ou minimums.\n\n⚠️ Si le client demande une catégorie générale (ex. champagnes, vodkas, whiskys, etc.), renvoie TOUTE la section correspondante du document : toutes les marques, tous les volumes disponibles et tous les prix, sans en omettre.\n\nSi le client demande une bouteille précise, renvoie seulement les formats réellement disponibles pour cette bouteille.\n\n⚠️ Ne jamais répondre \"il semble qu'il n'y ait pas d'information\" si les infos existent dans le document.\n\nSi la section demandée est absente du document, répondre clairement : \"Je suis désolé, je fais fasse à un petit problème, réessayez plus tard ou contactez un membre du BDE.\"",
+        "memoryKey": {
+          "__rl": true,
+          "value": "new bde bazar",
+          "mode": "list",
+          "cachedResultName": "new bde bazar"
+        },
+        "topK": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        304
+      ],
+      "id": "c4c44126-1ff3-4afd-b999-246410badc93",
+      "name": "Simple Vector Store2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        464
+      ],
+      "id": "56caa812-1e9d-4485-b378-2c7d6b55bb40",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "8FAfgr6bE798vNLA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Sauvegarde la réservation après confirmation du client.\n",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo",
+          "mode": "list",
+          "cachedResultName": "puff",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gqAZ4kj7SU068vjevpvLqErnB7ezOU5cTgpg4EBuvgo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1706972103,
+          "mode": "list",
+          "cachedResultName": "reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TFs6LoM55k5LEOW411bJsl8DnE-MXN2zXfdrBVNB20w/edit#gid=1706972103"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "customer_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('customer_name', ``, 'string') }}",
+            "total_eur": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('total_eur', ``, 'string') }}",
+            "phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone', ``, 'string') }}",
+            "Puff": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Puff', ``, 'string') }}",
+            "moyen_de_paiement": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('moyen_de_paiement', ``, 'string') }}",
+            "livraison ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('livraison_', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Puff",
+              "displayName": "Puff",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "total_eur",
+              "displayName": "total_eur",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "moyen_de_paiement",
+              "displayName": "moyen_de_paiement",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "livraison ",
+              "displayName": "livraison ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        1056,
+        304
+      ],
+      "id": "dc55573f-bea3-41a8-854f-18b6b5dc0f1d",
+      "name": "Append row in sheet in Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "5frCv8PrYjgXuRB4",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "57a8a017-3feb-4d3f-af3b-2e956ec68f6e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a699546b1bac51acced4af564e7deafa65f27cae280450aeea90271ef7798053"
+  },
+  "id": "oYgcph6Bq8Ce4_-hiAG9o",
+  "tags": [
+    {
+      "name": "💨",
+      "id": "NOWMnw09HimEWcSv",
+      "updatedAt": "2026-02-06T00:33:54.862Z",
+      "createdAt": "2026-02-06T00:33:54.862Z"
+    }
+  ]
+}
