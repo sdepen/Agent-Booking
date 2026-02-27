@@ -1,579 +1,316 @@
+<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth" style="scroll-padding-top: 80px;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Présentation : Agent de Réservation 24/7</title>
+    <title>Agent Booking – Agents IA de Réservation & Vente 24/7</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --turquoise: #00e5ff;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #101726;
-            color: #d1d5db; /* text-gray-300 */
+            background-color: #ffffff;
+            color: #1f2937;
         }
         .text-glow {
-            color: #67e8f9; /* Tailwind's cyan-400 */
-            text-shadow: 0 0 8px rgba(103, 232, 249, 0.7), 0 0 20px rgba(103, 232, 249, 0.5);
+            color: var(--turquoise);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+        .bg-electric {
+            background-color: var(--turquoise);
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
-        .active-tab {
-            border-color: #67e8f9;
-            color: #67e8f9;
-            font-weight: 700;
+        .glass-card:hover {
+            border-color: var(--turquoise);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.3);
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 50vh;
+        .chat-bubble-agent {
+            background: #f3f4f6;
+            border-left: 4px solid var(--turquoise);
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 450px;
-            }
+        .chat-bubble-client {
+            background: #0ea5e9;
+            color: white;
+        }
+        /* Modal animations */
+        .modal-enter {
+            animation: fadeIn 0.2s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Header & Navigation -->
-     <header id="header" class="bg-[#101726]/90 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-cyan-500/5 relative">
-  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <!-- LOGO -->
-    <div class="flex items-center space-x-3">
-      <img src="/logo.png" alt="Agent Booking Logo" class="h-10 w-auto drop-shadow-[0_0_8px_#00FFFF]" />
-      <div class="text-2xl font-bold text-white">
-        <span class="text-cyan-400 drop-shadow-[0_0_8px_#00FFFF]">Agent</span>
-        <span class="text-gray-300">Booking</span>
-      </div>
-    </div>
-
-    <!-- MENU DESKTOP -->
-    <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
-      <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition-colors">Avantages</a>
-      <a href="#features" class="text-gray-300 hover:text-cyan-400 transition-colors">Fonctionnalités</a>
-      <a href="#bde" class="text-gray-300 hover:text-cyan-400 transition-colors">BDE / Écoles</a>
-      <a href="#roadmap" class="text-gray-300 hover:text-cyan-400 transition-colors">Futur</a>
-      <a href="#pricing" class="text-gray-300 hover:text-cyan-400 transition-colors">Tarifs</a>
-      <button class="open-modal-trigger bg-cyan-500 text-white px-5 py-2 rounded-full hover:bg-cyan-600 transition-all shadow-md">
-        Planifier une Démo
-      </button>
-    </div>
-
-    <!-- BOUTON MENU MOBILE -->
-    <div class="md:hidden">
-      <button id="menu-btn" class="text-gray-300 focus:outline-none" aria-expanded="false" aria-controls="mobile-menu">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- MENU MOBILE -->
-  <div id="mobile-menu"
-       class="hidden md:hidden absolute left-0 right-0 top-full bg-[#101726]/95 border-t border-gray-700 px-6 pb-6 flex flex-col items-center space-y-3">
-    <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition-colors">Avantages</a>
-    <a href="#features" class="text-gray-300 hover:text-cyan-400 transition-colors">Fonctionnalités</a>
-    <a href="#bde" class="text-gray-300 hover:text-cyan-400 transition-colors">BDE / Écoles</a>
-    <a href="#roadmap" class="text-gray-300 hover:text-cyan-400 transition-colors">Futur</a>
-    <a href="#pricing" class="text-gray-300 hover:text-cyan-400 transition-colors">Tarifs</a>
-    <button class="open-modal-trigger bg-cyan-500 text-white px-6 py-2 rounded-full hover:bg-cyan-600 transition-all mt-2 shadow-md">
-      Planifier une Démo
-    </button>
-  </div>
-</header>
+    <!-- Header -->
+    <header id="header" class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 bg-gray-900 rounded-lg flex items-center justify-center font-bold text-white">A</div>
+                <div class="text-2xl font-bold text-gray-900">
+                    Agent<span class="text-cyan-500">Booking</span>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                <a href="#sectors" class="text-gray-600 hover:text-cyan-500 transition-colors">Domaines</a>
+                <a href="#custom" class="text-gray-600 hover:text-cyan-500 transition-colors">Personnalisation</a>
+                <a href="#benefits" class="text-gray-600 hover:text-cyan-500 transition-colors">Avantages</a>
+                <a href="#pricing" class="text-gray-600 hover:text-cyan-500 transition-colors">Tarifs</a>
+                <button class="open-calendly bg-gray-900 text-white px-5 py-2 rounded-full hover:bg-cyan-500 transition-all shadow-md">
+                    Planifier une Démo
+                </button>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-900 focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200 px-6 py-8 flex flex-col items-center space-y-4 shadow-xl md:hidden">
+            <a href="#sectors" class="text-lg text-gray-800">Domaines</a>
+            <a href="#custom" class="text-lg text-gray-800">Personnalisation</a>
+            <a href="#benefits" class="text-lg text-gray-800">Avantages</a>
+            <a href="#pricing" class="text-lg text-gray-800">Tarifs</a>
+            <button class="open-calendly bg-cyan-500 text-white px-8 py-3 rounded-full w-full font-bold">Planifier une Démo</button>
+        </div>
+    </header>
 
     <main>
-        <!-- Hero Section --><section class="pt-20 md:pt-32 pb-12 bg-[#101726]">
+        <!-- Hero Section -->
+        <section class="pt-16 pb-20 bg-gradient-to-b from-gray-50 to-white">
             <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight uppercase">
-                    <span class="text-glow">Ne perdez plus</span> une seule<br> réservation.
+                <div class="inline-block px-4 py-1.5 mb-6 text-sm font-semibold text-cyan-600 uppercase bg-cyan-50 rounded-full">
+                    L'IA au service de votre rentabilité
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight uppercase">
+                    <span class="text-glow">Automatisez</span> vos réservations <br class="hidden md:block">& ventes.
                 </h1>
-                <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-                    Visualisez comment notre agent IA transforme vos demandes de messages en réservations confirmées et rentables, 24h/24, 7j/7.
+                <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Un agent IA intelligent qui répond, qualifie et conclut vos ventes 24h/24 sur WhatsApp et réseaux sociaux. Sauvegarde automatique en base de données.
                 </p>
-                <div class="mt-10">
-                    <a href="#features" class="bg-cyan-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-cyan-600 transition-all transform hover:scale-105">
-                        Découvrir la solution
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#sectors" class="bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-cyan-500 transition-all shadow-lg">
+                        Voir les domaines
                     </a>
+                    <button class="open-calendly border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-full text-lg font-semibold hover:border-cyan-400 transition-all">
+                        Prendre rendez-vous
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- How It Works Section --><section id="how-it-works" class="pt-12 pb-20 bg-gray-900/50">
+        <!-- Sectors Section -->
+        <section id="sectors" class="py-20 bg-white">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Comment Ça Marche ?</h2>
-                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
-                        De la prise de contact à la confirmation, l'agent gère tout le processus de manière autonome.
-                    </p>
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Un Agent pour <span class="text-cyan-500">tous vos domaines</span></h2>
+                    <p class="mt-4 text-gray-500 font-medium italic uppercase tracking-wider text-xs">Cliquez sur une catégorie pour voir un exemple concret de conversation</p>
                 </div>
-                <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-6">
-                    <!-- Step 1 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
-                        <div class="text-4xl mb-4">💬</div>
-                        <h3 class="text-lg font-bold mb-2 text-white">1. Prise de Contact</h3>
-                        <p class="text-sm text-gray-300">Un client vous écrit sur la plateforme de votre choix, à n'importe quelle heure.</p>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                    <!-- Conciergerie -->
+                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="conciergerie">
+                        <div class="text-4xl mb-4">🛍️</div>
+                        <h3 class="font-bold mb-1">Conciergerie</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Personal Shopper et Luxe</p>
                     </div>
-        
-                    <div class="text-cyan-400 text-2xl font-light hidden md:flex items-center">→</div>
-        
-                    <!-- Step 2 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
-                        <div class="text-4xl mb-4">🤖</div>
-                        <h3 class="text-lg font-bold mb-2 text-white">2. Collecte d'Infos</h3>
-                        <p class="text-sm text-gray-300">L'agent demande la date, les bouteilles et toutes les informations requises pour la réservation.</p>
+                    <!-- Tourisme -->
+                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="tourisme">
+                        <div class="text-4xl mb-4">🌍</div>
+                        <h3 class="font-bold mb-1">Tourisme</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Activités & Planning</p>
                     </div>
-        
-                    <div class="text-cyan-400 text-2xl font-light hidden md:flex items-center">→</div>
-                    
-                    <!-- Step 3 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
-                        <div class="text-4xl mb-4">✅</div>
-                        <h3 class="text-lg font-bold mb-2 text-white">3. Validation</h3>
-                        <p class="text-sm text-gray-300">Un récapitulatif complet est envoyé pour confirmation par le client.</p>
+                    <!-- Nightlife -->
+                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="nightlife">
+                        <div class="text-4xl mb-4">🍾</div>
+                        <h3 class="font-bold mb-1">Boite de nuit & BDE</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Gestion de réservation de tables</p>
                     </div>
-        
-                    <div class="text-cyan-400 text-2xl font-light hidden md:flex items-center">→</div>
-        
-                    <!-- Step 4 --><div class="bg-gray-800 p-6 rounded-2xl text-center flex-1 max-w-sm mx-auto w-full">
-                        <div class="text-4xl mb-4">📊</div>
-                        <h3 class="text-lg font-bold mb-2 text-white">4. Sauvegarde</h3>
-                        <p class="text-sm text-gray-300">La réservation est automatiquement ajoutée à votre Google Sheets et un message indiquant la réservation est directement envoyé à un membre de votre équipe.</p>
+                    <!-- Business Perso -->
+                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="business">
+                        <div class="text-4xl mb-4">💰</div>
+                        <h3 class="font-bold mb-1">Business Perso</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">100% adapté à votre business</p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <!-- Benefits Section --><section id="benefits" class="py-20 bg-gray-900/50">
+
+        <!-- Personnalisation / Roadmap Section -->
+        <section id="custom" class="py-20 bg-white border-t border-gray-50">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Les Avantages pour Votre Établissement</h2>
-                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">🎯 Personnalisez <span class="text-cyan-500">Votre Agent</span></h2>
+                    <p class="mt-4 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
+                        Chaque business est unique. C’est pourquoi nos offres sont modulables et prêtes à évoluer avec vous. Voici les fonctionnalités que vous pouvez activer selon vos besoins.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
+                        <div class="text-4xl mb-6">📅</div>
+                        <h3 class="text-lg font-bold mb-3 text-gray-900">Disponibilité en Temps Réel</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">L'agent vérifiera vos créneaux et votre emploi et proposera des alternatives automatiquement si complet.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
+                        <div class="text-4xl mb-6">💳</div>
+                        <h3 class="text-lg font-bold mb-3 text-gray-900">Paiement en Ligne Sécurisé</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Possibilité pour vos clients de payer un acompte ou la totalité via un lien sécurisé (Stripe/PayPal/Revolut).</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
+                        <div class="text-4xl mb-6">⚙️</div>
+                        <h3 class="text-lg font-bold mb-3 text-gray-900">Intégration de vos outils</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">L'agent se connecte directement à vos outils habituels, tels que vos calendriers ou vos bases de données.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
+                        <div class="text-4xl mb-6">🔔</div>
+                        <h3 class="text-lg font-bold mb-3 text-gray-900">Relance Automatique</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Envoi d'un message automatique si le client n'a pas répondu, pour ne manquer aucune opportunité.</p>
+                    </div>
+                </div>
+
+                <!-- Footer line under cards -->
+                <div class="text-center mt-12">
+                    <div class="inline-block px-6 py-3 bg-white rounded-full border border-gray-200 shadow-sm">
+                        <p class="text-gray-500 text-sm font-medium">
+                            Vous avez une idée précise ? Nous pouvons la transformer en fonctionnalité sur-mesure pour votre agent.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="py-20 bg-white border-t border-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">Les Avantages pour <span class="text-cyan-500">Votre Établissement</span></h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
                         Plus qu'un simple outil, c'est un véritable levier de croissance et d'efficacité.
                     </p>
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                    <!-- Item 1 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
                         <div class="text-4xl mb-4">📈</div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Zéro Perte de Réservation</h3>
-                        <p class="text-gray-300">L'agent est disponible 24/7 et répond instantanément, capturant chaque client potentiel même lorsque vous êtes fermé.</p>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900">Zéro Perte de Réservation</h3>
+                        <p class="text-gray-500 text-sm">L'agent est disponible 24/7 et répond instantanément, capturant chaque client potentiel même lorsque vous êtes fermé.</p>
                     </div>
-                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                    <!-- Item 2 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
                         <div class="text-4xl mb-4">⏱️</div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Gain de Temps Massif</h3>
-                        <p class="text-gray-300">Votre personnel est libéré de la gestion manuelle des messages et peut se concentrer sur l'accueil et le service client sur place.</p>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900">Gain de Temps Massif</h3>
+                        <p class="text-gray-500 text-sm">Votre personnel est libéré de la gestion manuelle des messages et peut se concentrer sur l'accueil et le service client sur place.</p>
                     </div>
-                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                    <!-- Item 3 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
                         <div class="text-4xl mb-4">💲</div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Optimisation des Revenus</h3>
-                        <p class="text-gray-300">Application intelligente des offres du vendredi et respect strict des minimums pour maximiser le chiffre d'affaires de chaque table.</p>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900">Optimisation des Revenus</h3>
+                        <p class="text-gray-500 text-sm">Application intelligente des offres spéciales et respect strict des minimums pour maximiser votre chiffre d'affaires.</p>
                     </div>
-                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                    <!-- Item 4 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
                         <div class="text-4xl mb-4">🗄️</div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Données Centralisées</h3>
-                        <p class="text-gray-300">Toutes les réservations sont consignées dans un Google Sheets unique, consultable en temps réel par toute votre équipe.</p>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900">Données Centralisées</h3>
+                        <p class="text-gray-500 text-sm">Toutes les réservations sont consignées dans une base de données unique, consultable en temps réel par toute votre équipe.</p>
                     </div>
-                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                    <!-- Item 5 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
                         <div class="text-4xl mb-4">⭐</div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Expérience Client Premium</h3>
-                        <p class="text-gray-300">Offrez à vos clients des réponses rapides, professionnelles et un processus de réservation simple et moderne, digne de votre établissement.</p>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900">Expérience Client Premium</h3>
+                        <p class="text-gray-500 text-sm">Offrez à vos clients des réponses rapides, professionnelles et un processus simple et moderne, digne de votre business.</p>
                     </div>
-                     <div class="bg-gray-800 p-8 rounded-2xl shadow-sm transition-transform transform hover:-translate-y-2">
+                    <!-- Item 6 -->
+                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
                         <div class="text-4xl mb-4">⚙️</div>
-                        <h3 class="text-xl font-bold mb-2 text-white">100% Personnalisable</h3>
-                        <p class="text-gray-300">Intégrez vos outils et configurez l'agent selon vos envies pour une solution entièrement sur mesure.</p>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900">100% Personnalisable</h3>
+                        <p class="text-gray-500 text-sm">Intégrez vos outils et configurez l'agent selon vos envies pour une solution entièrement sur mesure.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Features Section --><section id="features" class="py-20 bg-[#101726]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Une solution complète et intelligente</h2>
-                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
-                        L'agent est pré-configuré pour gérer toutes les situations, des plus simples aux plus complexes.
-                    </p>
-                </div>
-                
-                <!-- Tabs Navigation --><div class="flex justify-center border-b border-gray-700 mb-8">
-                    <button data-tab="tab-auto" class="tab-btn active-tab py-3 px-6 text-lg border-b-2 transition-colors">Automatisation</button>
-                    <button data-tab="tab-rules" class="tab-btn border-transparent text-gray-400 py-3 px-6 text-lg border-b-2 transition-colors">Règles & Zones</button>
-                    <button data-tab="tab-catalog" class="tab-btn border-transparent text-gray-400 py-3 px-6 text-lg border-b-2 transition-colors">Catalogue & Tarifs</button>
-                </div>
-        
-                <!-- Tab Content --><div>
-                    <!-- Automatisation Tab --><div id="tab-auto" class="tab-content">
-                        <div class="grid md:grid-cols-2 gap-10 items-center">
-                            <div class="prose prose-invert max-w-none text-gray-300">
-                                <h3 class="text-2xl font-bold text-white mb-4">Automatisation Totale, 24/7</h3>
-                                <p>L'agent prend en charge l'intégralité du processus de réservation sans aucune intervention humaine. Chaque client reçoit une réponse instantanée, à toute heure du jour ou de la nuit.</p>
-                                <ul class="list-none p-0 mt-6 space-y-4">
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Collecte d'infos complète</strong> : date, heure, personnes, nom, téléphone, et requêtes spéciales.</div></li>
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Validation et récapitulatif</strong> avant confirmation pour éviter les erreurs.</div></li>
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Sauvegarde automatique</strong> et instantanée dans un Google Sheets centralisé.</div></li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-800 p-4 rounded-xl shadow-lg relative h-[500px] overflow-y-auto">
-                               <div class="sticky top-0 bg-gray-800 py-2 z-10">
-                                    <p class="text-white font-bold text-center">Simulation de conversation</p>
-                                </div>
-                                <div class="space-y-4 text-sm">
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Bonjour, je suis l'assistant de [votre nom] ! Comment puis-je vous aider aujourd'hui ? Souhaitez-vous faire une réservation ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">oui</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Quelle date et à quelle heure souhaitez-vous réserver ?</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">vendredi pro à 1h</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Combien de personnes seront présentes ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">7</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Quelles bouteilles souhaitez-vous ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">2 grey goose 70 cl</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Les 2 bouteilles Grey Goose 70 cl en vendredi correspondent à l'offre spéciale :</p>
-                                        <p class="text-white mt-2">Récap bouteilles :<br>2× Grey Goose 70 cl — 180 € (Offre spéciale vendredi 🎉)</p>
-                                        <p class="text-white mt-2">Quels softs souhaitez-vous ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">redbull 5 canettes</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Avez-vous une requête spéciale à nous signaler (anniversaire, surprise, envoi particulier, ou autre) ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">c’est mon anniversaire</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">D'accord, je prends note, elle sera transmise à l'équipe ! Parfait. Pouvez-vous me donner un nom et un numéro de téléphone pour confirmer la réservation ?</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">[Nom] [Numéro]</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">
-                                            Récapitulatif :<br>
-                                            📅 24/10/2025<br>
-                                            🕒 1h00<br>
-                                            👥 7 personnes<br>
-                                            📍 Zone Standard<br>
-                                            🍾 Bouteilles : 2× Grey Goose 70 cl — 180 € (Offre spéciale vendredi 🎉)<br>
-                                            🧃 Softs : Red Bull 5 canettes<br>
-                                            ✨ Requête Spéciale : c’est mon anniversaire<br>
-                                            💰 Total : 180 €<br>
-                                            Confirmez-vous que toutes les informations sont correctes ?
-                                        </p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">oui</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Votre réservation est maintenant confirmée ! Merci beaucoup, et à très bientôt ! Si vous avez d'autres questions, n'hésitez pas à demander. 🍾🥂</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <!-- Règles & Zones Tab --><div id="tab-rules" class="tab-content hidden">
-                         <div class="grid md:grid-cols-2 gap-10 items-start">
-                            <div class="prose prose-invert max-w-none text-gray-300">
-                                <h3 class="text-2xl font-bold text-white mb-4">Gestion Intelligente des Règles</h3>
-                                <p>L'agent connaît et applique vos règles spécifiques : heure limite d'arrivée, minimum de consommation par zone, âge requis, etc.</p>
-                                <ul class="list-none p-0 mt-6 space-y-4">
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Validation d'heure d'arrivée</strong> : Il refuse poliment les demandes après 2h30 et informe de la politique du club.</div></li>
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Gestion des zones (Standard/VIP)</strong> : Il informe du minimum de 1000€ pour la zone VIP et guide les clients.</div></li>
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Adaptabilité</strong> : Toutes les règles sont 100% configurables selon les besoins de votre établissement.</div></li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-800 p-4 rounded-xl shadow-lg relative h-[500px] overflow-y-auto">
-                                <div class="sticky top-0 bg-gray-800 py-2 z-10">
-                                    <p class="text-white font-bold text-center">Simulation de conversation</p>
-                                </div>
-                                <div class="space-y-4 text-sm">
-                                     <!-- Scenario 1: Too late --><div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">Salut, possible de réserver pour 4 personnes ce soir à 3h ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Bonjour ! Malheureusement, nous ne prenons plus de réservations après 2h30. Pour garantir votre table, je vous invite à arriver avant cette heure. Puis-je vous aider avec un autre horaire ?</p>
-                                    </div>
-                                     <!-- Scenario 2: VIP request --><div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">Je voudrais une table VIP pour 8 personnes samedi avec un magnum de Belvedere.</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Bonjour ! Bien sûr. Pour la zone VIP, le minimum de consommation est de 1000€. Un magnum de Belvedere est à 500€. Souhaitez-vous ajouter d'autres bouteilles pour atteindre ce montant et confirmer votre table VIP ?</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <!-- Catalogue & Tarifs Tab --><div id="tab-catalog" class="tab-content hidden">
-                         <div class="grid md:grid-cols-2 gap-10 items-start">
-                            <div class="prose prose-invert max-w-none text-gray-300">
-                                <h3 class="text-2xl font-bold text-white mb-4">Connaissance Parfaite du Catalogue</h3>
-                                <p>L'agent a accès à votre catalogue complet et peut répondre précisément à toutes les demandes, même les plus vagues.</p>
-                                <ul class="list-none p-0 mt-6 space-y-4">
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Recherche Intelligente</strong> : Un client demande "du ruinart" ? L'agent liste toutes les options disponibles avec les prix.</div></li>
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Clarté et Précision</strong> : Il différencie les formats (75cl, 1.5L) et guide le client dans son choix pour éviter toute confusion.</div></li>
-                                    <li class="flex items-start"><span class="text-cyan-400 mr-3 mt-1">✓</span><div><strong class="font-semibold text-white">Calcul Automatique</strong> : Le total est calculé instantanément et présenté au client avant la confirmation finale.</div></li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-800 p-4 rounded-xl shadow-lg relative h-[500px] overflow-y-auto">
-                                <div class="sticky top-0 bg-gray-800 py-2 z-10">
-                                    <p class="text-white font-bold text-center">Simulation de conversation</p>
-                                </div>
-                                <div class="space-y-4 text-sm">
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">Bonsoir, je voudrais du ruinart svp</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Bien sûr, voici nos options pour le Ruinart :<br>
-                                            - Ruinart Brut (75 cl) — 150 €<br>
-                                            - Ruinart Blanc de Blancs (75 cl) — 220 €<br>
-                                            - Ruinart Rosé (75 cl) — 150 €<br>
-                                            - Ruinart Brut (1.5 L) — 300 €<br>
-                                            - Ruinart Blanc de Blancs (1.5 L) — 490 €<br>
-                                            - Dom Ruinart (75 cl) — 300 €<br>
-                                            Laquelle vous ferait plaisir ?</p>
-                                    </div>
-                                     <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">je vais prendre deux ruinart brut</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Parfait ! Vous les souhaitez en format 75 cl ou 1.5 L ?</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-cyan-900/50 w-fit max-w-xs ml-auto">
-                                        <p class="font-bold text-gray-300">Client</p>
-                                        <p class="text-white">1.5 L</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg bg-gray-900 w-fit max-w-xs">
-                                        <p class="font-bold text-cyan-400">Agent</p>
-                                        <p class="text-white">Excellent choix. Cela fera un total de 600 € pour les deux magnums de Ruinart Brut. Est-ce que cela vous convient ?</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Section BDE / Écoles -->
-<section id="bde" class="py-20 bg-[#0f172a]">
-    <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-            <!-- Texte à gauche -->
-            <div class="md:w-1/2">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-                    Spécial <span class="text-cyan-400">BDE & Écoles</span>
-                </h2>
-                <p class="text-gray-400 text-lg mb-8">
-                Réservez vos bouteilles et votre table directement via notre assistant intelligent. 
-Gestion automatique des minimums et des disponibilités en temps réel.</p>
-                <ul class="space-y-4 mb-10 text-gray-300">
-                    <li class="flex items-center gap-3">
-                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-900/50 flex items-center justify-center">
-                            <i class="fas fa-check text-cyan-400 text-xs"></i>
-                        </div>
-                        Toutes vos réservations sont automatiquement enregistrées dans Google Sheets.
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-900/50 flex items-center justify-center">
-                            <i class="fas fa-check text-cyan-400 text-xs"></i>
-                        </div>
-                        Infos pratiques 24h/7j (Lieu, Thème, Tarifs) 
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-900/50 flex items-center justify-center">
-                            <i class="fas fa-check text-cyan-400 text-xs"></i>
-                        </div>
-                        Mise à jour avant chaque événement
-                    </li>
-                </ul>
-                <a href="#contact" class="inline-block px-8 py-3 bg-cyan-500 hover:bg-cyan-400 text-[#101726] font-bold rounded-lg transition">
-                    🚀 Équiper mon association
-                </a>
-            </div>
-
-            <!-- Grille de fonctionnalités à droite -->
-            <div class="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="p-6 bg-gray-900/50 border border-gray-800 rounded-xl hover:border-cyan-500/50 transition">
-                    <div class="text-2xl mb-3">📊</div>
-                    <h4 class="text-white font-bold mb-2">Export automatique </h4>
-                    <p class="text-sm text-gray-400">Données enregistrées pour un suivi en temps réel et accès facile pour la gestion des entrées le jour J.</p>
-                </div>
-                <div class="p-6 bg-gray-900/50 border border-gray-800 rounded-xl hover:border-cyan-500/50 transition">
-                    <div class="text-2xl mb-3">💬</div>
-                    <h4 class="text-white font-bold mb-2">Assistant Intelligent</h4>
-                    <p class="text-sm text-gray-400">Réponses automatiques sur l'adresse, les horaires, les moyens de paiement et les produits disponibles.</p>
-                </div>
-                <div class="p-6 bg-gray-900/50 border border-gray-800 rounded-xl hover:border-cyan-500/50 transition">
-                    <div class="text-2xl mb-3">✅</div>
-                    <h4 class="text-white font-bold mb-2">Gestion Quotas</h4>
-                    <p class="text-sm text-gray-400">Le bot calcule automatiquement le nombre minimum de bouteilles selon vos règles.</p>
-                </div>
-                <div class="p-6 bg-gray-900/50 border border-gray-800 rounded-xl hover:border-cyan-500/50 transition">
-                    <div class="text-2xl mb-3">💯</div>
-                    <h4 class="text-white font-bold mb-2">100% adaptable</h4>
-                    <p class="text-sm text-gray-400">Possibilité d'ajouter ou modifier des fonctions pour un agent qui vous ressemble. 
-Personnalisez les questions, les produits et les règles selon vos besoins.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Roadmap Section -->
-<section id="roadmap" class="py-20 bg-gray-900/50">
-  <div class="container mx-auto px-6">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-white">🎯 Personnalisez Votre Agent</h2>
-      <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
-        Chaque établissement est unique. C’est pourquoi nos offres sont modulables et prêtes à évoluer avec vous. Voici les fonctionnalités que vous pouvez activer selon vos besoins.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div class="border border-gray-700 p-6 rounded-xl text-center">
-        <div class="text-3xl mb-4">📅</div>
-        <h3 class="text-lg font-bold mb-2 text-white">Disponibilité en Temps Réel</h3>
-        <p class="text-sm text-gray-300">L'agent vérifiera si les tables sont complètes et proposera des alternatives (VIP, autre date).</p>
-      </div>
-
-      <div class="border border-gray-700 p-6 rounded-xl text-center">
-        <div class="text-3xl mb-4">💳</div>
-        <h3 class="text-lg font-bold mb-2 text-white">Paiement en Ligne Sécurisé</h3>
-        <p class="text-sm text-gray-300">Possibilité pour les clients de payer un acompte ou la totalité via un lien sécurisé (Stripe/PayPal).</p>
-      </div>
-
-      <div class="border border-gray-700 p-6 rounded-xl text-center">
-        <div class="text-3xl mb-4">🗺️</div>
-        <h3 class="text-lg font-bold mb-2 text-white">Plan Interactif du Club</h3>
-        <p class="text-sm text-gray-300">Les clients pourront choisir leur table sur un plan, avec des prix ajustés selon la zone.</p>
-      </div>
-
-      <div class="border border-gray-700 p-6 rounded-xl text-center">
-        <div class="text-3xl mb-4">🔔</div>
-        <h3 class="text-lg font-bold mb-2 text-white">Relance Automatique</h3>
-        <p class="text-sm text-gray-300">Envoi d'un message 1h après si le client n'a pas répondu, pour ne manquer aucune opportunité.</p>
-      </div>
-    </div>
-
-    <!-- New line under the 4 cards -->
-    <div class="text-center mt-10">
-      <p class="text-gray-300 max-w-2xl mx-auto">
-        Vous avez une idée précise ? Nous pouvons la transformer en fonctionnalité pour votre agent.
-      </p>
-    </div>
-  </div>
-</section>
-
-
-        <!-- Pricing Section --><section id="pricing" class="py-20 bg-[#101726]">
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 bg-white border-t border-gray-50">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">💎 Choisissez Votre Formule</h2>
-                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">Des solutions adaptées à chaque besoin, sans engagement, pour maximiser votre rentabilité.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">💎 Choisissez Votre Formule</h2>
+                    <p class="mt-4 text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">Des solutions adaptées à chaque besoin, sans engagement, pour maximiser votre rentabilité.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8 items-stretch">
                     
-                    <!-- Essentiel Plan --><div class="bg-gray-800 p-8 rounded-2xl flex flex-col shadow-lg">
-                        <h3 class="text-2xl font-bold text-white">Essentiel</h3>
-                        <p class="text-gray-400 mt-1 mb-6">Idéal pour démarrer l'automatisation.</p>
-                        <ul class="space-y-3 text-gray-300 flex-grow">
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Automatisation 24/7</li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Collecte & Sauvegarde</li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Catalogue de base</li>
+                    <!-- Essentiel Plan -->
+                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col bg-white border border-gray-200 shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Essentiel</h3>
+                        <p class="text-gray-500 text-sm mb-8 leading-relaxed">Idéal pour démarrer l'automatisation de base.</p>
+                        <ul class="space-y-4 text-gray-700 flex-grow">
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Automatisation 24/7</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Collecte & Sauvegarde</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Catalogue de base</li>
                         </ul>
-                        <a href="#contact" class="mt-8 text-center bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors font-semibold">Choisir Essentiel</a>
+                        <button class="open-calendly mt-10 text-center bg-gray-100 text-gray-900 py-4 rounded-2xl hover:bg-gray-200 transition-colors font-bold uppercase tracking-wider text-sm">Choisir Essentiel</button>
                     </div>
         
-                    <!-- Pro Plan (Most Popular) --><div class="bg-gray-800 p-8 rounded-2xl flex flex-col shadow-2xl border-2 border-cyan-400 relative transform scale-105">
-                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-cyan-400 text-gray-900 px-4 py-1 rounded-full text-sm font-bold">LE PLUS POPULAIRE</span>
-                        <h3 class="text-2xl font-bold text-white">Pro</h3>
-                        <p class="text-cyan-300 mt-1 mb-6">La solution complète pour optimiser.</p>
-                        <ul class="space-y-3 text-gray-300 flex-grow">
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span><strong class="font-semibold">Tout Essentiel, et plus :</strong></li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Gestion des règles & zones</li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Gestion des offres spéciales</li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Support prioritaire</li>
+                    <!-- Pro Plan (Most Popular) -->
+                    <div class="p-10 rounded-[2.5rem] flex flex-col shadow-2xl border-4 border-cyan-400 relative bg-white transform scale-105 z-10">
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-cyan-400 text-gray-900 px-6 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">LE PLUS POPULAIRE</span>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
+                        <p class="text-gray-500 text-sm mb-8 leading-relaxed">La solution complète pour optimiser vos revenus.</p>
+                        <ul class="space-y-4 text-gray-700 flex-grow">
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span><strong class="font-bold">Tout Essentiel, et plus :</strong></li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Gestion des règles & zones</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Gestion des offres spéciales</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Support prioritaire</li>
                         </ul>
-                        <a href="#contact" class="mt-8 text-center bg-cyan-500 text-white py-3 rounded-lg hover:bg-cyan-600 transition-colors font-semibold">Choisir Pro</a>
+                        <button class="open-calendly mt-10 text-center bg-cyan-500 text-white py-4 rounded-2xl hover:bg-cyan-600 transition-colors font-bold shadow-lg shadow-cyan-500/30 uppercase tracking-wider text-sm">Choisir Pro</button>
                     </div>
         
-                    <!-- Sur Mesure Plan --><div class="bg-gray-800 p-8 rounded-2xl flex flex-col shadow-lg">
-                        <h3 class="text-2xl font-bold text-white">Sur Mesure</h3>
-                        <p class="text-gray-400 mt-1 mb-6">Pour les besoins uniques et complexes.</p>
-                        <ul class="space-y-3 text-gray-300 flex-grow">
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span><strong class="font-semibold">Tout Pro, et plus :</strong></li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Intégrations API spécifiques</li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Développement de fonctionnalités</li>
-                            <li class="flex items-center"><span class="text-cyan-400 mr-3">✓</span>Accompagnement dédié</li>
+                    <!-- Sur Mesure Plan -->
+                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col bg-white border border-gray-200 shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Sur Mesure</h3>
+                        <p class="text-gray-500 text-sm mb-8 leading-relaxed">Pour les besoins uniques et les structures complexes.</p>
+                        <ul class="space-y-4 text-gray-700 flex-grow">
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span><strong class="font-bold">Tout Pro, et plus :</strong></li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Intégrations API spécifiques</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Développement sur-mesure</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Accompagnement dédié</li>
                         </ul>
-                        <a href="#contact" class="mt-8 text-center bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors font-semibold">Nous Contacter</a>
+                        <button class="open-calendly mt-10 text-center bg-gray-900 text-white py-4 rounded-2xl hover:bg-black transition-colors font-bold uppercase tracking-wider text-sm">Nous Contacter</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section --><section id="contact" class="py-20">
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-white border-t border-gray-50">
             <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-3xl md:text-4xl font-bold text-white">Prêt à transformer vos réservations ?</h2>
-                 <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">Prêt à <span class="text-cyan-500">transformer</span> vos réservations ?</h2>
+                 <p class="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
                      Discutons de la manière dont cet agent peut optimiser votre gestion et augmenter vos revenus dès ce week-end.
                  </p>
                  <div class="mt-10">
-                    <button id="open-modal-btn" class="open-modal-trigger bg-cyan-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-cyan-600 transition-all transform hover:scale-105">
+                    <button class="open-calendly bg-cyan-500 text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-cyan-600 transition-all shadow-lg shadow-cyan-500/30 uppercase tracking-widest transform hover:scale-105">
                         Planifier une démo
                     </button>
                 </div>
@@ -597,86 +334,183 @@ Personnalisez les questions, les produits et les règles selon vos besoins.</p>
   </div>
 </footer>
 
-    <!-- Calendly Modal --><div id="calendly-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-2xl w-full max-w-4xl h-[90vh] flex flex-col relative">
-            <button id="close-modal-btn" class="absolute -top-3 -right-3 text-white bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-500 transition-colors z-10">&times;</button>
-            <div class="w-full h-full rounded-2xl overflow-hidden">
-                <!-- IMPORTANT: Le lien a été mis à jour avec votre Calendly -->
-                <iframe src="https://calendly.com/sachadepenweiller1/30min" frameborder="0" class="w-full h-full"></iframe>
+    <!-- SECTOR DEMO MODAL -->
+    <div id="demo-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-enter">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-bold text-gray-900">Démo IA</h3>
+                    <p id="modal-subtitle" class="text-sm text-cyan-600 font-medium"></p>
+                </div>
+                <button id="close-demo" class="text-gray-400 hover:text-gray-900 text-3xl">&times;</button>
+            </div>
+            <div class="flex-grow overflow-y-auto p-6 grid md:grid-cols-2 gap-8">
+                <div id="modal-explanation" class="text-gray-600 leading-relaxed space-y-4">
+                </div>
+                <div class="bg-gray-50 rounded-3xl p-6 border border-gray-100 h-[400px] overflow-y-auto" id="modal-chat">
+                </div>
+            </div>
+            <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
+                <button class="open-calendly bg-gray-900 text-white px-8 py-3 rounded-full font-bold">Avoir le même pour mon business</button>
             </div>
         </div>
     </div>
 
+    <!-- CALENDLY MODAL -->
+    <div id="calendly-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-4xl h-[85vh] relative overflow-hidden">
+            <button id="close-calendly" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl font-bold z-50">&times;</button>
+            <iframe src="https://calendly.com/sachadepenweiller1/30min" frameborder="0" class="w-full h-full"></iframe>
+        </div>
+    </div>
+
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-  // ----- Mobile Menu -----
-  const menuBtn = document.getElementById('menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
+        const sectorData = {
+            conciergerie: {
+                title: "Conciergerie",
+                subtitle: "Personal Shopper et Luxe",
+                explanation: `
+                    <p class='text-lg font-bold text-gray-900'>L'agent conversationnel qui transforme vos demandes clients en commandes validées.</p>
+                    <p class='mt-4'>Gérez vos demandes de personal shopping et vos prestations de luxe avec une réactivité instantanée.</p>
+                    <ul class='space-y-2 mt-6'>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Identification précise du modèle</li>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Vérification des stocks partenaires</li>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Centralisation des coordonnées clients</li>
+                    </ul>`,
+                chat: [
+                    { role: 'client', text: "Bonjour !" },
+                    { role: 'agent', text: "Bonjour ! Je suis l'agent du J Conciergerie, comment je peux t'aider aujourd'hui ? Tu souhaites passer commande ?" },
+                    { role: 'client', text: "Oui, j'aimerais bien passer une commande." },
+                    { role: 'agent', text: "Qu'est-ce que tu cherches ? Montre, chaussures, vêtements, sac ou billet d'avion ?" },
+                    { role: 'client', text: "Je suis à la recherche d'une montre de marque Rolex." },
+                    { role: 'agent', text: "Quel modèle ou référence ?" },
+                    { role: 'client', text: "Le modèle Daytona m'intéresse beaucoup." },
+                    { role: 'agent', text: "Nous avons trouvé cet article :<br>Rolex - Daytona 116500LN<br>40mm, Blanc, Neuf<br>28 500€<br><br>Est-ce bien cet article que vous souhaitez ? Répondez 1 pour confirmer." },
+                    { role: 'client', text: "C'est exactement ce que je cherche, je confirme avec le chiffre 1." },
+                    { role: 'agent', text: "Parfait. Pouvez-vous me donner un nom et un numéro de téléphone pour confirmer la réservation ?" },
+                    { role: 'client', text: "Sacha - 0651447441" },
+                    { role: 'agent', text: "Votre commande est maintenant confirmée ! La conciergerie va vous contacter pour les informations supplémentaires. Merci de votre confiance ! 🙏" }
+                ]
+            },
+            tourisme: {
+                title: "Organisme de Tourisme",
+                subtitle: "Vente d'activités et réservations",
+                explanation: `<p class='text-lg font-bold text-gray-900'>Transformez chaque conversation en réservation confirmée.</p>
+                             <ul class='space-y-4 mt-6'>
+                                <li><strong class='block font-bold text-gray-900 text-sm'>✅ Catalogue interactif</strong><span class='text-xs text-gray-500'>Vos activités avec prix, horaires et disponibilités en temps réel</span></li>
+                                <li><strong class='block font-bold text-gray-900 text-sm'>✅ Gestion des places restantes</strong><span class='text-xs text-gray-500'>Mise à jour automatique après chaque réservation</span></li>
+                                <li><strong class='block font-bold text-gray-900 text-sm'>✅ Confirmation immédiate</strong><span class='text-xs text-gray-500'>Email, SMS et ajout automatique au calendrier</span></li>
+                             </ul>`,
+                chat: [
+                    { role: 'agent', text: "Bonjour ! Je suis l'assistant de Xaman Experience, votre agence d'excursions à Playa del Carmen.<br><br>Quelle activité vous intéresse ? 🌴" },
+                    { role: 'client', text: "Bonjour, je serais intéressé par faire du snorkelling." },
+                    { role: 'agent', text: "Parfait ! Voici nos meilleures excursions de snorkeling :<br><br>🐢 El Cielo à Cozumel - 162€/pers<br>🦈 Requins Baleines - 190€/pers<br>🐬 Sian Ka'an - 137€/pers" },
+                    { role: 'client', text: "Je vais choisir l'excursion El Cielo à Cozumel pour ce samedi." },
+                    { role: 'agent', text: "Excellent choix 🐢 ! Pour combien de personnes ?" },
+                    { role: 'client', text: "Nous serons deux adultes au total." },
+                    { role: 'agent', text: "📋 Récapitulatif :<br>🎯 El Cielo<br>📅 Samedi 28 février 2026<br>👥 2 adultes<br>💰 Total : 324€<br><br>Confirmez-vous ?" },
+                    { role: 'client', text: "Oui, tout est absolument correct." },
+                    { role: 'agent', text: "Parfait. Votre réservation est confirmée ! 🎉 Un message de confirmation vous a été envoyé." }
+                ]
+            },
+            nightlife: {
+                title: "Boite de nuit & BDE",
+                subtitle: "Gestion de réservation de tables de nuit",
+                explanation: `
+                    <p class='text-lg font-bold text-gray-900'>Automatisez vos réservations de table avec vos conditions.</p>
+                    <ul class='space-y-2 mt-6'>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Plan de table interactif pour maximiser vos ventes</li>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Enregistrement dans la base de données</li>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Notification immédiate à vos vendeurs</li>
+                    </ul>`,
+                chat: [
+                    { role: 'client', text: "Salut ! On voudrait réserver une table VIP pour ce vendredi." },
+                    { role: 'agent', text: "Salut ! Je suis l'assistant des Loges. Je note vendredi 27 février 2026. Combien de personnes seront présentes ?" },
+                    { role: 'client', text: "Nous serons 8 personnes au total." },
+                    { role: 'agent', text: "Parfait, quelles bouteilles souhaitez-vous ?" },
+                    { role: 'client', text: "On va prendre 2 grey goose 70cl et 1 ruinart 75cl." },
+                    { role: 'agent', text: "Récapitulatif :<br>📅 Vendredi 27 février 2026<br>👥 8 personnes<br>🍾 2× Grey Goose (Offre spéciale 🎉)<br>💰 Total : 330€<br><br>Tout est bon ?" },
+                    { role: 'client', text: "Oui, tout est parfait." },
+                    { role: 'agent', text: "Votre réservation est maintenant confirmée ! Merci beaucoup, Sacha. 330€." }
+                ]
+            },
+            business: {
+                title: "Business Perso",
+                subtitle: "100% adapté à votre business",
+                explanation: `
+                    <p class='text-lg font-bold text-gray-900'>Une boutique Shopify ? Un agent service client !</p>
+                    <ul class='space-y-2 mt-6'>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Suivi de commande en temps réel</li>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Réponses aux FAQ</li>
+                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Conversion boostée sur WhatsApp</li>
+                    </ul>`,
+                chat: [
+                    { role: 'client', text: "Bonjour, j'ai passé commande hier et je n'ai pas mon numéro de suivi." },
+                    { role: 'agent', text: "Bonjour ! Donnez-moi votre numéro de commande s'il vous plaît." },
+                    { role: 'client', text: "C'est la commande #4521." },
+                    { role: 'agent', text: "Votre colis est en cours de préparation et sera expédié demain. Souhaitez-vous une notification WhatsApp lors de l'envoi ?" },
+                    { role: 'client', text: "Oui, je veux bien, merci." },
+                    { role: 'agent', text: "C'est noté ! ✅ Autre chose ?" },
+                    { role: 'client', text: "Non c'est tout, merci." }
+                ]
+            }
+        };
 
-  function toggleMenu() {
-    const isHidden = mobileMenu.classList.contains('hidden');
-    mobileMenu.classList.toggle('hidden');
-    menuBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-    // lock/unlock scroll when menu open on mobile
-    document.body.style.overflow = isHidden ? 'hidden' : '';
-  }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.onclick = () => mobileMenu.classList.toggle('hidden');
 
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', toggleMenu, { passive: true });
-  }
+            // Calendly Modal
+            const calModal = document.getElementById('calendly-modal');
+            document.querySelectorAll('.open-calendly').forEach(btn => {
+                btn.onclick = () => {
+                    calModal.classList.remove('hidden');
+                    mobileMenu.classList.add('hidden');
+                    document.body.style.overflow = 'hidden';
+                };
+            });
+            document.getElementById('close-calendly').onclick = () => {
+                calModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            };
 
-  // Close on link click (and keep button working for modal)
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
+            // Demo Modal
+            const demoModal = document.getElementById('demo-modal');
+            const closeDemo = document.getElementById('close-demo');
+            
+            document.querySelectorAll('.sector-card').forEach(card => {
+                card.onclick = () => {
+                    const sector = sectorData[card.dataset.sector];
+                    document.getElementById('modal-title').innerText = sector.title;
+                    document.getElementById('modal-subtitle').innerText = sector.subtitle;
+                    document.getElementById('modal-explanation').innerHTML = sector.explanation;
+                    
+                    const chatCont = document.getElementById('modal-chat');
+                    chatCont.innerHTML = '';
+                    sector.chat.forEach(msg => {
+                        const div = document.createElement('div');
+                        div.className = `p-3 rounded-2xl mb-3 text-sm max-w-[85%] ${msg.role === 'client' ? 'ml-auto chat-bubble-client' : 'chat-bubble-agent'}`;
+                        div.innerHTML = (msg.role === 'agent' ? `<p class='font-bold text-[10px] text-cyan-600 mb-1'>Agent IA</p>` : '') + msg.text;
+                        chatCont.appendChild(div);
+                    });
+                    
+                    demoModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                };
+            });
 
-  // ----- Tabs (inchangé) -----
-  const tabs = document.querySelectorAll('.tab-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = document.getElementById(tab.dataset.tab);
-      tabs.forEach(t => t.classList.remove('active-tab','text-white'));
-      tabs.forEach(t => t.classList.add('border-transparent','text-gray-400'));
-      tab.classList.add('active-tab','text-white');
-      tab.classList.remove('border-transparent','text-gray-400');
-      tabContents.forEach(c => c.classList.add('hidden'));
-      target.classList.remove('hidden');
-    });
-  });
+            closeDemo.onclick = () => {
+                demoModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            };
 
-  // ----- Calendly modal (inchangé) -----
-  const openModalBtns = document.querySelectorAll('.open-modal-trigger');
-  const closeModalBtn = document.getElementById('close-modal-btn');
-  const modal = document.getElementById('calendly-modal');
-
-  openModalBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (!modal) return;
-      modal.classList.remove('hidden');
-      mobileMenu.classList.add('hidden'); // ferme le menu si ouvert
-      menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-  if (closeModalBtn && modal) {
-    closeModalBtn.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    });
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-});
-</script>
-
+            window.onclick = (e) => {
+                if(e.target === demoModal) closeDemo.onclick();
+                if(e.target === calModal) document.getElementById('close-calendly').onclick();
+            };
+        });
+    </script>
 </body>
 </html>
