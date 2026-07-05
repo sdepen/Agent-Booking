@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Booking – Agents IA de Réservation & Vente 24/7</title>
+    <title>Agent Booking · Agents IA de Réservation & Vente 24/7</title>
+    <meta name="description" content="Agence d'agents IA sur WhatsApp et réseaux sociaux : réservations, ventes et service client automatisés 24h/24 pour le tourisme, le nightlife, la conciergerie et plus. Éditeur de nightbook.io.">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="canonical" href="https://agent-booking.fr/">
+    <meta property="og:title" content="Agent Booking · Agents IA de Réservation & Vente 24/7">
+    <meta property="og:description" content="Un agent IA qui répond, qualifie et conclut vos ventes 24h/24 sur WhatsApp et réseaux sociaux.">
+    <meta property="og:image" content="https://agent-booking.fr/logo.png">
+    <meta property="og:url" content="https://agent-booking.fr/">
+    <meta property="og:type" content="website">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,6 +65,11 @@
 <body class="antialiased">
 
     <div id="top"></div>
+
+    <!-- Bannière lancement nightbook.io -->
+    <a href="https://nightbook.io" target="_blank" rel="noopener" class="block bg-gray-900 text-white text-center px-4 py-2.5 text-sm font-medium hover:bg-gray-800 transition-colors">
+        🚀 <span class="font-bold text-cyan-400">Lancement de nightbook.io</span> · notre solution clé en main pour boîtes de nuit, bars &amp; restaurants. Créez votre assistant en 5 minutes <span class="underline underline-offset-2 ml-1">Découvrir →</span>
+    </a>
 
     <!-- Header -->
     <header id="header" class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
@@ -144,7 +157,7 @@
                     <!-- Nightlife -->
                     <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="nightlife">
                         <div class="text-4xl mb-4">🍾</div>
-                        <h3 class="font-bold mb-1">Boite de nuit & BDE</h3>
+                        <h3 class="font-bold mb-1">Boîte de nuit & BDE</h3>
                         <p class="text-[10px] text-gray-400 uppercase tracking-widest">Gestion de réservation de tables</p>
                     </div>
                     <!-- Business Perso -->
@@ -172,7 +185,7 @@
                     <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
                         <div class="text-4xl mb-6">📅</div>
                         <h3 class="text-lg font-bold mb-3 text-gray-900">Disponibilité en Temps Réel</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">L'agent vérifiera vos créneaux et votre emploi et proposera des alternatives automatiquement si complet.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">L'agent vérifie vos créneaux et votre emploi du temps, et propose automatiquement des alternatives si c'est complet.</p>
                     </div>
 
                     <!-- Card 2 -->
@@ -323,7 +336,17 @@
                 </div>
             </div>
         </section>
-    </main>
+
+        <!-- Clients Section -->
+        <section id="clients" class="py-12 bg-white border-t border-gray-50">
+            <div class="container mx-auto px-6 text-center">
+                <p class="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-6">Ils nous font confiance</p>
+                <div class="flex flex-wrap justify-center items-center gap-4">
+                    <span class="px-6 py-3 rounded-full bg-gray-50 border border-gray-200 text-gray-700 font-semibold">🏍️ X-Quad Samui · Koh Samui, Thaïlande</span>
+                    <span class="px-6 py-3 rounded-full bg-gray-50 border border-gray-200 text-gray-700 font-semibold">🍾 nightbook.io · notre SaaS nightlife</span>
+                </div>
+            </div>
+        </section>
 
         <!-- Avis Section -->
         <section id="reviews" class="py-20 bg-gray-50 border-t border-gray-100">
@@ -359,14 +382,14 @@
     <footer class="bg-gray-900 text-white py-8">
   <div class="container mx-auto px-6 text-center text-gray-200">
     <p class="text-base">
-      © 2025 Agent Booking – Raison sociale : Sacha Depenweiller. Tous droits réservés.
+      © 2026 Agent Booking · Raison sociale : Sacha Depenweiller. Tous droits réservés.
     </p>
     <div class="mt-2 text-sm">
 <a href="/mentions-legales.html" target="_top" class="underline hover:text-cyan-300">Mentions légales</a>
 <span class="mx-2">|</span>
 <a href="/confidentialite.html" target="_top" class="underline hover:text-cyan-300">Politique de confidentialité et de cookies</a>
 <span class="mx-2">|</span>
-<a href="/service.html"target="_top" class="underline hover:text-cyan-300">Conditions de service</a>
+<a href="/service.html" target="_top" class="underline hover:text-cyan-300">Conditions de service</a>
 
     </div>
   </div>
@@ -446,16 +469,17 @@
                     { role: 'client', text: "Je vais choisir l'excursion El Cielo à Cozumel pour ce samedi." },
                     { role: 'agent', text: "Excellent choix 🐢 ! Pour combien de personnes ?" },
                     { role: 'client', text: "Nous serons deux adultes au total." },
-                    { role: 'agent', text: "📋 Récapitulatif :<br>🎯 El Cielo<br>📅 Samedi 28 février 2026<br>👥 2 adultes<br>💰 Total : 324€<br><br>Confirmez-vous ?" },
+                    { role: 'agent', text: "📋 Récapitulatif :<br>🎯 El Cielo<br>📅 Samedi 12 septembre<br>👥 2 adultes<br>💰 Total : 324€<br><br>Confirmez-vous ?" },
                     { role: 'client', text: "Oui, tout est absolument correct." },
                     { role: 'agent', text: "Parfait. Votre réservation est confirmée ! 🎉 Un message de confirmation vous a été envoyé." }
                 ]
             },
             nightlife: {
-                title: "Boite de nuit & BDE",
+                title: "Boîte de nuit & BDE",
                 subtitle: "Gestion de réservation de tables de nuit",
                 explanation: `
                     <p class='text-lg font-bold text-gray-900'>Automatisez vos réservations de table avec vos conditions.</p>
+                    <p class='mt-3 p-3 rounded-xl bg-cyan-50 text-sm text-gray-700'>💡 Pour les boîtes de nuit, bars &amp; restaurants, c'est du clé en main : <a href='https://nightbook.io' target='_blank' rel='noopener' class='font-bold text-cyan-600 underline'>nightbook.io</a>, votre assistant prêt en 5 minutes.</p>
                     <ul class='space-y-2 mt-6'>
                         <li class='flex items-center gap-2 font-medium text-sm'>✅ Plan de table interactif pour maximiser vos ventes</li>
                         <li class='flex items-center gap-2 font-medium text-sm'>✅ Enregistrement dans la base de données</li>
@@ -463,13 +487,13 @@
                     </ul>`,
                 chat: [
                     { role: 'client', text: "Salut ! On voudrait réserver une table VIP pour ce vendredi." },
-                    { role: 'agent', text: "Salut ! Je suis l'assistant des Loges. Je note vendredi 27 février 2026. Combien de personnes seront présentes ?" },
+                    { role: 'agent', text: "Salut ! Je suis l'assistant des Loges. Je note vendredi 11 septembre. Combien de personnes seront présentes ?" },
                     { role: 'client', text: "Nous serons 8 personnes au total." },
                     { role: 'agent', text: "Parfait, quelles bouteilles souhaitez-vous ?" },
                     { role: 'client', text: "On va prendre 2 grey goose 70cl et 1 ruinart 75cl." },
-                    { role: 'agent', text: "Récapitulatif :<br>📅 Vendredi 27 février 2026<br>👥 8 personnes<br>🍾 2× Grey Goose (Offre spéciale 🎉)<br>💰 Total : 330€<br><br>Tout est bon ?" },
+                    { role: 'agent', text: "Récapitulatif :<br>📅 Vendredi 11 septembre<br>👥 8 personnes<br>🍾 2× Grey Goose 70cl (Offre spéciale 🎉)<br>🍾 1× Ruinart 75cl<br>💰 Total : 430€<br><br>Tout est bon ?" },
                     { role: 'client', text: "Oui, tout est parfait." },
-                    { role: 'agent', text: "Votre réservation est maintenant confirmée ! Merci beaucoup, Sacha. 330€." }
+                    { role: 'agent', text: "Votre réservation est maintenant confirmée ! Merci beaucoup, Sacha, et à vendredi 🎉" }
                 ]
             },
             business: {
