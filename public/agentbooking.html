@@ -228,26 +228,36 @@
             <p class="mt-3 text-gray-400 text-sm italic" data-i18n="sectors_click">Cliquez pour voir une conversation exemple</p>
         </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-1" data-sector="conciergerie">
-                <div class="text-3xl mb-4">🛍️</div>
-                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_concierge_title">Conciergerie</h3>
-                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_concierge_sub">Personal Shopper · Luxe</p>
+            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-1" data-sector="nightlife">
+                <div class="text-3xl mb-4">🍾</div>
+                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_nightclub_title">Boîte de nuit</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_nightclub_sub">Tables VIP · BDE</p>
             </div>
             <div class="sector-card p-6 rounded-2xl reveal reveal-delay-2" data-sector="tourisme">
                 <div class="text-3xl mb-4">🌍</div>
                 <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_tourism_title">Tourisme</h3>
                 <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_tourism_sub">Activités · Planning</p>
             </div>
-            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-3" data-sector="nightlife">
-                <div class="text-3xl mb-4">🍾</div>
-                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_nightclub_title">Boîte de nuit</h3>
-                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_nightclub_sub">Tables VIP · BDE</p>
+            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-3" data-sector="location">
+                <div class="text-3xl mb-4">🛵</div>
+                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_location_title">Location</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_location_sub">Scooters · Quads · Jet-skis</p>
             </div>
             <div class="sector-card p-6 rounded-2xl reveal reveal-delay-4" data-sector="business">
                 <div class="text-3xl mb-4">💰</div>
                 <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_business_title">Business Perso</h3>
                 <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_business_sub">100% sur-mesure</p>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- CLIENTS -->
+<section id="clients" class="py-14 bg-white border-t border-gray-50">
+    <div class="container mx-auto px-6 text-center">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-8" data-i18n="clients_h2">Ces entreprises qui nous font confiance</p>
+        <div class="flex flex-wrap justify-center items-center gap-10">
+            <img src="/logo-xquad.jpg" alt="X-Quad Samui Raid" class="h-20 md:h-24 w-auto object-contain" title="X-Quad Samui Raid · Koh Samui, Thaïlande">
         </div>
     </div>
 </section>
@@ -397,12 +407,12 @@
             </div>
             <button id="close-demo" class="text-gray-400 hover:text-gray-900 text-3xl leading-none">&times;</button>
         </div>
-        <div class="flex-grow overflow-y-auto p-6 grid md:grid-cols-2 gap-8">
+        <div id="modal-grid" class="flex-grow overflow-y-auto p-6 grid md:grid-cols-2 gap-8">
             <div id="modal-explanation" class="text-gray-600 leading-relaxed space-y-4"></div>
             <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 h-[380px] overflow-y-auto" id="modal-chat"></div>
         </div>
         <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
-            <button class="open-calendly bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-cyan-500 transition-all" data-i18n="modal_cta">Avoir le même pour mon business</button>
+            <button id="modal-cta-btn" class="bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-cyan-500 transition-all" data-i18n="modal_cta">Avoir le même pour mon business</button>
         </div>
     </div>
 </div>
@@ -431,8 +441,10 @@ const translations = {
         sections_sectors:  'Domaines',
         sectors_h2:     'Un agent pour chaque secteur.',
         sectors_click:  'Cliquez pour voir une conversation exemple',
-        card_concierge_title: 'Conciergerie',
-        card_concierge_sub:   'Personal Shopper · Luxe',
+        card_location_title:  'Location',
+        card_location_sub:    'Scooters · Quads · Jet-skis',
+        clients_h2:           'Ces entreprises qui nous font confiance',
+        modal_cta_nightbook:  'Découvrir nightbook.io →',
         card_tourism_title:   'Tourisme',
         card_tourism_sub:     'Activités · Planning',
         card_nightclub_title: 'Boîte de nuit',
@@ -497,8 +509,10 @@ const translations = {
         sections_sectors:  'Sectors',
         sectors_h2:     'An agent for every sector.',
         sectors_click:  'Click to see an example conversation',
-        card_concierge_title: 'Concierge',
-        card_concierge_sub:   'Personal Shopper · Luxury',
+        card_location_title:  'Rentals',
+        card_location_sub:    'Scooters · Quads · Jet-skis',
+        clients_h2:           'Businesses that trust us',
+        modal_cta_nightbook:  'Discover nightbook.io →',
         card_tourism_title:   'Tourism',
         card_tourism_sub:     'Activities · Planning',
         card_nightclub_title: 'Nightclub',
@@ -664,57 +678,47 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── Sector data ───────────────────────────────────────────────────────
 const sectorData = {
-    conciergerie: {
+    location: {
         fr: {
-            title: "Conciergerie",
-            subtitle: "Personal Shopper et Luxe",
+            title: "Location",
+            subtitle: "Scooters, quads, jet-skis, véhicules",
             explanation: `
-                <p class='text-lg font-bold text-gray-900'>L'agent qui transforme vos demandes en commandes validées.</p>
-                <p class='mt-3 text-sm'>Gérez vos demandes de personal shopping et prestations luxe avec une réactivité instantanée.</p>
+                <p class='text-lg font-bold text-gray-900'>L'agent qui loue vos véhicules pendant que vous êtes sur le terrain.</p>
                 <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Identification précise du modèle</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Vérification des stocks partenaires</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Centralisation des coordonnées clients</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Disponibilités du parc en temps réel</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Tarifs par durée appliqués automatiquement</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Caution & conditions annoncées sans erreur</li>
                 </ul>`,
             chat: [
-                { role: 'client', text: "Bonjour !" },
-                { role: 'agent', text: "Bonjour ! Je suis l'agent du J Conciergerie, comment je peux t'aider aujourd'hui ? Tu souhaites passer commande ?" },
-                { role: 'client', text: "Oui, j'aimerais bien passer une commande." },
-                { role: 'agent', text: "Qu'est-ce que tu cherches ? Montre, chaussures, vêtements, sac ou billet d'avion ?" },
-                { role: 'client', text: "Je suis à la recherche d'une montre de marque Rolex." },
-                { role: 'agent', text: "Quel modèle ou référence ?" },
-                { role: 'client', text: "Le modèle Daytona m'intéresse beaucoup." },
-                { role: 'agent', text: "Nous avons trouvé cet article :\nRolex - Daytona 116500LN\n40mm, Blanc, Neuf\n28 500€\n\nEst-ce bien cet article que vous souhaitez ? Répondez 1 pour confirmer." },
-                { role: 'client', text: "C'est exactement ce que je cherche, je confirme avec le chiffre 1." },
-                { role: 'agent', text: "Parfait. Pouvez-vous me donner un nom et un numéro de téléphone pour confirmer la réservation ?" },
+                { role: 'client', text: "Bonjour, vous avez des scooters dispo ce week-end ?" },
+                { role: 'agent', text: "Bonjour ! Oui 🛵 Pour quelles dates exactement, et combien de scooters ?" },
+                { role: 'client', text: "2 scooters du samedi 12 au lundi 14 septembre." },
+                { role: 'agent', text: "C'est disponible ✅ Scooter 125cc : 15€/jour.\n\n📋 Récapitulatif :\n🛵 2× scooter 125cc\n📅 Du 12 au 14 septembre (3 jours)\n💰 Total : 90€ + caution 100€/scooter\n\nJe confirme ?" },
+                { role: 'client', text: "Oui parfait !" },
+                { role: 'agent', text: "Pour finaliser, votre nom et votre numéro de téléphone ?" },
                 { role: 'client', text: "Sacha - 0767466391" },
-                { role: 'agent', text: "Votre commande est maintenant confirmée ! La conciergerie va vous contacter pour les informations supplémentaires. Merci de votre confiance ! 🙏" }
+                { role: 'agent', text: "Réservation confirmée ! 🎉 Les 2 scooters vous attendent samedi à 9h. À très vite !" }
             ]
         },
         en: {
-            title: "Concierge Service",
-            subtitle: "Personal Shopper & Luxury",
+            title: "Rentals",
+            subtitle: "Scooters, quads, jet-skis, vehicles",
             explanation: `
-                <p class='text-lg font-bold text-gray-900'>The agent that turns requests into confirmed orders.</p>
-                <p class='mt-3 text-sm'>Handle personal shopping and luxury service requests with instant responsiveness.</p>
+                <p class='text-lg font-bold text-gray-900'>The agent that rents out your vehicles while you're in the field.</p>
                 <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Precise product identification</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Partner stock verification</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Centralized client information</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Real-time fleet availability</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Duration-based pricing applied automatically</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Deposit & conditions stated without errors</li>
                 </ul>`,
             chat: [
-                { role: 'client', text: "Hello!" },
-                { role: 'agent', text: "Hello! I'm the J Concierge agent, how can I help you today? Would you like to place an order?" },
-                { role: 'client', text: "Yes, I'd like to place an order." },
-                { role: 'agent', text: "What are you looking for? Watch, shoes, clothing, bag or flight?" },
-                { role: 'client', text: "I'm looking for a Rolex watch." },
-                { role: 'agent', text: "Which model or reference?" },
-                { role: 'client', text: "The Daytona model interests me a lot." },
-                { role: 'agent', text: "We found this item:\nRolex - Daytona 116500LN\n40mm, White, New\n€28,500\n\nIs this the item you want? Reply 1 to confirm." },
-                { role: 'client', text: "That's exactly what I'm looking for, I confirm with 1." },
-                { role: 'agent', text: "Perfect. Can you give me a name and phone number to confirm the reservation?" },
+                { role: 'client', text: "Hi, do you have scooters available this weekend?" },
+                { role: 'agent', text: "Hello! Yes 🛵 Which dates exactly, and how many scooters?" },
+                { role: 'client', text: "2 scooters from Saturday Sept 12 to Monday Sept 14." },
+                { role: 'agent', text: "Available ✅ 125cc scooter: €15/day.\n\n📋 Summary:\n🛵 2× 125cc scooter\n📅 Sept 12 to 14 (3 days)\n💰 Total: €90 + €100 deposit/scooter\n\nShall I confirm?" },
+                { role: 'client', text: "Yes, perfect!" },
+                { role: 'agent', text: "To finalize, your name and phone number?" },
                 { role: 'client', text: "Sacha - 0767466391" },
-                { role: 'agent', text: "Your order is now confirmed! The concierge will contact you for additional information. Thank you for your trust! 🙏" }
+                { role: 'agent', text: "Booking confirmed! 🎉 Both scooters will be ready Saturday at 9am. See you soon!" }
             ]
         }
     },
@@ -766,6 +770,8 @@ const sectorData = {
         fr: {
             title: "Boîte de nuit & BDE",
             subtitle: "Gestion de réservation de tables",
+            video: "https://nightbook.io/promo-fr.mp4",
+            nightbookCta: true,
             explanation: `
                 <p class='text-lg font-bold text-gray-900'>Automatisez vos réservations VIP avec vos conditions.</p>
                 <ul class='space-y-2 mt-5'>
@@ -787,6 +793,8 @@ const sectorData = {
         en: {
             title: "Nightclub & Events",
             subtitle: "VIP table reservation management",
+            video: "https://nightbook.io/promo-en.mp4",
+            nightbookCta: true,
             explanation: `
                 <p class='text-lg font-bold text-gray-900'>Automate your VIP bookings with your own conditions.</p>
                 <ul class='space-y-2 mt-5'>
@@ -888,17 +896,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const sector = sectorData[card.dataset.sector][currentLang];
             document.getElementById('modal-title').innerText = sector.title;
             document.getElementById('modal-subtitle').innerText = sector.subtitle;
-            document.getElementById('modal-explanation').innerHTML = sector.explanation;
 
+            const grid = document.getElementById('modal-grid');
+            const expl = document.getElementById('modal-explanation');
             const chatCont = document.getElementById('modal-chat');
+            const ctaBtn = document.getElementById('modal-cta-btn');
             chatCont.innerHTML = '';
-            sector.chat.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = `p-3 rounded-2xl mb-2 text-sm max-w-[85%] ${msg.role === 'client' ? 'ml-auto chat-bubble-client' : 'chat-bubble-agent'}`;
-                const agentLabel = currentLang === 'fr' ? 'Agent IA' : 'AI Agent';
-                div.innerHTML = (msg.role === 'agent' ? `<p class='font-bold text-[10px] text-cyan-600 mb-1'>${agentLabel}</p>` : '') + msg.text.replace(/\n/g, '<br>');
-                chatCont.appendChild(div);
-            });
+
+            if (sector.video) {
+                // Boîte de nuit → la vidéo nightbook en grand + CTA vers nightbook.io
+                grid.classList.remove('md:grid-cols-2');
+                expl.innerHTML = '';
+                chatCont.className = 'w-full';
+                chatCont.innerHTML = `<video src="${sector.video}" controls autoplay muted playsinline class="w-full rounded-2xl shadow-lg" style="max-height:60vh"></video>`;
+                ctaBtn.textContent = translations[currentLang].modal_cta_nightbook;
+                ctaBtn.onclick = () => window.open('https://nightbook.io', '_blank');
+            } else {
+                grid.classList.add('md:grid-cols-2');
+                expl.innerHTML = sector.explanation;
+                chatCont.className = 'bg-gray-50 rounded-2xl p-5 border border-gray-100 h-[380px] overflow-y-auto';
+                sector.chat.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = `p-3 rounded-2xl mb-2 text-sm max-w-[85%] ${msg.role === 'client' ? 'ml-auto chat-bubble-client' : 'chat-bubble-agent'}`;
+                    const agentLabel = currentLang === 'fr' ? 'Agent IA' : 'AI Agent';
+                    div.innerHTML = (msg.role === 'agent' ? `<p class='font-bold text-[10px] text-cyan-600 mb-1'>${agentLabel}</p>` : '') + msg.text.replace(/\n/g, '<br>');
+                    chatCont.appendChild(div);
+                });
+                ctaBtn.textContent = translations[currentLang].modal_cta;
+                ctaBtn.onclick = () => window.open(WA_LINKS[currentLang], '_blank');
+            }
 
             demoModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
