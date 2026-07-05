@@ -44,7 +44,7 @@ export default function Page() {
         </p>
 
         <ul className="list-disc pl-6">
-          <li>Email : <a href="mailto:agentbooking.contact@gmail.com" className="text-blue-600 underline">sachadepeweiller1@gmail.com</a></li>
+          <li>Email : <a href="mailto:contact@agentbooking.com" className="text-blue-600 underline">sachadepeweiller1@gmail.com</a></li>
           <li>Adresse postale : 17 bis route de Boussange, 57270 Richemont, France</li>
         </ul>
       </section>

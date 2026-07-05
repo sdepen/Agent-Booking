@@ -12,8 +12,8 @@ export default function MentionsLegales() {
         <li>Nom commercial : Agent Booking</li>
         <li>Statut : Micro-entrepreneur</li>
         <li>Adresse : 17B route de Boussange, 57270 Richemont, France</li>
-        <li>Email : agentbooking.contact@gmail.com</li>
-        <li>Téléphone : 07 67 46 63 91</li>
+        <li>Email : contact@agentbooking.com</li>
+        <li>Téléphone : 06 51 44 74 41</li>
         <li>SIRET : 990 009 466 00014</li>
         <li>TVA : non applicable, art. 293B du CGI</li>
         <li>Directeur de la publication : Depenweiller Sacha</li>
@@ -22,10 +22,10 @@ export default function MentionsLegales() {
       <h2 className="text-xl font-semibold mt-6">Hébergement</h2>
       <p>
         Le site est hébergé par :<br />
-        <strong>Vercel Inc.</strong><br />
-        340 S Lemon Ave #4133<br />
-        Walnut, CA 91789, États-Unis<br />
-        vercel.com
+        <strong>IONOS SARL</strong><br />
+        7, place de la Gare – BP 70109<br />
+        57201 Sarreguemines Cedex – France<br />
+        Tél. : 0970 808 911
       </p>
 
       <h2 className="text-xl font-semibold mt-6">Propriété intellectuelle</h2>

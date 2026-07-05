@@ -1,11 +1,10 @@
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main style={{ margin: 0, padding: 0 }}>
       <iframe
         src="/agentbooking.html"
-        className="w-full"
-        style={{ minHeight: "100vh", border: "none" }}
         title="AgentBooking"
+        style={{ width: "100%", height: "100vh", border: "none", display: "block" }}
       />
     </main>
   );

@@ -3,564 +3,910 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Booking · Agents IA de Réservation & Vente 24/7</title>
-    <meta name="description" content="Agence d'agents IA sur WhatsApp et réseaux sociaux : réservations, ventes et service client automatisés 24h/24 pour le tourisme, le nightlife, la conciergerie et plus. Éditeur de nightbook.io.">
+    <title>Agent Booking – AI Booking & Sales Agents 24/7</title>
     <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="canonical" href="https://agent-booking.fr/">
-    <meta property="og:title" content="Agent Booking · Agents IA de Réservation & Vente 24/7">
-    <meta property="og:description" content="Un agent IA qui répond, qualifie et conclut vos ventes 24h/24 sur WhatsApp et réseaux sociaux.">
-    <meta property="og:image" content="https://agent-booking.fr/logo.png">
-    <meta property="og:url" content="https://agent-booking.fr/">
-    <meta property="og:type" content="website">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --turquoise: #00e5ff;
-        }
+        :root { --cyan: #00e5ff; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #1f2937;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #ffffff;
+            color: #111827;
         }
-        .text-glow {
-            color: var(--turquoise);
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+
+        .font-display { font-family: 'Syne', sans-serif; }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
         }
-        .bg-electric {
-            background-color: var(--turquoise);
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.08s; }
+        .reveal-delay-2 { transition-delay: 0.16s; }
+        .reveal-delay-3 { transition-delay: 0.24s; }
+        .reveal-delay-4 { transition-delay: 0.32s; }
+
+        /* Chat animation */
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        .glass-card {
+        .msg-in { animation: msgIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+        /* Typing dots */
+        .dot { width:7px; height:7px; border-radius:50%; background:#9ca3af; animation: bounce 1.3s infinite ease-in-out; }
+        .dot:nth-child(2){ animation-delay:.2s; }
+        .dot:nth-child(3){ animation-delay:.4s; }
+        @keyframes bounce { 0%,60%,100%{ transform:translateY(0);} 30%{ transform:translateY(-6px);} }
+
+        /* Sector cards */
+        .sector-card {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
             cursor: pointer;
         }
-        .glass-card:hover {
-            border-color: var(--turquoise);
+        .sector-card:hover {
+            border-color: var(--cyan);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.3);
+            box-shadow: 0 16px 40px -12px rgba(0,229,255,0.25);
         }
-        .chat-bubble-agent {
-            background: #f3f4f6;
-            border-left: 4px solid var(--turquoise);
-        }
-        .chat-bubble-client {
-            background: #0ea5e9;
-            color: white;
-        }
-        /* Modal animations */
-        .modal-enter {
-            animation: fadeIn 0.2s ease-out;
-        }
+
+        /* Feature row */
+        .feature-row { border-top: 1px solid #f3f4f6; }
+        .feature-row:last-child { border-bottom: 1px solid #f3f4f6; }
+
+        /* Modal */
+        .modal-enter { animation: fadeIn 0.22s cubic-bezier(0.16,1,0.3,1); }
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity:0; transform:scale(0.96) translateY(8px); }
+            to   { opacity:1; transform:scale(1) translateY(0); }
         }
-        
-</style>
+
+        .chat-bubble-agent { background:#f3f4f6; border-left:3px solid var(--cyan); }
+        .chat-bubble-client { background:#0ea5e9; color:white; }
+
+        /* Phone glow */
+        @keyframes glow {
+            0%,100% { box-shadow: 0 32px 80px -20px rgba(0,229,255,.18); }
+            50%      { box-shadow: 0 32px 80px -20px rgba(0,229,255,.35); }
+        }
+        .phone-glow { animation: glow 4s ease-in-out infinite; }
+
+        /* Lang dropdown */
+        #lang-dropdown { transition: opacity 0.15s, transform 0.15s; transform-origin: top right; }
+        #lang-dropdown.hidden { opacity:0; transform:scale(0.95) translateY(-4px); pointer-events:none; }
+        #lang-dropdown:not(.hidden) { opacity:1; transform:scale(1) translateY(0); }
+    </style>
 </head>
 <body class="antialiased">
 
-    <div id="top"></div>
+<div id="top"></div>
 
-    <!-- Bannière lancement nightbook.io -->
-    <a href="https://nightbook.io" target="_blank" rel="noopener" class="block bg-gray-900 text-white text-center px-4 py-2.5 text-sm font-medium hover:bg-gray-800 transition-colors">
-        🚀 <span class="font-bold text-cyan-400">Lancement de nightbook.io</span> · notre solution clé en main pour boîtes de nuit, bars &amp; restaurants. Créez votre assistant en 5 minutes <span class="underline underline-offset-2 ml-1">Découvrir →</span>
-    </a>
-
-    <!-- Header -->
-    <header id="header" class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-<a href="#top" class="flex items-center space-x-3 cursor-pointer select-none">
-  <img src="/logo.png" alt="AgentBooking Logo" class="h-9 w-auto object-contain" />
-  <div class="text-2xl font-semibold tracking-tight flex items-center">
-    <span>Agent</span>
-    <span class="text-cyan-500 ml-2">Booking</span>
-  </div>
+<!-- Bannière lancement nightbook.io -->
+<a href="https://nightbook.io" target="_blank" rel="noopener" class="block bg-gray-900 text-white text-center px-4 py-2.5 text-sm font-medium hover:bg-gray-800 transition-colors">
+    🚀 <span class="font-bold text-cyan-400">Lancement de nightbook.io</span> · notre solution clé en main pour boîtes de nuit, bars &amp; restaurants. Créez votre assistant en 5 minutes <span class="underline underline-offset-2 ml-1">Découvrir →</span>
 </a>
-            <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
-                <a href="#sectors" class="text-gray-600 hover:text-cyan-500 transition-colors">Domaines</a>
-                <a href="#custom" class="text-gray-600 hover:text-cyan-500 transition-colors">Personnalisation</a>
-                <a href="#benefits" class="text-gray-600 hover:text-cyan-500 transition-colors">Avantages</a>
-                <a href="#pricing" class="text-gray-600 hover:text-cyan-500 transition-colors">Tarifs</a>
-                <a href="#reviews" class="text-gray-600 hover:text-cyan-500 transition-colors">Avis</a>
 
-                <button class="open-calendly bg-gray-900 text-white px-5 py-2 rounded-full hover:bg-cyan-500 transition-all shadow-md">
-                    Planifier une Démo
-                </button>
+<!-- HEADER -->
+<header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#top" class="flex items-center space-x-3 select-none">
+            <img src="/logo.png" alt="AgentBooking" class="h-9 w-auto object-contain" />
+            <div class="font-display text-xl font-bold tracking-tight flex items-center gap-1">
+                <span class="text-gray-900">Agent</span><span class="text-cyan-500">Booking</span>
             </div>
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-900 focus:outline-none">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-                    </svg>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#sectors"  class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_sectors">Domaines</a>
+            <a href="#features" class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_features">Fonctionnalités</a>
+            <a href="#benefits" class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_benefits">Avantages</a>
+            <a href="#reviews"  class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_reviews">Avis</a>
+            <!-- Language Switcher -->
+            <div class="relative" id="lang-switcher">
+                <button id="lang-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm font-medium text-gray-600 hover:border-cyan-400 hover:text-gray-900 transition-all">
+                    <span id="lang-flag">🇫🇷</span>
+                    <span id="lang-code" class="text-xs font-semibold tracking-wide">FR</span>
+                    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-            </div>
-        </nav>
-        <div id="mobile-menu" class="hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200 px-6 py-8 flex flex-col items-center space-y-4 shadow-xl md:hidden">
-            <a href="#sectors" class="text-lg text-gray-800">Domaines</a>
-            <a href="#custom" class="text-lg text-gray-800">Personnalisation</a>
-            <a href="#benefits" class="text-lg text-gray-800">Avantages</a>
-            <a href="#pricing" class="text-lg text-gray-800">Tarifs</a>
-            <a href="#reviews" class="text-lg text-gray-800">Avis</a>
-            <button class="open-calendly bg-cyan-500 text-white px-8 py-3 rounded-full w-full font-bold">Planifier une Démo</button>
-        </div>
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-        <section class="pt-16 pb-20 bg-gradient-to-b from-gray-50 to-white">
-            <div class="container mx-auto px-6 text-center">
-                <div class="inline-block px-4 py-1.5 mb-6 text-sm font-semibold text-cyan-600 uppercase bg-cyan-50 rounded-full">
-                    L'IA au service de votre rentabilité
+                <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden min-w-[140px] z-50">
+                    <button onclick="setLanguage('fr')" class="flex items-center gap-2.5 px-4 py-3 text-sm font-medium hover:bg-gray-50 w-full text-left">
+                        🇫🇷 <span>Français</span>
+                    </button>
+                    <button onclick="setLanguage('en')" class="flex items-center gap-2.5 px-4 py-3 text-sm font-medium hover:bg-gray-50 w-full text-left border-t border-gray-50">
+                        🇺🇸 <span>English</span>
+                    </button>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight uppercase">
-                    <span class="text-glow">Automatisez</span> vos réservations <br class="hidden md:block">& ventes.
+            </div>
+            <button class="open-calendly bg-gray-900 text-white px-5 py-2.5 rounded-full hover:bg-cyan-500 transition-all text-sm font-semibold" data-i18n="nav_cta">
+                Planifier une démo
+            </button>
+        </div>
+        <div class="md:hidden">
+            <button id="menu-btn" class="text-gray-900">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+    <div id="mobile-menu" class="hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200 px-6 py-8 flex flex-col items-center space-y-5 shadow-xl md:hidden">
+        <a href="#sectors"  class="text-base text-gray-800 font-medium" data-i18n="nav_sectors">Domaines</a>
+        <a href="#features" class="text-base text-gray-800 font-medium" data-i18n="nav_features">Fonctionnalités</a>
+        <a href="#benefits" class="text-base text-gray-800 font-medium" data-i18n="nav_benefits">Avantages</a>
+        <a href="#reviews"  class="text-base text-gray-800 font-medium" data-i18n="nav_reviews">Avis</a>
+        <!-- Mobile lang switcher -->
+        <div class="flex gap-2">
+            <button onclick="setLanguage('fr')" id="mobile-lang-fr" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm font-medium transition-all">🇫🇷 FR</button>
+            <button onclick="setLanguage('en')" id="mobile-lang-en" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm font-medium transition-all">🇺🇸 EN</button>
+        </div>
+        <button class="open-calendly bg-cyan-500 text-white px-8 py-3 rounded-full w-full font-bold" data-i18n="nav_cta">Planifier une démo</button>
+    </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="pt-12 pb-0 md:pt-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-8">
+
+            <!-- Left -->
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs font-semibold text-cyan-700 uppercase bg-cyan-50 rounded-full tracking-wider border border-cyan-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 inline-block"></span>
+                    <span data-i18n="hero_badge">Disponible 24h/24 · 7j/7</span>
+                </div>
+                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.08] tracking-tight">
+                    <span data-i18n="hero_h1_line1">Votre agent IA</span><br>
+                    <span class="text-cyan-500" data-i18n="hero_h1_line2">réserve à votre</span><br>
+                    <span data-i18n="hero_h1_line3">place.</span>
                 </h1>
-                <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                    Un agent IA intelligent qui répond, qualifie et conclut vos ventes 24h/24 sur WhatsApp et réseaux sociaux. Sauvegarde automatique en base de données.
+                <p class="mt-6 text-base md:text-lg text-gray-500 leading-relaxed max-w-lg mx-auto md:mx-0" data-i18n="hero_p">
+                    Répond, qualifie et conclut vos ventes sur WhatsApp et réseaux sociaux. Zéro message manqué, même la nuit.
                 </p>
-                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#sectors" class="bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-cyan-500 transition-all shadow-lg">
+                <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-3">
+                    <a href="#sectors" class="bg-gray-900 text-white px-7 py-3.5 rounded-full font-semibold hover:bg-cyan-500 transition-all shadow-lg text-sm" data-i18n="hero_btn1">
                         Voir les domaines
                     </a>
-                    <button class="open-calendly border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-full text-lg font-semibold hover:border-cyan-400 transition-all">
-                        Prendre rendez-vous
-                    </button>
+                    <a href="/demo" class="border border-gray-200 text-gray-700 px-7 py-3.5 rounded-full font-semibold hover:border-cyan-400 hover:text-cyan-600 transition-all text-sm inline-flex items-center gap-2 justify-center">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span data-i18n="hero_btn2">Tester l'agent</span>
+                    </a>
+                </div>
+                <div class="mt-10 flex items-center gap-6 justify-center md:justify-start text-sm text-gray-400">
+                    <div class="flex items-center gap-1.5"><span class="text-green-500">✓</span> <span data-i18n="hero_tag1">Sans engagement</span></div>
+                    <div class="flex items-center gap-1.5"><span class="text-green-500">✓</span> <span data-i18n="hero_tag2">Démo en 30 min</span></div>
+                    <div class="flex items-center gap-1.5"><span class="text-green-500">✓</span> <span data-i18n="hero_tag3">Sur-mesure</span></div>
                 </div>
             </div>
-        </section>
 
-        <!-- Sectors Section -->
-        <section id="sectors" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Un Agent pour <span class="text-cyan-500">tous vos domaines</span></h2>
-                    <p class="mt-4 text-gray-500 font-medium italic uppercase tracking-wider text-xs">Cliquez sur une catégorie pour voir un exemple concret de conversation</p>
-                </div>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-                    <!-- Conciergerie -->
-                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="conciergerie">
-                        <div class="text-4xl mb-4">🛍️</div>
-                        <h3 class="font-bold mb-1">Conciergerie</h3>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Personal Shopper et Luxe</p>
-                    </div>
-                    <!-- Tourisme -->
-                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="tourisme">
-                        <div class="text-4xl mb-4">🌍</div>
-                        <h3 class="font-bold mb-1">Tourisme</h3>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Activités & Planning</p>
-                    </div>
-                    <!-- Nightlife -->
-                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="nightlife">
-                        <div class="text-4xl mb-4">🍾</div>
-                        <h3 class="font-bold mb-1">Boîte de nuit & BDE</h3>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Gestion de réservation de tables</p>
-                    </div>
-                    <!-- Business Perso -->
-                    <div class="sector-card glass-card p-6 rounded-3xl text-center" data-sector="business">
-                        <div class="text-4xl mb-4">💰</div>
-                        <h3 class="font-bold mb-1">Business Perso</h3>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">100% adapté à votre business</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Personnalisation / Roadmap Section -->
-        <section id="custom" class="py-20 bg-white border-t border-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">🎯 Personnalisez <span class="text-cyan-500">Votre Agent</span></h2>
-                    <p class="mt-4 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
-                        Chaque business est unique. C’est pourquoi nos offres sont modulables et prêtes à évoluer avec vous. Voici les fonctionnalités que vous pouvez activer selon vos besoins.
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Card 1 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
-                        <div class="text-4xl mb-6">📅</div>
-                        <h3 class="text-lg font-bold mb-3 text-gray-900">Disponibilité en Temps Réel</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">L'agent vérifie vos créneaux et votre emploi du temps, et propose automatiquement des alternatives si c'est complet.</p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
-                        <div class="text-4xl mb-6">💳</div>
-                        <h3 class="text-lg font-bold mb-3 text-gray-900">Paiement en Ligne Sécurisé</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Possibilité pour vos clients de payer un acompte ou la totalité via un lien sécurisé (Stripe/PayPal/Revolut).</p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
-                        <div class="text-4xl mb-6">⚙️</div>
-                        <h3 class="text-lg font-bold mb-3 text-gray-900">Intégration de vos outils</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">L'agent se connecte directement à vos outils habituels, tels que vos calendriers ou vos bases de données.</p>
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] text-center bg-white shadow-sm border border-gray-200">
-                        <div class="text-4xl mb-6">🔔</div>
-                        <h3 class="text-lg font-bold mb-3 text-gray-900">Relance Automatique</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Envoi d'un message automatique si le client n'a pas répondu, pour ne manquer aucune opportunité.</p>
-                    </div>
-                </div>
-
-                <!-- Footer line under cards -->
-                <div class="text-center mt-12">
-                    <div class="inline-block px-6 py-3 bg-white rounded-full border border-gray-200 shadow-sm">
-                        <p class="text-gray-500 text-sm font-medium">
-                            Vous avez une idée précise ? Nous pouvons la transformer en fonctionnalité sur-mesure pour votre agent.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Benefits Section -->
-        <section id="benefits" class="py-20 bg-white border-t border-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">Les Avantages pour <span class="text-cyan-500">Votre Établissement</span></h2>
-                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                        Plus qu'un simple outil, c'est un véritable levier de croissance et d'efficacité.
-                    </p>
-                </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Item 1 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
-                        <div class="text-4xl mb-4">📈</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">Zéro Perte de Réservation</h3>
-                        <p class="text-gray-500 text-sm">L'agent est disponible 24/7 et répond instantanément, capturant chaque client potentiel même lorsque vous êtes fermé.</p>
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
-                        <div class="text-4xl mb-4">⏱️</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">Gain de Temps Massif</h3>
-                        <p class="text-gray-500 text-sm">Votre personnel est libéré de la gestion manuelle des messages et peut se concentrer sur l'accueil et le service client sur place.</p>
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
-                        <div class="text-4xl mb-4">💲</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">Optimisation des Revenus</h3>
-                        <p class="text-gray-500 text-sm">Application intelligente des offres spéciales et respect strict des minimums pour maximiser votre chiffre d'affaires.</p>
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
-                        <div class="text-4xl mb-4">🗄️</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">Données Centralisées</h3>
-                        <p class="text-gray-500 text-sm">Toutes les réservations sont consignées dans une base de données unique, consultable en temps réel par toute votre équipe.</p>
-                    </div>
-                    <!-- Item 5 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
-                        <div class="text-4xl mb-4">⭐</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">Expérience Client Premium</h3>
-                        <p class="text-gray-500 text-sm">Offrez à vos clients des réponses rapides, professionnelles et un processus simple et moderne, digne de votre business.</p>
-                    </div>
-                    <!-- Item 6 -->
-                    <div class="glass-card p-8 rounded-[2.5rem] shadow-sm transition-transform transform hover:-translate-y-2 bg-white border border-gray-100 text-center">
-                        <div class="text-4xl mb-4">⚙️</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">100% Personnalisable</h3>
-                        <p class="text-gray-500 text-sm">Intégrez vos outils et configurez l'agent selon vos envies pour une solution entièrement sur mesure.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="py-20 bg-white border-t border-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">💎 Choisissez Votre Formule</h2>
-                    <p class="mt-4 text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">Des solutions adaptées à chaque besoin, sans engagement, pour maximiser votre rentabilité.</p>
-                </div>
-                <div class="grid lg:grid-cols-3 gap-8 items-stretch">
-                    
-                    <!-- Essentiel Plan -->
-                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col bg-white border border-gray-200 shadow-sm">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Essentiel</h3>
-                        <p class="text-gray-500 text-sm mb-8 leading-relaxed">Idéal pour démarrer l'automatisation de base.</p>
-                        <ul class="space-y-4 text-gray-700 flex-grow">
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Automatisation 24/7</li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Collecte & Sauvegarde</li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Catalogue de base</li>
-                        </ul>
-                        <button class="open-calendly mt-10 text-center bg-gray-100 text-gray-900 py-4 rounded-2xl hover:bg-gray-200 transition-colors font-bold uppercase tracking-wider text-sm">Choisir Essentiel</button>
-                    </div>
-        
-                    <!-- Pro Plan (Most Popular) -->
-                    <div class="p-10 rounded-[2.5rem] flex flex-col shadow-2xl border-4 border-cyan-400 relative bg-white transform scale-105 z-10">
-                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-cyan-400 text-gray-900 px-6 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">LE PLUS POPULAIRE</span>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
-                        <p class="text-gray-500 text-sm mb-8 leading-relaxed">La solution complète pour optimiser vos revenus.</p>
-                        <ul class="space-y-4 text-gray-700 flex-grow">
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span><strong class="font-bold">Tout Essentiel, et plus :</strong></li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Gestion des règles & zones</li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Gestion des offres spéciales</li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Support prioritaire</li>
-                        </ul>
-                        <button class="open-calendly mt-10 text-center bg-cyan-500 text-white py-4 rounded-2xl hover:bg-cyan-600 transition-colors font-bold shadow-lg shadow-cyan-500/30 uppercase tracking-wider text-sm">Choisir Pro</button>
-                    </div>
-        
-                    <!-- Sur Mesure Plan -->
-                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col bg-white border border-gray-200 shadow-sm">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Sur Mesure</h3>
-                        <p class="text-gray-500 text-sm mb-8 leading-relaxed">Pour les besoins uniques et les structures complexes.</p>
-                        <ul class="space-y-4 text-gray-700 flex-grow">
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span><strong class="font-bold">Tout Pro, et plus :</strong></li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Intégrations API spécifiques</li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Développement sur-mesure</li>
-                            <li class="flex items-center"><span class="text-cyan-500 mr-3 font-bold text-lg">✓</span>Accompagnement dédié</li>
-                        </ul>
-                        <button class="open-calendly mt-10 text-center bg-gray-900 text-white py-4 rounded-2xl hover:bg-black transition-colors font-bold uppercase tracking-wider text-sm">Nous Contacter</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 bg-white border-t border-gray-50">
-            <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">Prêt à <span class="text-cyan-500">transformer</span> vos réservations ?</h2>
-                 <p class="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                     Discutons de la manière dont cet agent peut optimiser votre gestion et augmenter vos revenus dès ce week-end.
-                 </p>
-                 <div class="mt-10">
-                    <button class="open-calendly bg-cyan-500 text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-cyan-600 transition-all shadow-lg shadow-cyan-500/30 uppercase tracking-widest transform hover:scale-105">
-                        Planifier une démo
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Avis Section -->
-        <section id="reviews" class="py-20 bg-gray-50 border-t border-gray-100">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase">Ce que disent <span class="text-cyan-500">nos clients</span></h2>
-                    <p class="mt-4 text-gray-500 max-w-2xl mx-auto text-lg">La satisfaction de nos partenaires est notre priorité.</p>
-                </div>
-                <div class="max-w-4xl mx-auto">
-                    <!-- Premier Avis -->
-                    <div class="glass-card p-10 rounded-[2.5rem] bg-white border border-gray-100 shadow-sm relative overflow-hidden">
-                        <div class="flex items-center gap-1 mb-6 text-yellow-400 text-xl">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                        </div>
-                        <p class="text-gray-700 text-lg leading-relaxed italic mb-6">
-                            "On a mis en place un agent de commande intelligent pour mon business. Les commandes sont automatisées et je reçois une notification instantanée à chaque nouvelle vente. Ça me fait gagner un temps énorme et le service est beaucoup plus structuré."
-                        </p>
-                        <div class="flex items-center gap-4">
-                            <div class="h-12 w-12 bg-cyan-100 text-cyan-600 rounded-full flex items-center justify-center font-bold">
-                                JD
+            <!-- Right: phone mockup -->
+            <div class="flex-1 flex justify-center md:justify-end pb-0">
+                <div class="relative w-72">
+                    <div class="phone-glow bg-gray-900 rounded-[2.5rem] p-3 shadow-2xl">
+                        <div class="bg-white rounded-[2rem] overflow-hidden" style="height:520px;">
+                            <!-- WA header -->
+                            <div class="bg-[#075e54] px-4 py-3 flex items-center gap-3">
+                                <img src="/logo.png" alt="Agent Booking" class="w-9 h-9 rounded-full object-cover" />
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Agent Booking</p>
+                                    <p class="text-green-300 text-xs" data-i18n="wa_online">en ligne</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-900">Client Partenaire</p>
-                                <p class="text-xs text-gray-400 uppercase tracking-widest">Secteur Business & Vente</p>
+                            <!-- Chat -->
+                            <div class="bg-[#ece5dd] px-3 py-4 flex flex-col gap-2 overflow-hidden" style="height:calc(100% - 60px);" id="hero-chat">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer class="bg-gray-900 text-white py-8">
-  <div class="container mx-auto px-6 text-center text-gray-200">
-    <p class="text-base">
-      © 2026 Agent Booking · Raison sociale : Sacha Depenweiller. Tous droits réservés.
-    </p>
-    <div class="mt-2 text-sm">
-<a href="/mentions-legales.html" target="_top" class="underline hover:text-cyan-300">Mentions légales</a>
-<span class="mx-2">|</span>
-<a href="/confidentialite.html" target="_top" class="underline hover:text-cyan-300">Politique de confidentialité et de cookies</a>
-<span class="mx-2">|</span>
-<a href="/service.html" target="_top" class="underline hover:text-cyan-300">Conditions de service</a>
-
+        </div>
     </div>
-  </div>
+</section>
+
+<!-- SECTORS -->
+<section id="sectors" class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="mb-14 reveal">
+            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-3" data-i18n="sections_sectors">Domaines</p>
+            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900" data-i18n="sectors_h2">Un agent pour chaque<br class="hidden md:block"> secteur.</h2>
+            <p class="mt-3 text-gray-400 text-sm italic" data-i18n="sectors_click">Cliquez pour voir une conversation exemple</p>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-1" data-sector="conciergerie">
+                <div class="text-3xl mb-4">🛍️</div>
+                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_concierge_title">Conciergerie</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_concierge_sub">Personal Shopper · Luxe</p>
+            </div>
+            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-2" data-sector="tourisme">
+                <div class="text-3xl mb-4">🌍</div>
+                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_tourism_title">Tourisme</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_tourism_sub">Activités · Planning</p>
+            </div>
+            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-3" data-sector="nightlife">
+                <div class="text-3xl mb-4">🍾</div>
+                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_nightclub_title">Boîte de nuit</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_nightclub_sub">Tables VIP · BDE</p>
+            </div>
+            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-4" data-sector="business">
+                <div class="text-3xl mb-4">💰</div>
+                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_business_title">Business Perso</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_business_sub">100% sur-mesure</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="py-24 bg-gray-50 border-t border-gray-100">
+    <div class="container mx-auto px-6">
+        <div class="max-w-2xl mb-16 reveal">
+            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-3" data-i18n="sections_features">Fonctionnalités</p>
+            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900" data-i18n="features_h2">Tout ce dont votre<br>business a besoin.</h2>
+        </div>
+        <div class="max-w-3xl">
+            <div class="feature-row py-7 flex items-start gap-6 reveal">
+                <div class="text-2xl pt-0.5">📅</div>
+                <div>
+                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat1_title">Disponibilité en temps réel</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat1_desc">L'agent vérifie vos créneaux et propose des alternatives automatiquement si un créneau est complet.</p>
+                </div>
+            </div>
+            <div class="feature-row py-7 flex items-start gap-6 reveal reveal-delay-1">
+                <div class="text-2xl pt-0.5">💳</div>
+                <div>
+                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat2_title">Paiement en ligne sécurisé</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat2_desc">Vos clients paient un acompte ou la totalité via un lien sécurisé — Stripe, PayPal ou Revolut.</p>
+                </div>
+            </div>
+            <div class="feature-row py-7 flex items-start gap-6 reveal reveal-delay-2">
+                <div class="text-2xl pt-0.5">⚙️</div>
+                <div>
+                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat3_title">Intégration de vos outils</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat3_desc">L'agent se connecte à vos calendriers, bases de données, et outils existants sans friction.</p>
+                </div>
+            </div>
+            <div class="feature-row py-7 flex items-start gap-6 reveal reveal-delay-3">
+                <div class="text-2xl pt-0.5">🔔</div>
+                <div>
+                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat4_title">Relance automatique</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat4_desc">Si un client ne répond pas, l'agent relance au bon moment — aucune opportunité ne disparaît.</p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-10 reveal">
+            <p class="text-sm text-gray-400 italic" data-i18n="features_note">Une idée précise ? On peut la transformer en fonctionnalité sur-mesure.</p>
+        </div>
+    </div>
+</section>
+
+<!-- BENEFITS — dark section -->
+<section id="benefits" class="py-24 bg-gray-900 text-white">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+            <div class="lg:w-1/3 reveal">
+                <p class="text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-4" data-i18n="sections_benefits">Pourquoi Agent Booking</p>
+                <h2 class="font-display text-3xl md:text-4xl font-bold leading-tight" data-i18n="benefits_h2">Ce que vous gagnez vraiment.</h2>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed" data-i18n="benefits_p">Plus qu'un outil, un levier de croissance qui travaille pendant que vous dormez.</p>
+                <button class="open-calendly mt-8 bg-cyan-500 text-gray-900 px-6 py-3 rounded-full font-bold text-sm hover:bg-cyan-400 transition-all" data-i18n="benefits_btn">
+                    En savoir plus →
+                </button>
+            </div>
+            <div class="lg:w-2/3 grid md:grid-cols-2 gap-px bg-gray-800 rounded-2xl overflow-hidden">
+                <div class="bg-gray-900 p-8 reveal reveal-delay-1">
+                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">24/7</div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben1_title">Zéro perte de réservation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben1_desc">L'agent répond instantanément, même à 3h du matin ou pendant vos vacances.</p>
+                </div>
+                <div class="bg-gray-900 p-8 reveal reveal-delay-2">
+                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">-90%</div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben2_title">Gain de temps massif</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben2_desc">Votre équipe se concentre sur le service, pas sur la gestion des messages entrants.</p>
+                </div>
+                <div class="bg-gray-900 p-8 reveal reveal-delay-3">
+                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">+CA</div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben3_title">Revenus optimisés</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben3_desc">Application intelligente de vos offres et minimums pour maximiser chaque transaction.</p>
+                </div>
+                <div class="bg-gray-900 p-8 reveal reveal-delay-4">
+                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">Live</div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben4_title">Données centralisées</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben4_desc">Toutes les réservations dans une base consultable en temps réel par toute votre équipe.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="mb-14 reveal">
+            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-3" data-i18n="sections_reviews">Avis</p>
+            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900" data-i18n="reviews_h2">Ce que disent nos clients.</h2>
+        </div>
+        <div class="max-w-2xl reveal reveal-delay-1">
+            <div class="flex gap-1 mb-6 text-yellow-400 text-lg">★★★★★</div>
+            <p class="text-gray-700 text-xl leading-relaxed font-medium italic" data-i18n="reviews_quote">
+                "On a mis en place un agent de commande intelligent pour mon business. Les commandes sont automatisées et je reçois une notification instantanée à chaque nouvelle vente. Ça me fait gagner un temps énorme."
+            </p>
+            <div class="mt-8 flex items-center gap-4">
+                <div class="h-11 w-11 bg-cyan-100 text-cyan-600 rounded-full flex items-center justify-center font-bold font-display text-sm">JD</div>
+                <div>
+                    <p class="font-semibold text-gray-900 text-sm" data-i18n="reviews_name">Client Partenaire</p>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest" data-i18n="reviews_role">Business & Vente</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT CTA -->
+<section id="contact" class="py-24 bg-gray-50 border-t border-gray-100">
+    <div class="container mx-auto px-6 text-center">
+        <div class="reveal">
+            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-4" data-i18n="sections_cta">Passez à l'action</p>
+            <h2 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight" data-i18n="cta_h2">
+                Prêt à ne plus<br>perdre une réservation ?
+            </h2>
+            <p class="mt-5 text-gray-500 max-w-xl mx-auto text-base leading-relaxed" data-i18n="cta_p">
+                30 minutes suffisent pour voir concrètement comment l'agent peut transformer votre business dès ce week-end.
+            </p>
+            <button class="open-calendly mt-8 bg-gray-900 text-white px-10 py-4 rounded-full text-base font-bold hover:bg-cyan-500 transition-all shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105" data-i18n="cta_btn">
+                Planifier une démo gratuite →
+            </button>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="bg-gray-900 text-white py-8">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-400">
+        <p>© 2026 Agent Booking — Sacha Depenweiller. <span data-i18n="footer_rights">Tous droits réservés.</span></p>
+        <div class="flex gap-5">
+            <a href="/mentions-legales" class="hover:text-cyan-300 transition-colors" data-i18n="footer_legal">Mentions légales</a>
+            <a href="/confidentialite" class="hover:text-cyan-300 transition-colors" data-i18n="footer_privacy">Confidentialité</a>
+            <a href="/conditions-service" class="hover:text-cyan-300 transition-colors" data-i18n="footer_terms">CGU</a>
+        </div>
+    </div>
 </footer>
 
-    <!-- SECTOR DEMO MODAL -->
-    <div id="demo-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-enter">
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                <div>
-                    <h3 id="modal-title" class="text-2xl font-bold text-gray-900">Démo IA</h3>
-                    <p id="modal-subtitle" class="text-sm text-cyan-600 font-medium"></p>
-                </div>
-                <button id="close-demo" class="text-gray-400 hover:text-gray-900 text-3xl">&times;</button>
+<!-- SECTOR DEMO MODAL -->
+<div id="demo-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+    <div class="bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-enter">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <div>
+                <h3 id="modal-title" class="font-display text-2xl font-bold text-gray-900">Démo IA</h3>
+                <p id="modal-subtitle" class="text-sm text-cyan-600 font-medium"></p>
             </div>
-            <div class="flex-grow overflow-y-auto p-6 grid md:grid-cols-2 gap-8">
-                <div id="modal-explanation" class="text-gray-600 leading-relaxed space-y-4">
-                </div>
-                <div class="bg-gray-50 rounded-3xl p-6 border border-gray-100 h-[400px] overflow-y-auto" id="modal-chat">
-                </div>
-            </div>
-            <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
-                <button class="open-calendly bg-gray-900 text-white px-8 py-3 rounded-full font-bold">Avoir le même pour mon business</button>
-            </div>
+            <button id="close-demo" class="text-gray-400 hover:text-gray-900 text-3xl leading-none">&times;</button>
+        </div>
+        <div class="flex-grow overflow-y-auto p-6 grid md:grid-cols-2 gap-8">
+            <div id="modal-explanation" class="text-gray-600 leading-relaxed space-y-4"></div>
+            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 h-[380px] overflow-y-auto" id="modal-chat"></div>
+        </div>
+        <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
+            <button class="open-calendly bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-cyan-500 transition-all" data-i18n="modal_cta">Avoir le même pour mon business</button>
         </div>
     </div>
+</div>
 
-    <!-- CALENDLY MODAL -->
-    <div id="calendly-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl w-full max-w-4xl h-[85vh] relative overflow-hidden">
-            <button id="close-calendly" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl font-bold z-50">&times;</button>
-            <iframe src="https://calendly.com/sachadepenweiller1/30min" frameborder="0" class="w-full h-full"></iframe>
-        </div>
-    </div>
 
-    <script>
-        const sectorData = {
-            conciergerie: {
-                title: "Conciergerie",
-                subtitle: "Personal Shopper et Luxe",
-                explanation: `
-                    <p class='text-lg font-bold text-gray-900'>L'agent conversationnel qui transforme vos demandes clients en commandes validées.</p>
-                    <p class='mt-4'>Gérez vos demandes de personal shopping et vos prestations de luxe avec une réactivité instantanée.</p>
-                    <ul class='space-y-2 mt-6'>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Identification précise du modèle</li>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Vérification des stocks partenaires</li>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Centralisation des coordonnées clients</li>
-                    </ul>`,
-                chat: [
-                    { role: 'client', text: "Bonjour !" },
-                    { role: 'agent', text: "Bonjour ! Je suis l'agent du J Conciergerie, comment je peux t'aider aujourd'hui ? Tu souhaites passer commande ?" },
-                    { role: 'client', text: "Oui, j'aimerais bien passer une commande." },
-                    { role: 'agent', text: "Qu'est-ce que tu cherches ? Montre, chaussures, vêtements, sac ou billet d'avion ?" },
-                    { role: 'client', text: "Je suis à la recherche d'une montre de marque Rolex." },
-                    { role: 'agent', text: "Quel modèle ou référence ?" },
-                    { role: 'client', text: "Le modèle Daytona m'intéresse beaucoup." },
-                    { role: 'agent', text: "Nous avons trouvé cet article :<br>Rolex - Daytona 116500LN<br>40mm, Blanc, Neuf<br>28 500€<br><br>Est-ce bien cet article que vous souhaitez ? Répondez 1 pour confirmer." },
-                    { role: 'client', text: "C'est exactement ce que je cherche, je confirme avec le chiffre 1." },
-                    { role: 'agent', text: "Parfait. Pouvez-vous me donner un nom et un numéro de téléphone pour confirmer la réservation ?" },
-                    { role: 'client', text: "Sacha - 0767466391" },
-                    { role: 'agent', text: "Votre commande est maintenant confirmée ! La conciergerie va vous contacter pour les informations supplémentaires. Merci de votre confiance ! 🙏" }
-                ]
-            },
-            tourisme: {
-                title: "Organisme de Tourisme",
-                subtitle: "Vente d'activités et réservations",
-                explanation: `<p class='text-lg font-bold text-gray-900'>Transformez chaque conversation en réservation confirmée.</p>
-                             <ul class='space-y-4 mt-6'>
-                                <li><strong class='block font-bold text-gray-900 text-sm'>✅ Catalogue interactif</strong><span class='text-xs text-gray-500'>Vos activités avec prix, horaires et disponibilités en temps réel</span></li>
-                                <li><strong class='block font-bold text-gray-900 text-sm'>✅ Gestion des places restantes</strong><span class='text-xs text-gray-500'>Mise à jour automatique après chaque réservation</span></li>
-                                <li><strong class='block font-bold text-gray-900 text-sm'>✅ Confirmation immédiate</strong><span class='text-xs text-gray-500'>Email, SMS et ajout automatique au calendrier</span></li>
-                             </ul>`,
-                chat: [
-                    { role: 'agent', text: "Bonjour ! Je suis l'assistant de Xaman Experience, votre agence d'excursions à Playa del Carmen.<br><br>Quelle activité vous intéresse ? 🌴" },
-                    { role: 'client', text: "Bonjour, je serais intéressé par faire du snorkelling." },
-                    { role: 'agent', text: "Parfait ! Voici nos meilleures excursions de snorkeling :<br><br>🐢 El Cielo à Cozumel - 162€/pers<br>🦈 Requins Baleines - 190€/pers<br>🐬 Sian Ka'an - 137€/pers" },
-                    { role: 'client', text: "Je vais choisir l'excursion El Cielo à Cozumel pour ce samedi." },
-                    { role: 'agent', text: "Excellent choix 🐢 ! Pour combien de personnes ?" },
-                    { role: 'client', text: "Nous serons deux adultes au total." },
-                    { role: 'agent', text: "📋 Récapitulatif :<br>🎯 El Cielo<br>📅 Samedi 12 septembre<br>👥 2 adultes<br>💰 Total : 324€<br><br>Confirmez-vous ?" },
-                    { role: 'client', text: "Oui, tout est absolument correct." },
-                    { role: 'agent', text: "Parfait. Votre réservation est confirmée ! 🎉 Un message de confirmation vous a été envoyé." }
-                ]
-            },
-            nightlife: {
-                title: "Boîte de nuit & BDE",
-                subtitle: "Gestion de réservation de tables de nuit",
-                explanation: `
-                    <p class='text-lg font-bold text-gray-900'>Automatisez vos réservations de table avec vos conditions.</p>
-                    <ul class='space-y-2 mt-6'>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Plan de table interactif pour maximiser vos ventes</li>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Enregistrement dans la base de données</li>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Notification immédiate à vos vendeurs</li>
-                    </ul>`,
-                chat: [
-                    { role: 'client', text: "Salut ! On voudrait réserver une table VIP pour ce vendredi." },
-                    { role: 'agent', text: "Salut ! Je suis l'assistant des Loges. Je note vendredi 11 septembre. Combien de personnes seront présentes ?" },
-                    { role: 'client', text: "Nous serons 8 personnes au total." },
-                    { role: 'agent', text: "Parfait, quelles bouteilles souhaitez-vous ?" },
-                    { role: 'client', text: "On va prendre 2 grey goose 70cl et 1 ruinart 75cl." },
-                    { role: 'agent', text: "Récapitulatif :<br>📅 Vendredi 11 septembre<br>👥 8 personnes<br>🍾 2× Grey Goose 70cl (Offre spéciale 🎉)<br>🍾 1× Ruinart 75cl<br>💰 Total : 430€<br><br>Tout est bon ?" },
-                    { role: 'client', text: "Oui, tout est parfait." },
-                    { role: 'agent', text: "Votre réservation est maintenant confirmée ! Merci beaucoup, Sacha, et à vendredi 🎉" }
-                ]
-            },
-            business: {
-                title: "Business Perso",
-                subtitle: "100% adapté à votre business",
-                explanation: `
-                    <p class='text-lg font-bold text-gray-900'>Une boutique Shopify ? Un agent service client !</p>
-                    <ul class='space-y-2 mt-6'>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Suivi de commande en temps réel</li>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Réponses aux FAQ</li>
-                        <li class='flex items-center gap-2 font-medium text-sm'>✅ Conversion boostée sur WhatsApp</li>
-                    </ul>`,
-                chat: [
-                    { role: 'client', text: "Bonjour, j'ai passé commande hier et je n'ai pas mon numéro de suivi." },
-                    { role: 'agent', text: "Bonjour ! Donnez-moi votre numéro de commande s'il vous plaît." },
-                    { role: 'client', text: "C'est la commande #4521." },
-                    { role: 'agent', text: "Votre colis est en cours de préparation et sera expédié demain. Souhaitez-vous une notification WhatsApp lors de l'envoi ?" },
-                    { role: 'client', text: "Oui, je veux bien, merci." },
-                    { role: 'agent', text: "C'est noté ! ✅ Autre chose ?" },
-                    { role: 'client', text: "Non c'est tout, merci." }
-                ]
+<script>
+// ── Translations ───────────────────────────────────────────────────────
+const translations = {
+    fr: {
+        nav_sectors:    'Domaines',
+        nav_features:   'Fonctionnalités',
+        nav_benefits:   'Avantages',
+        nav_reviews:    'Avis',
+        nav_cta:        'Planifier une démo',
+        hero_badge:     'Disponible 24h/24 · 7j/7',
+        hero_h1_line1:  'Votre agent IA',
+        hero_h1_line2:  'réserve à votre',
+        hero_h1_line3:  'place.',
+        hero_p:         'Répond, qualifie et conclut vos ventes sur WhatsApp et réseaux sociaux. Zéro message manqué, même la nuit.',
+        hero_btn1:      'Voir les domaines',
+        hero_btn2:      'Tester l\'agent',
+        hero_tag1:      'Sans engagement',
+        hero_tag2:      'Démo en 30 min',
+        hero_tag3:      'Sur-mesure',
+        wa_online:      'en ligne',
+        sections_sectors:  'Domaines',
+        sectors_h2:     'Un agent pour chaque secteur.',
+        sectors_click:  'Cliquez pour voir une conversation exemple',
+        card_concierge_title: 'Conciergerie',
+        card_concierge_sub:   'Personal Shopper · Luxe',
+        card_tourism_title:   'Tourisme',
+        card_tourism_sub:     'Activités · Planning',
+        card_nightclub_title: 'Boîte de nuit',
+        card_nightclub_sub:   'Tables VIP · BDE',
+        card_business_title:  'Business Perso',
+        card_business_sub:    '100% sur-mesure',
+        sections_features: 'Fonctionnalités',
+        features_h2:    'Tout ce dont votre business a besoin.',
+        feat1_title:    'Disponibilité en temps réel',
+        feat1_desc:     'L\'agent vérifie vos créneaux et propose des alternatives automatiquement si un créneau est complet.',
+        feat2_title:    'Paiement en ligne sécurisé',
+        feat2_desc:     'Vos clients paient un acompte ou la totalité via un lien sécurisé — Stripe, PayPal ou Revolut.',
+        feat3_title:    'Intégration de vos outils',
+        feat3_desc:     'L\'agent se connecte à vos calendriers, bases de données, et outils existants sans friction.',
+        feat4_title:    'Relance automatique',
+        feat4_desc:     'Si un client ne répond pas, l\'agent relance au bon moment — aucune opportunité ne disparaît.',
+        features_note:  'Une idée précise ? On peut la transformer en fonctionnalité sur-mesure.',
+        sections_benefits: 'Pourquoi Agent Booking',
+        benefits_h2:    'Ce que vous gagnez vraiment.',
+        benefits_p:     'Plus qu\'un outil, un levier de croissance qui travaille pendant que vous dormez.',
+        benefits_btn:   'En savoir plus →',
+        ben1_title:     'Zéro perte de réservation',
+        ben1_desc:      'L\'agent répond instantanément, même à 3h du matin ou pendant vos vacances.',
+        ben2_title:     'Gain de temps massif',
+        ben2_desc:      'Votre équipe se concentre sur le service, pas sur la gestion des messages entrants.',
+        ben3_title:     'Revenus optimisés',
+        ben3_desc:      'Application intelligente de vos offres et minimums pour maximiser chaque transaction.',
+        ben4_title:     'Données centralisées',
+        ben4_desc:      'Toutes les réservations dans une base consultable en temps réel par toute votre équipe.',
+        sections_reviews: 'Avis',
+        reviews_h2:     'Ce que disent nos clients.',
+        reviews_quote:  '"On a mis en place un agent de commande intelligent pour mon business. Les commandes sont automatisées et je reçois une notification instantanée à chaque nouvelle vente. Ça me fait gagner un temps énorme."',
+        reviews_name:   'Client Partenaire',
+        reviews_role:   'Business & Vente',
+        sections_cta:   'Passez à l\'action',
+        cta_h2:         'Prêt à ne plus perdre une réservation ?',
+        cta_p:          '30 minutes suffisent pour voir concrètement comment l\'agent peut transformer votre business dès ce week-end.',
+        cta_btn:        'Planifier une démo gratuite →',
+        footer_rights:  'Tous droits réservés.',
+        footer_legal:   'Mentions légales',
+        footer_privacy: 'Confidentialité',
+        footer_terms:   'CGU',
+        modal_cta:      'Avoir le même pour mon business',
+    },
+    en: {
+        nav_sectors:    'Sectors',
+        nav_features:   'Features',
+        nav_benefits:   'Benefits',
+        nav_reviews:    'Reviews',
+        nav_cta:        'Schedule a demo',
+        hero_badge:     'Available 24/7',
+        hero_h1_line1:  'Your AI agent',
+        hero_h1_line2:  'handles bookings',
+        hero_h1_line3:  'for you.',
+        hero_p:         'Responds, qualifies and closes your sales on WhatsApp and social media. Zero missed messages, even at night.',
+        hero_btn1:      'Explore sectors',
+        hero_btn2:      'Try the agent',
+        hero_tag1:      'No commitment',
+        hero_tag2:      '30-min demo',
+        hero_tag3:      'Custom-built',
+        wa_online:      'online',
+        sections_sectors:  'Sectors',
+        sectors_h2:     'An agent for every sector.',
+        sectors_click:  'Click to see an example conversation',
+        card_concierge_title: 'Concierge',
+        card_concierge_sub:   'Personal Shopper · Luxury',
+        card_tourism_title:   'Tourism',
+        card_tourism_sub:     'Activities · Planning',
+        card_nightclub_title: 'Nightclub',
+        card_nightclub_sub:   'VIP Tables · Events',
+        card_business_title:  'Personal Business',
+        card_business_sub:    '100% custom-built',
+        sections_features: 'Features',
+        features_h2:    'Everything your business needs.',
+        feat1_title:    'Real-time availability',
+        feat1_desc:     'The agent checks your slots and automatically suggests alternatives if a slot is full.',
+        feat2_title:    'Secure online payment',
+        feat2_desc:     'Your clients pay a deposit or full amount via a secure link — Stripe, PayPal or Revolut.',
+        feat3_title:    'Tool integrations',
+        feat3_desc:     'The agent connects to your calendars, databases, and existing tools without friction.',
+        feat4_title:    'Automatic follow-ups',
+        feat4_desc:     'If a client doesn\'t respond, the agent follows up at the right time — no opportunity slips away.',
+        features_note:  'Have a specific idea? We can turn it into a custom feature.',
+        sections_benefits: 'Why Agent Booking',
+        benefits_h2:    'What you truly gain.',
+        benefits_p:     'More than a tool — a growth lever that works while you sleep.',
+        benefits_btn:   'Learn more →',
+        ben1_title:     'Zero missed bookings',
+        ben1_desc:      'The agent responds instantly, even at 3am or during your vacation.',
+        ben2_title:     'Massive time savings',
+        ben2_desc:      'Your team focuses on service, not managing incoming messages.',
+        ben3_title:     'Optimized revenue',
+        ben3_desc:      'Smart application of your offers and minimums to maximize every transaction.',
+        ben4_title:     'Centralized data',
+        ben4_desc:      'All bookings in a database accessible in real-time by your entire team.',
+        sections_reviews: 'Reviews',
+        reviews_h2:     'What our clients say.',
+        reviews_quote:  '"We set up an intelligent order agent for my business. Orders are automated and I get an instant notification with every new sale. It saves me an enormous amount of time."',
+        reviews_name:   'Partner Client',
+        reviews_role:   'Business & Sales',
+        sections_cta:   'Take action',
+        cta_h2:         'Ready to never miss a booking again?',
+        cta_p:          '30 minutes is all it takes to see how the agent can transform your business starting this weekend.',
+        cta_btn:        'Schedule a free demo →',
+        footer_rights:  'All rights reserved.',
+        footer_legal:   'Legal Notice',
+        footer_privacy: 'Privacy',
+        footer_terms:   'Terms',
+        modal_cta:      'Get the same for my business',
+    }
+};
+
+let currentLang = localStorage.getItem('lang') || 'fr';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+
+    // Update text nodes
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang][key] !== undefined) el.textContent = translations[lang][key];
+    });
+
+    // Update lang button
+    document.getElementById('lang-flag').textContent = lang === 'fr' ? '🇫🇷' : '🇺🇸';
+    document.getElementById('lang-code').textContent = lang === 'fr' ? 'FR' : 'EN';
+
+    // Update mobile buttons style
+    document.getElementById('mobile-lang-fr').className = `flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-medium transition-all ${lang === 'fr' ? 'border-cyan-400 text-cyan-600 bg-cyan-50' : 'border-gray-200 text-gray-500'}`;
+    document.getElementById('mobile-lang-en').className = `flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-medium transition-all ${lang === 'en' ? 'border-cyan-400 text-cyan-600 bg-cyan-50' : 'border-gray-200 text-gray-500'}`;
+
+    // Close dropdown
+    document.getElementById('lang-dropdown').classList.add('hidden');
+
+    // Restart hero chat with new language
+    clearTimeout(chatTimer);
+    heroChat.innerHTML = '';
+    runHeroChat();
+
+    // Update html lang attribute
+    document.documentElement.lang = lang;
+}
+
+function toggleLangDropdown() {
+    document.getElementById('lang-dropdown').classList.toggle('hidden');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (!document.getElementById('lang-switcher').contains(e.target)) {
+        document.getElementById('lang-dropdown').classList.add('hidden');
+    }
+});
+
+// ── Hero chat animation ───────────────────────────────────────────────
+const heroMessages = {
+    fr: [
+        { role: 'client', text: 'Salut ! Table VIP vendredi soir pour 6 ?' },
+        { role: 'agent',  text: 'Salut 👋 Vendredi 18 avril, c\'est noté ! Quelles bouteilles souhaitez-vous ?' },
+        { role: 'client', text: '2 Grey Goose + 1 Moët' },
+        { role: 'agent',  text: '🥂 Parfait !\n\n📅 Vendredi 18 avril\n👥 6 personnes\n🍾 2× Grey Goose · 1× Moët\n\nRéservation confirmée ✅' },
+    ],
+    en: [
+        { role: 'client', text: 'Hey! VIP table Friday night for 6?' },
+        { role: 'agent',  text: 'Hey 👋 Friday April 18th, noted! What bottles would you like?' },
+        { role: 'client', text: '2 Grey Goose + 1 Moët' },
+        { role: 'agent',  text: '🥂 Perfect!\n\n📅 Friday April 18th\n👥 6 people\n🍾 2× Grey Goose · 1× Moët\n\nBooking confirmed ✅' },
+    ]
+};
+
+const heroChat = document.getElementById('hero-chat');
+let chatTimer;
+let chatGen = 0; // generation counter to cancel stale async runs
+
+function addHeroMsg(msg, delay, gen) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            if (gen !== chatGen) { resolve(); return; } // stale run, bail
+            if (msg.role === 'agent') {
+                const typing = document.createElement('div');
+                typing.className = 'flex gap-1 items-center px-3 py-2 bg-white rounded-2xl rounded-bl-sm self-start max-w-[70%] shadow-sm';
+                typing.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+                heroChat.appendChild(typing);
+                heroChat.scrollTop = heroChat.scrollHeight;
+
+                setTimeout(() => {
+                    if (gen !== chatGen) { typing.remove(); resolve(); return; }
+                    typing.remove();
+                    const el = document.createElement('div');
+                    el.className = 'msg-in bg-[#dcf8c6] text-gray-900 px-3 py-2 rounded-2xl rounded-bl-sm self-start max-w-[80%] text-xs leading-relaxed shadow-sm whitespace-pre-wrap';
+                    el.textContent = msg.text;
+                    heroChat.appendChild(el);
+                    heroChat.scrollTop = heroChat.scrollHeight;
+                    resolve();
+                }, 900);
+            } else {
+                const el = document.createElement('div');
+                el.className = 'msg-in bg-white text-gray-900 px-3 py-2 rounded-2xl rounded-br-sm self-end max-w-[80%] text-xs leading-relaxed shadow-sm ml-auto';
+                el.textContent = msg.text;
+                heroChat.appendChild(el);
+                heroChat.scrollTop = heroChat.scrollHeight;
+                resolve();
             }
+        }, delay);
+    });
+}
+
+async function runHeroChat() {
+    const gen = ++chatGen;
+    heroChat.innerHTML = '';
+    let delay = 600;
+    for (const msg of heroMessages[currentLang]) {
+        if (gen !== chatGen) return;
+        await addHeroMsg(msg, delay, gen);
+        delay = msg.role === 'agent' ? 2200 : 1400;
+    }
+    if (gen !== chatGen) return;
+    chatTimer = setTimeout(runHeroChat, 4000);
+}
+
+runHeroChat();
+
+// ── Scroll reveal ─────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Sector data ───────────────────────────────────────────────────────
+const sectorData = {
+    conciergerie: {
+        fr: {
+            title: "Conciergerie",
+            subtitle: "Personal Shopper et Luxe",
+            explanation: `
+                <p class='text-lg font-bold text-gray-900'>L'agent qui transforme vos demandes en commandes validées.</p>
+                <p class='mt-3 text-sm'>Gérez vos demandes de personal shopping et prestations luxe avec une réactivité instantanée.</p>
+                <ul class='space-y-2 mt-5'>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Identification précise du modèle</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Vérification des stocks partenaires</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Centralisation des coordonnées clients</li>
+                </ul>`,
+            chat: [
+                { role: 'client', text: "Bonjour !" },
+                { role: 'agent', text: "Bonjour ! Je suis l'agent du J Conciergerie, comment je peux t'aider aujourd'hui ? Tu souhaites passer commande ?" },
+                { role: 'client', text: "Oui, j'aimerais bien passer une commande." },
+                { role: 'agent', text: "Qu'est-ce que tu cherches ? Montre, chaussures, vêtements, sac ou billet d'avion ?" },
+                { role: 'client', text: "Je suis à la recherche d'une montre de marque Rolex." },
+                { role: 'agent', text: "Quel modèle ou référence ?" },
+                { role: 'client', text: "Le modèle Daytona m'intéresse beaucoup." },
+                { role: 'agent', text: "Nous avons trouvé cet article :\nRolex - Daytona 116500LN\n40mm, Blanc, Neuf\n28 500€\n\nEst-ce bien cet article que vous souhaitez ? Répondez 1 pour confirmer." },
+                { role: 'client', text: "C'est exactement ce que je cherche, je confirme avec le chiffre 1." },
+                { role: 'agent', text: "Parfait. Pouvez-vous me donner un nom et un numéro de téléphone pour confirmer la réservation ?" },
+                { role: 'client', text: "Sacha - 0767466391" },
+                { role: 'agent', text: "Votre commande est maintenant confirmée ! La conciergerie va vous contacter pour les informations supplémentaires. Merci de votre confiance ! 🙏" }
+            ]
+        },
+        en: {
+            title: "Concierge Service",
+            subtitle: "Personal Shopper & Luxury",
+            explanation: `
+                <p class='text-lg font-bold text-gray-900'>The agent that turns requests into confirmed orders.</p>
+                <p class='mt-3 text-sm'>Handle personal shopping and luxury service requests with instant responsiveness.</p>
+                <ul class='space-y-2 mt-5'>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Precise product identification</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Partner stock verification</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Centralized client information</li>
+                </ul>`,
+            chat: [
+                { role: 'client', text: "Hello!" },
+                { role: 'agent', text: "Hello! I'm the J Concierge agent, how can I help you today? Would you like to place an order?" },
+                { role: 'client', text: "Yes, I'd like to place an order." },
+                { role: 'agent', text: "What are you looking for? Watch, shoes, clothing, bag or flight?" },
+                { role: 'client', text: "I'm looking for a Rolex watch." },
+                { role: 'agent', text: "Which model or reference?" },
+                { role: 'client', text: "The Daytona model interests me a lot." },
+                { role: 'agent', text: "We found this item:\nRolex - Daytona 116500LN\n40mm, White, New\n€28,500\n\nIs this the item you want? Reply 1 to confirm." },
+                { role: 'client', text: "That's exactly what I'm looking for, I confirm with 1." },
+                { role: 'agent', text: "Perfect. Can you give me a name and phone number to confirm the reservation?" },
+                { role: 'client', text: "Sacha - 0767466391" },
+                { role: 'agent', text: "Your order is now confirmed! The concierge will contact you for additional information. Thank you for your trust! 🙏" }
+            ]
+        }
+    },
+    tourisme: {
+        fr: {
+            title: "Organisme de Tourisme",
+            subtitle: "Vente d'activités et réservations",
+            explanation: `<p class='text-lg font-bold text-gray-900'>Transformez chaque conversation en réservation confirmée.</p>
+                         <ul class='space-y-4 mt-5'>
+                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Catalogue interactif</strong><span class='text-xs text-gray-500'>Activités avec prix, horaires et disponibilités en temps réel</span></li>
+                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Gestion des places restantes</strong><span class='text-xs text-gray-500'>Mise à jour automatique après chaque réservation</span></li>
+                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Confirmation immédiate</strong><span class='text-xs text-gray-500'>Email, SMS et ajout automatique au calendrier</span></li>
+                         </ul>`,
+            chat: [
+                { role: 'agent', text: "Bonjour ! Je suis l'assistant de Xaman Experience, votre agence d'excursions à Playa del Carmen.\n\nQuelle activité vous intéresse ? 🌴" },
+                { role: 'client', text: "Bonjour, je serais intéressé par faire du snorkelling." },
+                { role: 'agent', text: "Parfait ! Voici nos meilleures excursions :\n\n🐢 El Cielo à Cozumel - 162€/pers\n🦈 Requins Baleines - 190€/pers\n🐬 Sian Ka'an - 137€/pers" },
+                { role: 'client', text: "Je vais choisir El Cielo à Cozumel pour ce samedi." },
+                { role: 'agent', text: "Excellent choix 🐢 ! Pour combien de personnes ?" },
+                { role: 'client', text: "Nous serons deux adultes au total." },
+                { role: 'agent', text: "📋 Récapitulatif :\n🎯 El Cielo\n📅 Samedi 28 février 2026\n👥 2 adultes\n💰 Total : 324€\n\nConfirmez-vous ?" },
+                { role: 'client', text: "Oui, tout est absolument correct." },
+                { role: 'agent', text: "Parfait. Votre réservation est confirmée ! 🎉 Un message de confirmation vous a été envoyé." }
+            ]
+        },
+        en: {
+            title: "Tourism Agency",
+            subtitle: "Activity sales & bookings",
+            explanation: `<p class='text-lg font-bold text-gray-900'>Turn every conversation into a confirmed booking.</p>
+                         <ul class='space-y-4 mt-5'>
+                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Interactive catalogue</strong><span class='text-xs text-gray-500'>Activities with real-time prices, schedules and availability</span></li>
+                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Remaining spots management</strong><span class='text-xs text-gray-500'>Automatic update after every booking</span></li>
+                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Instant confirmation</strong><span class='text-xs text-gray-500'>Email, SMS and automatic calendar entry</span></li>
+                         </ul>`,
+            chat: [
+                { role: 'agent', text: "Hello! I'm the Xaman Experience assistant, your excursion agency in Playa del Carmen.\n\nWhat activity interests you? 🌴" },
+                { role: 'client', text: "Hi, I'd be interested in snorkelling." },
+                { role: 'agent', text: "Perfect! Here are our best excursions:\n\n🐢 El Cielo at Cozumel - €162/person\n🦈 Whale Sharks - €190/person\n🐬 Sian Ka'an - €137/person" },
+                { role: 'client', text: "I'll choose El Cielo at Cozumel for this Saturday." },
+                { role: 'agent', text: "Excellent choice 🐢! For how many people?" },
+                { role: 'client', text: "We'll be two adults total." },
+                { role: 'agent', text: "📋 Summary:\n🎯 El Cielo\n📅 Saturday February 28, 2026\n👥 2 adults\n💰 Total: €324\n\nDo you confirm?" },
+                { role: 'client', text: "Yes, everything looks correct." },
+                { role: 'agent', text: "Your booking is confirmed! 🎉 A confirmation message has been sent to you." }
+            ]
+        }
+    },
+    nightlife: {
+        fr: {
+            title: "Boîte de nuit & BDE",
+            subtitle: "Gestion de réservation de tables",
+            explanation: `
+                <p class='text-lg font-bold text-gray-900'>Automatisez vos réservations VIP avec vos conditions.</p>
+                <ul class='space-y-2 mt-5'>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Plan de table interactif pour maximiser vos ventes</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Enregistrement dans la base de données</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Notification immédiate à vos vendeurs</li>
+                </ul>`,
+            chat: [
+                { role: 'client', text: "Salut ! On voudrait réserver une table VIP pour ce vendredi." },
+                { role: 'agent', text: "Salut ! Je suis l'assistant des Loges. Je note vendredi 27 février 2026. Combien de personnes ?" },
+                { role: 'client', text: "Nous serons 8 personnes au total." },
+                { role: 'agent', text: "Parfait, quelles bouteilles souhaitez-vous ?" },
+                { role: 'client', text: "On va prendre 2 grey goose 70cl et 1 ruinart 75cl." },
+                { role: 'agent', text: "Récapitulatif :\n📅 Vendredi 27 février 2026\n👥 8 personnes\n🍾 2× Grey Goose (Offre spéciale 🎉)\n💰 Total : 330€\n\nTout est bon ?" },
+                { role: 'client', text: "Oui, tout est parfait." },
+                { role: 'agent', text: "Votre réservation est maintenant confirmée ! Merci beaucoup. 330€ 🥂" }
+            ]
+        },
+        en: {
+            title: "Nightclub & Events",
+            subtitle: "VIP table reservation management",
+            explanation: `
+                <p class='text-lg font-bold text-gray-900'>Automate your VIP bookings with your own conditions.</p>
+                <ul class='space-y-2 mt-5'>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Interactive table plan to maximize sales</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Automatic database entry</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Instant notification to your sales team</li>
+                </ul>`,
+            chat: [
+                { role: 'client', text: "Hey! We'd like to book a VIP table for this Friday." },
+                { role: 'agent', text: "Hey! I'm the Loges assistant. Noted for Friday February 27, 2026. How many people?" },
+                { role: 'client', text: "We'll be 8 people total." },
+                { role: 'agent', text: "Great, which bottles would you like?" },
+                { role: 'client', text: "We'll take 2 Grey Goose 70cl and 1 Ruinart 75cl." },
+                { role: 'agent', text: "Summary:\n📅 Friday February 27, 2026\n👥 8 people\n🍾 2× Grey Goose (Special offer 🎉)\n💰 Total: €330\n\nDoes that look right?" },
+                { role: 'client', text: "Yes, everything is perfect." },
+                { role: 'agent', text: "Your booking is now confirmed! Thank you so much. €330 🥂" }
+            ]
+        }
+    },
+    business: {
+        fr: {
+            title: "Business Perso",
+            subtitle: "100% adapté à votre business",
+            explanation: `
+                <p class='text-lg font-bold text-gray-900'>Une boutique Shopify ? Un agent service client !</p>
+                <ul class='space-y-2 mt-5'>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Suivi de commande en temps réel</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Réponses aux FAQ</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Conversion boostée sur WhatsApp</li>
+                </ul>`,
+            chat: [
+                { role: 'client', text: "Bonjour, j'ai passé commande hier et je n'ai pas mon numéro de suivi." },
+                { role: 'agent', text: "Bonjour ! Donnez-moi votre numéro de commande s'il vous plaît." },
+                { role: 'client', text: "C'est la commande #4521." },
+                { role: 'agent', text: "Votre colis est en cours de préparation et sera expédié demain. Souhaitez-vous une notification WhatsApp lors de l'envoi ?" },
+                { role: 'client', text: "Oui, je veux bien, merci." },
+                { role: 'agent', text: "C'est noté ! ✅ Autre chose ?" },
+                { role: 'client', text: "Non c'est tout, merci." }
+            ]
+        },
+        en: {
+            title: "Personal Business",
+            subtitle: "100% tailored to your business",
+            explanation: `
+                <p class='text-lg font-bold text-gray-900'>Got a Shopify store? Use a customer service agent!</p>
+                <ul class='space-y-2 mt-5'>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Real-time order tracking</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ FAQ responses</li>
+                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Boosted conversion on WhatsApp</li>
+                </ul>`,
+            chat: [
+                { role: 'client', text: "Hi, I placed an order yesterday and haven't received my tracking number." },
+                { role: 'agent', text: "Hello! Please give me your order number." },
+                { role: 'client', text: "It's order #4521." },
+                { role: 'agent', text: "Your package is being prepared and will ship tomorrow. Would you like a WhatsApp notification when it ships?" },
+                { role: 'client', text: "Yes please, thank you." },
+                { role: 'agent', text: "Noted! ✅ Anything else?" },
+                { role: 'client', text: "No that's all, thanks." }
+            ]
+        }
+    }
+};
+
+// ── Mobile menu ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    // Apply saved language on load
+    if (currentLang !== 'fr') setLanguage(currentLang);
+    else {
+        // Just style mobile buttons
+        document.getElementById('mobile-lang-fr').className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-cyan-400 text-cyan-600 bg-cyan-50 text-sm font-medium transition-all';
+        document.getElementById('mobile-lang-en').className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-gray-500 text-sm font-medium transition-all';
+    }
+
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.onclick = () => mobileMenu.classList.toggle('hidden');
+
+    // Lang button toggle
+    document.getElementById('lang-btn').onclick = toggleLangDropdown;
+
+    // WhatsApp
+    const WA_LINKS = {
+        fr: 'https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20faire%20une%20d%C3%A9mo%20pour%20mon%20business%20!',
+        en: 'https://wa.me/33767466391?text=Hello%2C%20I%27d%20like%20to%20schedule%20a%20demo%20for%20my%20business!'
+    };
+    document.querySelectorAll('.open-calendly').forEach(btn => {
+        btn.onclick = () => {
+            mobileMenu.classList.add('hidden');
+            window.open(WA_LINKS[currentLang], '_blank');
         };
+    });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mobile Menu
-            const menuBtn = document.getElementById('menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            menuBtn.onclick = () => mobileMenu.classList.toggle('hidden');
+    // Demo modal
+    const demoModal = document.getElementById('demo-modal');
+    const closeDemo = document.getElementById('close-demo');
 
-            // Calendly Modal
-            const calModal = document.getElementById('calendly-modal');
-            document.querySelectorAll('.open-calendly').forEach(btn => {
-                btn.onclick = () => {
-                    calModal.classList.remove('hidden');
-                    mobileMenu.classList.add('hidden');
-                    document.body.style.overflow = 'hidden';
-                };
-            });
-            document.getElementById('close-calendly').onclick = () => {
-                calModal.classList.add('hidden');
-                document.body.style.overflow = '';
-            };
+    document.querySelectorAll('.sector-card').forEach(card => {
+        card.onclick = () => {
+            const sector = sectorData[card.dataset.sector][currentLang];
+            document.getElementById('modal-title').innerText = sector.title;
+            document.getElementById('modal-subtitle').innerText = sector.subtitle;
+            document.getElementById('modal-explanation').innerHTML = sector.explanation;
 
-            // Demo Modal
-            const demoModal = document.getElementById('demo-modal');
-            const closeDemo = document.getElementById('close-demo');
-            
-            document.querySelectorAll('.sector-card').forEach(card => {
-                card.onclick = () => {
-                    const sector = sectorData[card.dataset.sector];
-                    document.getElementById('modal-title').innerText = sector.title;
-                    document.getElementById('modal-subtitle').innerText = sector.subtitle;
-                    document.getElementById('modal-explanation').innerHTML = sector.explanation;
-                    
-                    const chatCont = document.getElementById('modal-chat');
-                    chatCont.innerHTML = '';
-                    sector.chat.forEach(msg => {
-                        const div = document.createElement('div');
-                        div.className = `p-3 rounded-2xl mb-3 text-sm max-w-[85%] ${msg.role === 'client' ? 'ml-auto chat-bubble-client' : 'chat-bubble-agent'}`;
-                        div.innerHTML = (msg.role === 'agent' ? `<p class='font-bold text-[10px] text-cyan-600 mb-1'>Agent IA</p>` : '') + msg.text;
-                        chatCont.appendChild(div);
-                    });
-                    
-                    demoModal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                };
+            const chatCont = document.getElementById('modal-chat');
+            chatCont.innerHTML = '';
+            sector.chat.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-2xl mb-2 text-sm max-w-[85%] ${msg.role === 'client' ? 'ml-auto chat-bubble-client' : 'chat-bubble-agent'}`;
+                const agentLabel = currentLang === 'fr' ? 'Agent IA' : 'AI Agent';
+                div.innerHTML = (msg.role === 'agent' ? `<p class='font-bold text-[10px] text-cyan-600 mb-1'>${agentLabel}</p>` : '') + msg.text.replace(/\n/g, '<br>');
+                chatCont.appendChild(div);
             });
 
-            closeDemo.onclick = () => {
-                demoModal.classList.add('hidden');
-                document.body.style.overflow = '';
-            };
+            demoModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+    });
 
-            window.onclick = (e) => {
-                if(e.target === demoModal) closeDemo.onclick();
-                if(e.target === calModal) document.getElementById('close-calendly').onclick();
-            };
-        });
-    </script>
+    closeDemo.onclick = () => {
+        demoModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    };
+
+    window.onclick = (e) => {
+        if (e.target === demoModal) closeDemo.onclick();
+    };
+});
+</script>
 </body>
 </html>

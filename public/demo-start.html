@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tester l'agent — Agent Booking</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #0a0a0f;
+        color: #e2e0f0;
+        font-family: 'DM Mono', monospace;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .logo {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .logo span {
+        color: #00e5ff;
+      }
+
+      .card {
+        background: #111118;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 40px 36px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 40px 120px -60px rgba(0, 229, 255, 0.35);
+      }
+
+      .title {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        font-size: 13px;
+        color: #9a96b7;
+        margin-bottom: 28px;
+        line-height: 1.6;
+      }
+
+      .question {
+        font-size: 12px;
+        color: #9a96b7;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        margin-bottom: 12px;
+      }
+
+      .domain-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+
+      button.domain-option {
+        background: #161621;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #e1e0ef;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 14px;
+        padding: 16px 14px;
+        cursor: pointer;
+        transition: transform 0.15s ease, border 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      button.domain-option span {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #6d6a84;
+        margin-top: 8px;
+      }
+
+      button.domain-option.active {
+        border-color: rgba(0, 229, 255, 0.8);
+        box-shadow: 0 20px 40px -24px rgba(0, 229, 255, 0.6);
+        transform: translateY(-2px);
+      }
+
+      label {
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        color: #6d6a84;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      input {
+        width: 100%;
+        background: #161621;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 14px;
+        color: #fff;
+        font-family: inherit;
+        font-size: 14px;
+        padding: 16px 18px;
+        outline: none;
+        transition: border 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      input:focus {
+        border-color: rgba(0, 229, 255, 0.8);
+        box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.15);
+      }
+
+      button#start-btn {
+        width: 100%;
+        background: #00e5ff;
+        color: #030712;
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 15px;
+        border-radius: 14px;
+        border: none;
+        cursor: pointer;
+        margin-top: 28px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      button#start-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 30px 60px -32px rgba(0, 229, 255, 0.7);
+      }
+
+      button#start-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      a.back-link {
+        display: block;
+        text-align: center;
+        color: #6d6a84;
+        text-decoration: none;
+        font-size: 12px;
+        margin-top: 16px;
+      }
+
+      a.back-link:hover {
+        color: #00e5ff;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 18px;
+        }
+
+        .card {
+          padding: 32px 24px;
+        }
+
+        .domain-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <a href="/" class="logo" style="text-decoration:none; color:inherit;">Agent<span>Booking</span></a>
+      <div class="title">Tester l'agent</div>
+      <div class="subtitle">
+        Répondez aux 3 questions ci-dessous. Les réponses seront utilisées pour personnaliser la démo.
+      </div>
+
+      <div class="question">Quel type de domaine vous intéresse ?</div>
+      <div class="domain-grid" id="domain-grid">
+        <button class="domain-option" type="button" data-domain="boite_de_nuit">
+          Boîte de nuit
+          <span>Réservations VIP</span>
+        </button>
+        <button class="domain-option" type="button" data-domain="conciergerie">
+          Conciergerie
+          <span>Service premium</span>
+        </button>
+        <button class="domain-option" type="button" data-domain="tourisme">
+          Tourisme
+          <span>Activités & ventes</span>
+        </button>
+        <button class="domain-option" type="button" data-domain="location">
+          Location
+          <span>Villas & événements</span>
+        </button>
+      </div>
+
+      <label for="business-name">Nom de l'établissement</label>
+      <input id="business-name" type="text" placeholder="Ex. Le Club 54" autocomplete="off" />
+
+      <div class="question" style="margin-top: 28px;">Quel est votre problème principal ?</div>
+      <div class="domain-grid" id="problem-grid">
+        <button class="domain-option" type="button" data-problem="repondre_messages">
+          Répondre aux messages
+          <span>Trop de sollicitations</span>
+        </button>
+        <button class="domain-option" type="button" data-problem="gerer_reservations">
+          Gérer les réservations
+          <span>Suivi & confirmation</span>
+        </button>
+        <button class="domain-option" type="button" data-problem="notifier_equipe">
+          Notifier mon équipe
+          <span>Alertes en temps réel</span>
+        </button>
+        <button class="domain-option" type="button" data-problem="autre">
+          Autre
+          <span>Besoin spécifique</span>
+        </button>
+      </div>
+
+      <button id="start-btn" type="button" disabled>Commencer →</button>
+      <a class="back-link" href="/">← Retour à l'accueil</a>
+    </div>
+
+    <script>
+      const nameInput = document.getElementById('business-name');
+      const startBtn = document.getElementById('start-btn');
+      const domainButtons = Array.from(document.querySelectorAll('[data-domain]'));
+      const problemButtons = Array.from(document.querySelectorAll('[data-problem]'));
+
+      let selectedDomain = null;
+      let selectedProblems = new Set();
+
+      const storedName = localStorage.getItem('agent_demo_name');
+      const storedDomain = localStorage.getItem('agent_demo_domain');
+      const storedProblems = localStorage.getItem('agent_demo_problem');
+
+      if (storedName) nameInput.value = storedName;
+
+      function setDomain(domain) {
+        selectedDomain = domain;
+        domainButtons.forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.domain === domain);
+        });
+        updateState();
+      }
+
+      function toggleProblem(problem) {
+        if (selectedProblems.has(problem)) {
+          selectedProblems.delete(problem);
+        } else {
+          selectedProblems.add(problem);
+        }
+        problemButtons.forEach((btn) => {
+          btn.classList.toggle('active', selectedProblems.has(btn.dataset.problem));
+        });
+        updateState();
+      }
+
+      if (storedDomain) setDomain(storedDomain);
+      if (storedProblems) {
+        storedProblems.split(',').forEach(p => {
+          selectedProblems.add(p);
+          problemButtons.forEach(btn => btn.classList.toggle('active', selectedProblems.has(btn.dataset.problem)));
+        });
+        updateState();
+      }
+
+      domainButtons.forEach((btn) => {
+        btn.addEventListener('click', () => setDomain(btn.dataset.domain));
+      });
+
+      problemButtons.forEach((btn) => {
+        btn.addEventListener('click', () => toggleProblem(btn.dataset.problem));
+      });
+
+      function updateState() {
+        const ready = nameInput.value.trim().length > 1 && !!selectedDomain && selectedProblems.size > 0;
+        startBtn.disabled = !ready;
+      }
+
+      function startDemo() {
+        if (startBtn.disabled) return;
+
+        const businessName = nameInput.value.trim();
+        localStorage.setItem('agent_demo_name', businessName);
+        localStorage.setItem('agent_demo_domain', selectedDomain);
+        localStorage.setItem('agent_demo_problem', Array.from(selectedProblems).join(','));
+        window.location.href = '/agent';
+      }
+
+      nameInput.addEventListener('input', updateState);
+      nameInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !startBtn.disabled) {
+          startDemo();
+        }
+      });
+
+      startBtn.addEventListener('click', startDemo);
+      updateState();
+    </script>
+  </body>
+</html>

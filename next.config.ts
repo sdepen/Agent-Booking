@@ -1,16 +1,22 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // La landing réelle est le fichier statique public/agentbooking.html.
-  // On la sert DIRECTEMENT à la racine (rewrite, l'URL reste agent-booking.fr/)
-  // au lieu de l'ancienne page Next qui l'embarquait dans une <iframe>
-  // (coquille vide pour Google, titre incohérent, double scroll).
+  turbopack: {
+    root: __dirname,
+  },
+  async redirects() {
+    return [
+      { source: "/", destination: "/agentbooking.html", permanent: false },
+      { source: "/mentions-legales", destination: "/mentions-legales.html", permanent: false },
+      { source: "/confidentialite", destination: "/confidentialite.html", permanent: false },
+      { source: "/conditions-service", destination: "/service.html", permanent: false },
+    ];
+  },
   async rewrites() {
-    return {
-      beforeFiles: [{ source: "/", destination: "/agentbooking.html" }],
-      afterFiles: [],
-      fallback: [],
-    };
+    return [
+      { source: "/demo", destination: "/demo-start.html" },
+      { source: "/agent", destination: "/demo-agent.html" },
+    ];
   },
 };
 
