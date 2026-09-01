@@ -1,951 +1,701 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth" style="scroll-padding-top: 80px;">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Booking – AI Booking & Sales Agents 24/7</title>
-    <meta name="description" content="Agents IA de réservation et de vente sur WhatsApp et réseaux sociaux, 24h/24. Tourisme, nightlife, conciergerie, e-commerce. Éditeur de nightbook.io.">
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="canonical" href="https://agent-booking.fr/">
-    <meta property="og:title" content="Agent Booking · Agents IA de Réservation & Vente 24/7">
-    <meta property="og:description" content="Votre agent IA répond, qualifie et conclut vos ventes sur WhatsApp et réseaux sociaux. Zéro message manqué, même la nuit.">
-    <meta property="og:image" content="https://agent-booking.fr/logo.png">
-    <meta property="og:url" content="https://agent-booking.fr/">
-    <meta property="og:type" content="website">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <style>
-        :root { --cyan: #00e5ff; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Booking · Agents IA de réservation</title>
+<meta name="description" content="Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations sur WhatsApp, Instagram et Messenger. NightBook pour les clubs, TripBook pour le tourisme, sur-mesure pour le reste.">
+<meta property="og:title" content="Agent Booking · Agents IA de réservation">
+<meta property="og:description" content="Vos clients écrivent, l'agent réserve. 24h/24, sur les canaux qu'ils utilisent déjà.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://agent-booking.fr/">
+<link rel="canonical" href="https://agent-booking.fr/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf8f3;
+  --paper-2:#f2efe7;
+  --ink:#181712;
+  --ink-soft:#5c584d;
+  --ink-faint:#8a8578;
+  --line:#e4dfd2;
+  --line-strong:#cfc9b8;
+  --accent:#0b6477;
+  --accent-bright:#00c2e0;
+  --night:#0b0f14;
+  --night-2:#111820;
+  --cyan:#00e5ff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+  font-family:'Archivo',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+::selection{background:var(--accent);color:var(--paper)}
+.serif{font-family:'Fraunces',serif;font-optical-sizing:auto}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+a{color:inherit;text-decoration:none}
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #ffffff;
-            color: #111827;
-        }
+/* ── labels ─────────────────────────────── */
+.eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);
+}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--accent)}
+.eyebrow .num{color:var(--ink-faint);letter-spacing:.1em}
 
-        .font-display { font-family: 'Syne', sans-serif; }
+/* ── header ─────────────────────────────── */
+header{
+  position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.brand{display:flex;align-items:baseline;gap:2px;font-family:'Fraunces',serif;font-size:21px;font-weight:600;letter-spacing:-.01em}
+.brand em{font-style:italic;font-weight:500;color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:34px;font-size:14px;font-weight:500}
+.nav-links a:not(.btn){color:var(--ink-soft);transition:color .2s}
+.nav-links a:not(.btn):hover{color:var(--ink)}
+.lang-toggle{
+  border:none;background:none;cursor:pointer;
+  font:inherit;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--ink-faint);
+}
+.lang-toggle b{color:var(--ink)}
+.lang-toggle:hover{color:var(--ink-soft)}
 
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
-        }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.08s; }
-        .reveal-delay-2 { transition-delay: 0.16s; }
-        .reveal-delay-3 { transition-delay: 0.24s; }
-        .reveal-delay-4 { transition-delay: 0.32s; }
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:12px 22px;border-radius:2px;
+  font-size:14px;font-weight:600;letter-spacing:.01em;
+  transition:background .2s,color .2s,border-color .2s,transform .2s;
+}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:var(--accent)}
+.btn-ghost{border:1px solid var(--line-strong);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);}
+.btn-wa{background:#1faa59;color:#fff}
+.btn-wa:hover{background:#178a48}
+.btn svg{width:15px;height:15px;flex:none}
 
-        /* Chat animation */
-        @keyframes msgIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .msg-in { animation: msgIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+#menu-btn{display:none;border:none;background:none;cursor:pointer;padding:6px}
+#menu-btn span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:.25s}
+#mobile-menu{display:none;border-top:1px solid var(--line);background:var(--paper);padding:26px clamp(20px,4vw,48px) 34px;flex-direction:column;gap:20px;font-size:16px;font-weight:500}
+#mobile-menu.open{display:flex}
 
-        /* Typing dots */
-        .dot { width:7px; height:7px; border-radius:50%; background:#9ca3af; animation: bounce 1.3s infinite ease-in-out; }
-        .dot:nth-child(2){ animation-delay:.2s; }
-        .dot:nth-child(3){ animation-delay:.4s; }
-        @keyframes bounce { 0%,60%,100%{ transform:translateY(0);} 30%{ transform:translateY(-6px);} }
+/* ── hero ───────────────────────────────── */
+.hero{padding:clamp(56px,9vh,110px) 0 clamp(50px,8vh,90px);border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(40px,6vw,90px);align-items:start}
+.hero h1{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(2.5rem,5.6vw,4.4rem);
+  line-height:1.04;letter-spacing:-.025em;
+  margin:26px 0 0;
+}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{
+  margin-top:28px;max-width:46ch;
+  font-size:clamp(15px,1.4vw,17.5px);color:var(--ink-soft);
+}
+.hero-ctas{margin-top:38px;display:flex;flex-wrap:wrap;gap:14px}
+.hero-facts{
+  margin-top:52px;display:flex;flex-wrap:wrap;gap:0;
+  border-top:1px solid var(--line);
+}
+.hero-facts div{
+  padding:16px 26px 0 0;margin-right:26px;
+  font-size:13px;color:var(--ink-faint);
+}
+.hero-facts strong{display:block;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:.01em}
 
-        /* Sector cards */
-        .sector-card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
-            cursor: pointer;
-        }
-        .sector-card:hover {
-            border-color: var(--cyan);
-            transform: translateY(-5px);
-            box-shadow: 0 16px 40px -12px rgba(0,229,255,0.25);
-        }
+/* conversation column */
+.convo{
+  border:1px solid var(--line);background:#fffdf8;
+  padding:26px 24px 22px;position:relative;
+}
+.convo::after{
+  content:"";position:absolute;inset:0;transform:translate(10px,10px);
+  border:1px solid var(--line);z-index:-1;background:var(--paper-2);
+}
+.convo-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:16px;border-bottom:1px solid var(--line);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);
+}
+.convo-head .live{color:var(--accent);font-weight:600}
+.convo-head .live::before{content:"●";font-size:8px;vertical-align:2px;margin-right:6px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.convo-body{padding-top:20px;display:flex;flex-direction:column;gap:12px;min-height:330px}
+.msg{
+  max-width:88%;padding:11px 15px;font-size:14px;line-height:1.5;
+  opacity:0;transform:translateY(8px);
+  animation:msgIn .4s cubic-bezier(.16,1,.3,1) forwards;
+}
+.msg.client{align-self:flex-end;background:var(--ink);color:var(--paper);border-radius:14px 14px 3px 14px}
+.msg.agent{align-self:flex-start;background:var(--paper-2);border:1px solid var(--line);border-radius:14px 14px 14px 3px}
+.msg.confirm{background:#eef6ee;border:1px solid #cfe3cf;color:#1d5c2f;font-weight:500}
+.msg time{display:block;font-size:10px;opacity:.55;margin-top:5px;letter-spacing:.05em}
+@keyframes msgIn{to{opacity:1;transform:translateY(0)}}
+.typing{display:inline-flex;gap:4px;align-items:center;padding:13px 16px}
+.typing i{width:5px;height:5px;border-radius:50%;background:var(--ink-faint);animation:tb 1.2s infinite ease-in-out}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
 
-        /* Feature row */
-        .feature-row { border-top: 1px solid #f3f4f6; }
-        .feature-row:last-child { border-bottom: 1px solid #f3f4f6; }
+/* ── sections ───────────────────────────── */
+section{padding:clamp(64px,10vh,120px) 0}
+.sec-head{max-width:640px;margin-bottom:clamp(36px,5vh,60px)}
+.sec-head h2{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(1.9rem,3.6vw,2.9rem);line-height:1.1;letter-spacing:-.02em;
+  margin-top:22px;
+}
+.sec-head p{margin-top:16px;color:var(--ink-soft);font-size:15.5px;max-width:52ch}
 
-        /* Modal */
-        .modal-enter { animation: fadeIn 0.22s cubic-bezier(0.16,1,0.3,1); }
-        @keyframes fadeIn {
-            from { opacity:0; transform:scale(0.96) translateY(8px); }
-            to   { opacity:1; transform:scale(1) translateY(0); }
-        }
+/* products */
+#produits{border-bottom:1px solid var(--line);padding-bottom:clamp(64px,10vh,110px)}
+.product{
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  border:1px solid var(--line);
+}
+.product + .product{margin-top:28px}
+.product-info{padding:clamp(30px,4vw,52px)}
+.product-tag{
+  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  padding:5px 11px;border-radius:2px;margin-bottom:22px;
+}
+.product h3{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,2.6vw,2.3rem);letter-spacing:-.02em;line-height:1.05}
+.product .pitch{margin-top:14px;font-size:15px;max-width:44ch}
+.product ul{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.product ul li{display:flex;gap:12px;align-items:baseline}
+.product ul li::before{content:"→";flex:none;font-size:12px}
+.product-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.product-visual{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:300px}
 
-        .chat-bubble-agent { background:#f3f4f6; border-left:3px solid var(--cyan); }
-        .chat-bubble-client { background:#0ea5e9; color:white; }
+/* nightbook */
+.p-night{background:var(--night);color:#e8edf2}
+.p-night .product-tag{background:rgba(0,229,255,.12);color:var(--cyan)}
+.p-night .pitch{color:#9aa7b4}
+.p-night ul li::before{color:var(--cyan)}
+.p-night .btn-ink{background:var(--cyan);color:var(--night)}
+.p-night .btn-ink:hover{background:#5eeeff}
+.p-night .textlink{color:#9aa7b4}
+.p-night .textlink:hover{color:#fff}
+.p-night .product-visual{background:var(--night-2);border-left:1px solid #1c2630;padding:clamp(18px,2.5vw,34px)}
+.p-night .product-visual video{width:100%;max-height:420px;display:block;border:1px solid #223040;border-radius:6px;background:#000}
 
-        /* Phone glow */
-        @keyframes glow {
-            0%,100% { box-shadow: 0 32px 80px -20px rgba(0,229,255,.18); }
-            50%      { box-shadow: 0 32px 80px -20px rgba(0,229,255,.35); }
-        }
-        .phone-glow { animation: glow 4s ease-in-out infinite; }
+/* tripbook */
+.p-trip{background:#fffdf8}
+.p-trip .product-tag{background:var(--paper-2);color:var(--ink-soft)}
+.p-trip h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(1.9rem,2.8vw,2.5rem)}
+.p-trip .pitch{color:var(--ink-soft)}
+.p-trip ul li::before{color:var(--accent)}
+.p-trip .product-visual{background:var(--paper-2);border-left:1px solid var(--line);order:-1;border-left:none;border-right:1px solid var(--line)}
+.p-trip .product-info{order:1}
+.tb-visual{width:min(320px,80%);font-family:'Instrument Serif',serif;font-size:19px;line-height:1.5;color:var(--ink)}
+.tb-visual .tick{font-family:'Archivo',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:14px}
+.tb-visual .quote em{font-style:italic;color:var(--accent)}
+.textlink{font-size:14px;font-weight:600;color:var(--ink-soft);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .2s,border-color .2s}
+.textlink:hover{color:var(--ink);border-color:var(--ink)}
 
-        /* Lang dropdown */
-        #lang-dropdown { transition: opacity 0.15s, transform 0.15s; transform-origin: top right; }
-        #lang-dropdown.hidden { opacity:0; transform:scale(0.95) translateY(-4px); pointer-events:none; }
-        #lang-dropdown:not(.hidden) { opacity:1; transform:scale(1) translateY(0); }
-    </style>
+/* sur-mesure */
+#sur-mesure{background:var(--paper-2);border-bottom:1px solid var(--line)}
+.custom-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(36px,6vw,90px);align-items:start}
+.case{
+  background:#fffdf8;border:1px solid var(--line);padding:clamp(26px,3vw,40px);
+}
+.case .tick{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px;display:block}
+.case p.q{font-family:'Fraunces',serif;font-size:clamp(1.15rem,1.8vw,1.45rem);font-style:italic;font-weight:400;line-height:1.4}
+.case .who{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-faint);display:flex;align-items:center;gap:13px}
+.case .who img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none}
+.case .who b{display:block;color:var(--ink);font-size:14px}
+.case .stat{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-soft);line-height:1.55}
+.case .stat b{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--accent);margin-right:2px}
+.case .see{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:border-color .2s}
+.case .see:hover{border-color:var(--accent)}
+.custom-list{list-style:none;margin-top:30px;display:flex;flex-direction:column}
+.custom-list li{
+  display:flex;gap:18px;align-items:baseline;
+  padding:15px 0;border-top:1px solid var(--line-strong);
+  font-size:15px;
+}
+.custom-list li:last-child{border-bottom:1px solid var(--line-strong)}
+.custom-list li i{font-style:normal;font-size:12px;color:var(--ink-faint);letter-spacing:.08em;flex:none;width:28px}
+
+/* méthode */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
+.step{padding:clamp(26px,3vw,42px);border-right:1px solid var(--line)}
+.step:last-child{border-right:none}
+.step .n{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--accent)}
+.step h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:14px 0 10px;letter-spacing:-.01em}
+.step p{font-size:14px;color:var(--ink-soft)}
+.method-note{margin-top:26px;font-size:13.5px;color:var(--ink-faint);font-style:italic}
+
+/* CTA final */
+#contact{border-top:1px solid var(--line);background:var(--night);color:#e8edf2;text-align:left}
+#contact .eyebrow{color:var(--cyan)}
+#contact .eyebrow::before{background:var(--cyan)}
+#contact h2{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(2rem,4.4vw,3.4rem);letter-spacing:-.02em;line-height:1.07;
+  margin-top:24px;max-width:16ch;
+}
+#contact h2 em{font-style:italic;color:var(--cyan)}
+#contact p{margin-top:20px;color:#9aa7b4;max-width:48ch;font-size:15.5px}
+#contact .hero-ctas{margin-top:36px}
+#contact .btn-ghost{border-color:#2a3846;color:#e8edf2}
+#contact .btn-ghost:hover{border-color:#e8edf2}
+.contact-alt{margin-top:30px;font-size:13px;color:#6d7c8a}
+.contact-alt a{color:#9aa7b4;border-bottom:1px solid #2a3846}
+.contact-alt a:hover{color:#fff}
+
+/* footer */
+footer{background:var(--night);color:#6d7c8a;border-top:1px solid #1c2630;padding:26px 0;font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+footer nav{display:flex;gap:22px}
+footer a:hover{color:#e8edf2}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .msg{animation:none;opacity:1;transform:none}
+}
+
+/* responsive */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .convo{max-width:480px}
+  .product{grid-template-columns:1fr}
+  .p-night .product-visual{border-left:none;border-top:1px solid #1c2630;min-height:240px}
+  .p-trip .product-visual{order:1;border-right:none;border-top:1px solid var(--line);min-height:220px}
+  .p-trip .product-info{order:0}
+  .custom-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .step{border-right:none;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:none}
+}
+@media (max-width:760px){
+  .nav-links{display:none}
+  #menu-btn{display:block}
+  .sec-head h2 br,#contact h2 br,.product h3 br{display:none}
+}
+</style>
 </head>
-<body class="antialiased">
+<body>
 
-<div id="top"></div>
-
-<!-- Bannière lancement nightbook.io -->
-<a href="https://nightbook.io" target="_blank" rel="noopener" class="block bg-gray-900 text-white text-center px-4 py-2.5 text-sm font-medium hover:bg-gray-800 transition-colors">
-    🚀 <span class="font-bold text-cyan-400" data-i18n="banner_title">Lancement de nightbook.io</span> <span data-i18n="banner_text">· notre solution clé en main pour boîtes de nuit, bars & restaurants. Créez votre assistant en 5 minutes</span> <span class="underline underline-offset-2 ml-1" data-i18n="banner_cta">Découvrir →</span>
-</a>
-
-<!-- HEADER -->
-<header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#top" class="flex items-center space-x-3 select-none">
-            <img src="/logo.png" alt="AgentBooking" class="h-9 w-auto object-contain" />
-            <div class="font-display text-xl font-bold tracking-tight flex items-center gap-1">
-                <span class="text-gray-900">Agent</span><span class="text-cyan-500">Booking</span>
-            </div>
-        </a>
-        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-            <a href="#sectors"  class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_sectors">Domaines</a>
-            <a href="#features" class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_features">Fonctionnalités</a>
-            <a href="#benefits" class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_benefits">Avantages</a>
-            <a href="#reviews"  class="text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav_reviews">Avis</a>
-            <!-- Language Switcher -->
-            <div class="relative" id="lang-switcher">
-                <button id="lang-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm font-medium text-gray-600 hover:border-cyan-400 hover:text-gray-900 transition-all">
-                    <span id="lang-flag">🇫🇷</span>
-                    <span id="lang-code" class="text-xs font-semibold tracking-wide">FR</span>
-                    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden min-w-[140px] z-50">
-                    <button onclick="setLanguage('fr')" class="flex items-center gap-2.5 px-4 py-3 text-sm font-medium hover:bg-gray-50 w-full text-left">
-                        🇫🇷 <span>Français</span>
-                    </button>
-                    <button onclick="setLanguage('en')" class="flex items-center gap-2.5 px-4 py-3 text-sm font-medium hover:bg-gray-50 w-full text-left border-t border-gray-50">
-                        🇺🇸 <span>English</span>
-                    </button>
-                </div>
-            </div>
-            <button class="open-calendly bg-gray-900 text-white px-5 py-2.5 rounded-full hover:bg-cyan-500 transition-all text-sm font-semibold" data-i18n="nav_cta">
-                Planifier une démo
-            </button>
-        </div>
-        <div class="md:hidden">
-            <button id="menu-btn" class="text-gray-900">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-                </svg>
-            </button>
-        </div>
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">Agent<em>Booking</em></a>
+    <nav class="nav-links">
+      <a href="#produits" data-i18n="nav_products">Produits</a>
+      <a href="#sur-mesure" data-i18n="nav_custom">Sur-mesure</a>
+      <a href="#methode" data-i18n="nav_method">Méthode</a>
+      <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><b id="lang-fr">FR</b> / <span id="lang-en">EN</span></button>
+      <a class="btn btn-ink" href="/demo" data-i18n="nav_cta">Tester une démo</a>
     </nav>
-    <div id="mobile-menu" class="hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200 px-6 py-8 flex flex-col items-center space-y-5 shadow-xl md:hidden">
-        <a href="#sectors"  class="text-base text-gray-800 font-medium" data-i18n="nav_sectors">Domaines</a>
-        <a href="#features" class="text-base text-gray-800 font-medium" data-i18n="nav_features">Fonctionnalités</a>
-        <a href="#benefits" class="text-base text-gray-800 font-medium" data-i18n="nav_benefits">Avantages</a>
-        <a href="#reviews"  class="text-base text-gray-800 font-medium" data-i18n="nav_reviews">Avis</a>
-        <!-- Mobile lang switcher -->
-        <div class="flex gap-2">
-            <button onclick="setLanguage('fr')" id="mobile-lang-fr" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm font-medium transition-all">🇫🇷 FR</button>
-            <button onclick="setLanguage('en')" id="mobile-lang-en" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm font-medium transition-all">🇺🇸 EN</button>
-        </div>
-        <button class="open-calendly bg-cyan-500 text-white px-8 py-3 rounded-full w-full font-bold" data-i18n="nav_cta">Planifier une démo</button>
-    </div>
+    <button id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div id="mobile-menu">
+    <a href="#produits" data-i18n="nav_products">Produits</a>
+    <a href="#sur-mesure" data-i18n="nav_custom">Sur-mesure</a>
+    <a href="#methode" data-i18n="nav_method">Méthode</a>
+    <button class="lang-toggle" style="text-align:left" onclick="toggleLang()"><b id="lang-fr-m">FR</b> / <span id="lang-en-m">EN</span></button>
+    <a class="btn btn-ink" href="/demo" data-i18n="nav_cta">Tester une démo</a>
+  </div>
 </header>
 
-<main>
+<main id="top">
 
 <!-- HERO -->
-<section class="pt-12 pb-0 md:pt-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-    <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-8">
-
-            <!-- Left -->
-            <div class="flex-1 text-center md:text-left">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs font-semibold text-cyan-700 uppercase bg-cyan-50 rounded-full tracking-wider border border-cyan-100">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 inline-block"></span>
-                    <span data-i18n="hero_badge">Disponible 24h/24 · 7j/7</span>
-                </div>
-                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.08] tracking-tight">
-                    <span data-i18n="hero_h1_line1">Votre agent IA</span><br>
-                    <span class="text-cyan-500" data-i18n="hero_h1_line2">réserve à votre</span><br>
-                    <span data-i18n="hero_h1_line3">place.</span>
-                </h1>
-                <p class="mt-6 text-base md:text-lg text-gray-500 leading-relaxed max-w-lg mx-auto md:mx-0" data-i18n="hero_p">
-                    Répond, qualifie et conclut vos ventes sur WhatsApp et réseaux sociaux. Zéro message manqué, même la nuit.
-                </p>
-                <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-3">
-                    <a href="#sectors" class="bg-gray-900 text-white px-7 py-3.5 rounded-full font-semibold hover:bg-cyan-500 transition-all shadow-lg text-sm" data-i18n="hero_btn1">
-                        Voir les domaines
-                    </a>
-                    <a href="/demo" class="border border-gray-200 text-gray-700 px-7 py-3.5 rounded-full font-semibold hover:border-cyan-400 hover:text-cyan-600 transition-all text-sm inline-flex items-center gap-2 justify-center">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span data-i18n="hero_btn2">Tester l'agent</span>
-                    </a>
-                </div>
-                <div class="mt-10 flex items-center gap-6 justify-center md:justify-start text-sm text-gray-400">
-                    <div class="flex items-center gap-1.5"><span class="text-green-500">✓</span> <span data-i18n="hero_tag1">Sans engagement</span></div>
-                    <div class="flex items-center gap-1.5"><span class="text-green-500">✓</span> <span data-i18n="hero_tag2">Démo en 30 min</span></div>
-                    <div class="flex items-center gap-1.5"><span class="text-green-500">✓</span> <span data-i18n="hero_tag3">Sur-mesure</span></div>
-                </div>
-            </div>
-
-            <!-- Right: phone mockup -->
-            <div class="flex-1 flex justify-center md:justify-end pb-0">
-                <div class="relative w-72">
-                    <div class="phone-glow bg-gray-900 rounded-[2.5rem] p-3 shadow-2xl">
-                        <div class="bg-white rounded-[2rem] overflow-hidden" style="height:520px;">
-                            <!-- WA header -->
-                            <div class="bg-[#075e54] px-4 py-3 flex items-center gap-3">
-                                <img src="/logo.png" alt="Agent Booking" class="w-9 h-9 rounded-full object-cover" />
-                                <div>
-                                    <p class="text-white font-semibold text-sm">Agent Booking</p>
-                                    <p class="text-green-300 text-xs" data-i18n="wa_online">en ligne</p>
-                                </div>
-                            </div>
-                            <!-- Chat -->
-                            <div class="bg-[#ece5dd] px-3 py-4 flex flex-col gap-2 overflow-hidden" style="height:calc(100% - 60px);" id="hero-chat">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow reveal visible" data-i18n="hero_eyebrow">Agents IA de réservation</div>
+      <h1 class="reveal visible" data-i18n-html="hero_h1">Vos clients écrivent.<br>L'agent <em>réserve</em>.</h1>
+      <p class="hero-sub reveal visible d1" data-i18n="hero_sub">
+        Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations
+        sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.
+      </p>
+      <div class="hero-ctas reveal visible d2">
+        <a class="btn btn-ink" href="/demo" data-i18n="hero_cta1">Parler à un agent en direct</a>
+        <a class="btn btn-wa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20un%20agent%20de%20r%C3%A9servation%20pour%20mon%20business." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.8.8 1.9.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.7-.1 1.4Z"/></svg>
+          <span data-i18n="hero_cta2">WhatsApp direct</span>
+        </a>
+      </div>
+      <div class="hero-facts reveal visible d3">
+        <div><strong data-i18n="fact1_t">24h/24 · 7j/7</strong><span data-i18n="fact1_s">sans embaucher</span></div>
+        <div><strong data-i18n="fact2_t">4 canaux</strong><span data-i18n="fact2_s">WhatsApp · Instagram · Messenger · Telegram</span></div>
+        <div><strong data-i18n="fact3_t">+250 résas</strong><span data-i18n="fact3_s">automatisées cet été chez un seul client</span></div>
+      </div>
     </div>
+
+    <div class="convo reveal visible d2" aria-hidden="true">
+      <div class="convo-head">
+        <span data-i18n="convo_label">Conversation réelle · 23h47</span>
+        <span class="live" data-i18n="convo_live">Agent en ligne</span>
+      </div>
+      <div class="convo-body" id="convo-body"></div>
+    </div>
+  </div>
 </section>
 
-<!-- SECTORS -->
-<section id="sectors" class="py-24 bg-white">
-    <div class="container mx-auto px-6">
-        <div class="mb-14 reveal">
-            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-3" data-i18n="sections_sectors">Domaines</p>
-            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900" data-i18n="sectors_h2">Un agent pour chaque<br class="hidden md:block"> secteur.</h2>
-            <p class="mt-3 text-gray-400 text-sm italic" data-i18n="sectors_click">Cliquez pour voir une conversation exemple</p>
-        </div>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-1" data-sector="nightlife">
-                <div class="text-3xl mb-4">🍾</div>
-                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_nightclub_title">Boîte de nuit</h3>
-                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_nightclub_sub">Tables VIP · BDE</p>
-            </div>
-            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-2" data-sector="tourisme">
-                <div class="text-3xl mb-4">🌍</div>
-                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_tourism_title">Tourisme</h3>
-                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_tourism_sub">Activités · Planning</p>
-            </div>
-            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-3" data-sector="location">
-                <div class="text-3xl mb-4">🛵</div>
-                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_location_title">Location</h3>
-                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_location_sub">Scooters · Quads · Jet-skis</p>
-            </div>
-            <div class="sector-card p-6 rounded-2xl reveal reveal-delay-4" data-sector="business">
-                <div class="text-3xl mb-4">💰</div>
-                <h3 class="font-display font-bold text-gray-900 mb-1" data-i18n="card_business_title">Business Perso</h3>
-                <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="card_business_sub">100% sur-mesure</p>
-            </div>
-        </div>
+<!-- PRODUITS -->
+<section id="produits">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="num">01</span><span data-i18n="products_eyebrow">Nos produits</span></div>
+      <h2 data-i18n-html="products_h2">Deux logiciels. Chacun taillé<br>pour son métier.</h2>
+      <p data-i18n="products_p">Un agent générique répond à côté. Les nôtres connaissent votre carte, vos zones, vos horaires et vos règles, parce qu'ils sont construits pour votre secteur.</p>
     </div>
+
+    <!-- NIGHTBOOK -->
+    <article class="product p-night reveal">
+      <div class="product-info">
+        <span class="product-tag" data-i18n="nb_tag">Disponible · nightbook.io</span>
+        <h3>NightBook</h3>
+        <p class="pitch" data-i18n="nb_pitch">L'agent de réservation des boîtes de nuit, bars et lounges. Il vend vos tables VIP sur WhatsApp et Instagram pendant que votre équipe gère la salle.</p>
+        <ul>
+          <li><span data-i18n="nb_f1">Tables, zones et minimums de bouteilles appliqués automatiquement</span></li>
+          <li><span data-i18n="nb_f2">Récap de commande, notification au staff, plan de salle</span></li>
+          <li><span data-i18n="nb_f3">Dashboard temps réel : résas, chiffre d'affaires, messagerie</span></li>
+        </ul>
+        <div class="product-cta">
+          <a class="btn btn-ink" href="https://nightbook.io" target="_blank" rel="noopener" data-i18n="nb_cta">Découvrir NightBook</a>
+          <a class="textlink" href="/demo" data-i18n="nb_demo">Essayer l'agent</a>
+        </div>
+      </div>
+      <div class="product-visual">
+        <video id="nb-video" src="https://nightbook.io/promo-fr.mp4" controls preload="metadata" playsinline></video>
+      </div>
+    </article>
+
+    <!-- TRIPBOOK -->
+    <article class="product p-trip reveal">
+      <div class="product-visual">
+        <div class="tb-visual">
+          <div class="tick" data-i18n="tb_v_tick">Demain · 9h00</div>
+          <p class="quote" data-i18n-html="tb_v_quote">« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »</p>
+        </div>
+      </div>
+      <div class="product-info">
+        <span class="product-tag" data-i18n="tb_tag">Accès anticipé</span>
+        <h3>TripBook</h3>
+        <p class="pitch" data-i18n="tb_pitch">La réservation automatisée pour le tourisme : centres de plongée, excursions, locations, conciergeries. Multilingue et multi-devises, comme vos clients.</p>
+        <ul>
+          <li><span data-i18n="tb_f1">Activités, créneaux et capacités gérés par l'agent</span></li>
+          <li><span data-i18n="tb_f2">FR · EN · ES, six devises, fuseaux horaires gérés</span></li>
+          <li><span data-i18n="tb_f3">Planning, statistiques et messagerie centralisés</span></li>
+        </ul>
+        <div class="product-cta">
+          <a class="btn btn-ghost" href="https://wa.me/33767466391?text=Bonjour%2C%20TripBook%20m%27int%C3%A9resse%20pour%20mon%20activit%C3%A9%20tourisme." target="_blank" rel="noopener" data-i18n="tb_cta">Rejoindre l'accès anticipé</a>
+        </div>
+      </div>
+    </article>
+  </div>
 </section>
 
-<!-- CLIENTS -->
-<section id="clients" class="py-8 bg-white border-t border-gray-50">
-    <div class="container mx-auto px-6 text-center">
-        <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-5" data-i18n="clients_h2">Ces entreprises qui nous font confiance</p>
-        <div class="flex flex-wrap justify-center items-center gap-10">
-            <img src="/logo-xquad.jpg" alt="X-Quad Samui Raid" class="h-16 md:h-20 w-auto object-contain" title="X-Quad Samui Raid · Koh Samui, Thaïlande">
-        </div>
+<!-- SUR-MESURE -->
+<section id="sur-mesure">
+  <div class="wrap custom-grid">
+    <div>
+      <div class="eyebrow reveal"><span class="num">02</span><span data-i18n="custom_eyebrow">Sur-mesure</span></div>
+      <div class="sec-head" style="margin-bottom:0">
+        <h2 class="reveal" data-i18n-html="custom_h2">Votre métier ne rentre pas<br>dans une case ?</h2>
+        <p class="reveal d1" data-i18n="custom_p">On construit aussi des agents uniques, brique par brique, autour de votre façon de travailler. Conciergerie, e-commerce, services : si vos clients vous écrivent, un agent peut répondre.</p>
+      </div>
+      <ul class="custom-list reveal d2">
+        <li><i>a.</i><span data-i18n="custom_l1">Audit de vos conversations et de votre process de vente</span></li>
+        <li><i>b.</i><span data-i18n="custom_l2">Agent entraîné sur vos offres, vos prix, votre ton</span></li>
+        <li><i>c.</i><span data-i18n="custom_l3">Branché à vos outils : calendrier, paiement, base clients</span></li>
+      </ul>
     </div>
+    <div class="case reveal d2">
+      <span class="tick" data-i18n="case_tick">Client en production</span>
+      <p class="q" data-i18n="case_quote">« Les résas GetYourGuide et Viator rentrent toutes seules dans le planning, et les clients reçoivent leur confirmation WhatsApp sans qu'on touche à rien. »</p>
+      <div class="who">
+        <img src="/logo-xquad.jpg" alt="X-Quad Samui">
+        <div>
+          <b>Nico</b>
+          <span data-i18n="case_who">Gérant · X-Quad Samui, Koh Samui</span>
+        </div>
+      </div>
+      <p class="stat" data-i18n-html="case_stat"><b>+250</b> résas prises automatiquement entre mai et août 2026 · GetYourGuide, Viator, Klook et leur site web</p>
+      <a class="see" href="https://tripbook.agent-booking.fr/agent-plateformes.html" target="_blank" rel="noopener" data-i18n="case_link">Voir comment →</a>
+    </div>
+  </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features" class="py-24 bg-gray-50 border-t border-gray-100">
-    <div class="container mx-auto px-6">
-        <div class="max-w-2xl mb-16 reveal">
-            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-3" data-i18n="sections_features">Fonctionnalités</p>
-            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900" data-i18n="features_h2">Tout ce dont votre<br>business a besoin.</h2>
-        </div>
-        <div class="max-w-3xl">
-            <div class="feature-row py-7 flex items-start gap-6 reveal">
-                <div class="text-2xl pt-0.5">📅</div>
-                <div>
-                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat1_title">Disponibilité en temps réel</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat1_desc">L'agent vérifie vos créneaux et propose des alternatives automatiquement si un créneau est complet.</p>
-                </div>
-            </div>
-            <div class="feature-row py-7 flex items-start gap-6 reveal reveal-delay-1">
-                <div class="text-2xl pt-0.5">💳</div>
-                <div>
-                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat2_title">Paiement en ligne sécurisé</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat2_desc">Vos clients paient un acompte ou la totalité via un lien sécurisé : Stripe, PayPal ou Revolut.</p>
-                </div>
-            </div>
-            <div class="feature-row py-7 flex items-start gap-6 reveal reveal-delay-2">
-                <div class="text-2xl pt-0.5">⚙️</div>
-                <div>
-                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat3_title">Intégration de vos outils</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat3_desc">L'agent se connecte à vos calendriers, bases de données, et outils existants sans friction.</p>
-                </div>
-            </div>
-            <div class="feature-row py-7 flex items-start gap-6 reveal reveal-delay-3">
-                <div class="text-2xl pt-0.5">🔔</div>
-                <div>
-                    <h3 class="font-display font-bold text-gray-900 text-lg mb-1" data-i18n="feat4_title">Relance automatique</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed" data-i18n="feat4_desc">Si un client ne répond pas, l'agent relance au bon moment, aucune opportunité ne disparaît.</p>
-                </div>
-            </div>
-        </div>
-        <div class="mt-10 reveal">
-            <p class="text-sm text-gray-400 italic" data-i18n="features_note">Une idée précise ? On peut la transformer en fonctionnalité sur-mesure.</p>
-        </div>
+<!-- MÉTHODE -->
+<section id="methode">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="num">03</span><span data-i18n="method_eyebrow">Méthode</span></div>
+      <h2 data-i18n-html="method_h2">En ligne en quelques jours,<br>pas en quelques mois.</h2>
     </div>
+    <div class="steps reveal d1">
+      <div class="step">
+        <span class="n" data-i18n="step1_n">Un</span>
+        <h3 data-i18n="step1_t">On configure</h3>
+        <p data-i18n="step1_p">Votre carte, vos zones, vos horaires, vos règles de vente. L'agent apprend votre établissement, pas un modèle générique.</p>
+      </div>
+      <div class="step">
+        <span class="n" data-i18n="step2_n">Deux</span>
+        <h3 data-i18n="step2_t">L'agent répond</h3>
+        <p data-i18n="step2_p">Sur vos canaux existants. Il qualifie, applique vos minimums, envoie le récap et le lien de paiement. Vous validez ce que vous voulez valider.</p>
+      </div>
+      <div class="step">
+        <span class="n" data-i18n="step3_n">Trois</span>
+        <h3 data-i18n="step3_t">Vous suivez tout</h3>
+        <p data-i18n="step3_p">Chaque réservation, chaque conversation, chaque euro dans un dashboard temps réel accessible par toute l'équipe.</p>
+      </div>
+    </div>
+    <p class="method-note reveal d2" data-i18n="method_note">Testez avant de décider : la démo en direct utilise le vrai moteur, pas une vidéo.</p>
+  </div>
 </section>
 
-<!-- BENEFITS — dark section -->
-<section id="benefits" class="py-24 bg-gray-900 text-white">
-    <div class="container mx-auto px-6">
-        <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
-            <div class="lg:w-1/3 reveal">
-                <p class="text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-4" data-i18n="sections_benefits">Pourquoi Agent Booking</p>
-                <h2 class="font-display text-3xl md:text-4xl font-bold leading-tight" data-i18n="benefits_h2">Ce que vous gagnez vraiment.</h2>
-                <p class="mt-4 text-gray-400 text-sm leading-relaxed" data-i18n="benefits_p">Plus qu'un outil, un levier de croissance qui travaille pendant que vous dormez.</p>
-                <button class="open-calendly mt-8 bg-cyan-500 text-gray-900 px-6 py-3 rounded-full font-bold text-sm hover:bg-cyan-400 transition-all" data-i18n="benefits_btn">
-                    En savoir plus →
-                </button>
-            </div>
-            <div class="lg:w-2/3 grid md:grid-cols-2 gap-px bg-gray-800 rounded-2xl overflow-hidden">
-                <div class="bg-gray-900 p-8 reveal reveal-delay-1">
-                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">24/7</div>
-                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben1_title">Zéro perte de réservation</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben1_desc">L'agent répond instantanément, même à 3h du matin ou pendant vos vacances.</p>
-                </div>
-                <div class="bg-gray-900 p-8 reveal reveal-delay-2">
-                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">-90%</div>
-                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben2_title">Gain de temps massif</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben2_desc">Votre équipe se concentre sur le service, pas sur la gestion des messages entrants.</p>
-                </div>
-                <div class="bg-gray-900 p-8 reveal reveal-delay-3">
-                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">+CA</div>
-                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben3_title">Revenus optimisés</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben3_desc">Application intelligente de vos offres et minimums pour maximiser chaque transaction.</p>
-                </div>
-                <div class="bg-gray-900 p-8 reveal reveal-delay-4">
-                    <div class="text-cyan-500 font-display font-extrabold text-4xl mb-2">Live</div>
-                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="ben4_title">Données centralisées</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="ben4_desc">Toutes les réservations dans une base consultable en temps réel par toute votre équipe.</p>
-                </div>
-            </div>
-        </div>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="contact_eyebrow">Parlons-en</div>
+    <h2 class="reveal" data-i18n-html="contact_h2">Combien de réservations partent <em>sans réponse</em> ?</h2>
+    <p class="reveal d1" data-i18n="contact_p">Envoyez un message, on vous montre l'agent sur votre propre carte sous 24h. Sans engagement, sans slide de présentation.</p>
+    <div class="hero-ctas reveal d2">
+      <a class="btn btn-wa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20une%20d%C3%A9mo%20avec%20ma%20propre%20carte." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.8.8 1.9.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.7-.1 1.4Z"/></svg>
+        <span data-i18n="contact_cta1">Écrire sur WhatsApp</span>
+      </a>
+      <a class="btn btn-ghost" href="/demo" data-i18n="contact_cta2">Tester la démo en direct</a>
     </div>
-</section>
-
-<!-- REVIEWS -->
-<section id="reviews" class="py-24 bg-white">
-    <div class="container mx-auto px-6">
-        <div class="mb-14 reveal">
-            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-3" data-i18n="sections_reviews">Avis</p>
-            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900" data-i18n="reviews_h2">Ce que disent nos clients.</h2>
-        </div>
-        <div class="max-w-2xl reveal reveal-delay-1">
-            <div class="flex gap-1 mb-6 text-yellow-400 text-lg">★★★★★</div>
-            <p class="text-gray-700 text-xl leading-relaxed font-medium italic" data-i18n="reviews_quote">
-                "On a mis en place un agent de commande intelligent pour mon business. Les commandes sont automatisées et je reçois une notification instantanée à chaque nouvelle vente. Ça me fait gagner un temps énorme."
-            </p>
-            <div class="mt-8 flex items-center gap-4">
-                <div class="h-11 w-11 bg-cyan-100 text-cyan-600 rounded-full flex items-center justify-center font-bold font-display text-sm">JD</div>
-                <div>
-                    <p class="font-semibold text-gray-900 text-sm" data-i18n="reviews_name">Client Partenaire</p>
-                    <p class="text-xs text-gray-400 uppercase tracking-widest" data-i18n="reviews_role">Business & Vente</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CONTACT CTA -->
-<section id="contact" class="py-24 bg-gray-50 border-t border-gray-100">
-    <div class="container mx-auto px-6 text-center">
-        <div class="reveal">
-            <p class="text-xs font-semibold text-cyan-600 uppercase tracking-widest mb-4" data-i18n="sections_cta">Passez à l'action</p>
-            <h2 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight" data-i18n="cta_h2">
-                Prêt à ne plus<br>perdre une réservation ?
-            </h2>
-            <p class="mt-5 text-gray-500 max-w-xl mx-auto text-base leading-relaxed" data-i18n="cta_p">
-                30 minutes suffisent pour voir concrètement comment l'agent peut transformer votre business dès ce week-end.
-            </p>
-            <button class="open-calendly mt-8 bg-gray-900 text-white px-10 py-4 rounded-full text-base font-bold hover:bg-cyan-500 transition-all shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105" data-i18n="cta_btn">
-                Planifier une démo gratuite →
-            </button>
-        </div>
-    </div>
+    <p class="contact-alt reveal d3" data-i18n-html="contact_alt">Ou par email : <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a></p>
+  </div>
 </section>
 
 </main>
 
-<footer class="bg-gray-900 text-white py-8">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-400">
-        <p>© 2026 Agent Booking · Sacha Depenweiller. <span data-i18n="footer_rights">Tous droits réservés.</span></p>
-        <div class="flex gap-5">
-            <a href="/mentions-legales" class="hover:text-cyan-300 transition-colors" data-i18n="footer_legal">Mentions légales</a>
-            <a href="/confidentialite" class="hover:text-cyan-300 transition-colors" data-i18n="footer_privacy">Confidentialité</a>
-            <a href="/conditions-service" class="hover:text-cyan-300 transition-colors" data-i18n="footer_terms">CGU</a>
-        </div>
-    </div>
+<footer>
+  <div class="wrap">
+    <p>© 2026 Agent Booking · Sacha Depenweiller</p>
+    <nav>
+      <a href="/mentions-legales" data-i18n="footer_legal">Mentions légales</a>
+      <a href="/confidentialite" data-i18n="footer_privacy">Confidentialité</a>
+      <a href="/conditions-service" data-i18n="footer_terms">CGU</a>
+    </nav>
+  </div>
 </footer>
 
-<!-- SECTOR DEMO MODAL -->
-<div id="demo-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-    <div class="bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-enter">
-        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <div>
-                <h3 id="modal-title" class="font-display text-2xl font-bold text-gray-900">Démo IA</h3>
-                <p id="modal-subtitle" class="text-sm text-cyan-600 font-medium"></p>
-            </div>
-            <button id="close-demo" class="text-gray-400 hover:text-gray-900 text-3xl leading-none">&times;</button>
-        </div>
-        <div id="modal-grid" class="flex-grow overflow-y-auto p-6 grid md:grid-cols-2 gap-8">
-            <div id="modal-explanation" class="text-gray-600 leading-relaxed space-y-4"></div>
-            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 h-[380px] overflow-y-auto" id="modal-chat"></div>
-        </div>
-        <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
-            <button id="modal-cta-btn" class="bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-cyan-500 transition-all" data-i18n="modal_cta">Avoir le même pour mon business</button>
-        </div>
-    </div>
-</div>
-
-
 <script>
-// ── Translations ───────────────────────────────────────────────────────
-const translations = {
-    fr: {
-        banner_title:   'Lancement de nightbook.io',
-        banner_text:    '· notre solution clé en main pour boîtes de nuit, bars & restaurants. Créez votre assistant en 5 minutes',
-        banner_cta:     'Découvrir →',
-        nav_sectors:    'Domaines',
-        nav_features:   'Fonctionnalités',
-        nav_benefits:   'Avantages',
-        nav_reviews:    'Avis',
-        nav_cta:        'Planifier une démo',
-        hero_badge:     'Disponible 24h/24 · 7j/7',
-        hero_h1_line1:  'Votre agent IA',
-        hero_h1_line2:  'réserve à votre',
-        hero_h1_line3:  'place.',
-        hero_p:         'Répond, qualifie et conclut vos ventes sur WhatsApp et réseaux sociaux. Zéro message manqué, même la nuit.',
-        hero_btn1:      'Voir les domaines',
-        hero_btn2:      'Tester l\'agent',
-        hero_tag1:      'Sans engagement',
-        hero_tag2:      'Démo en 30 min',
-        hero_tag3:      'Sur-mesure',
-        wa_online:      'en ligne',
-        sections_sectors:  'Domaines',
-        sectors_h2:     'Un agent pour chaque secteur.',
-        sectors_click:  'Cliquez pour voir une conversation exemple',
-        card_location_title:  'Location',
-        card_location_sub:    'Scooters · Quads · Jet-skis',
-        clients_h2:           'Ces entreprises qui nous font confiance',
-        modal_cta_nightbook:  'Découvrir nightbook.io →',
-        card_tourism_title:   'Tourisme',
-        card_tourism_sub:     'Activités · Planning',
-        card_nightclub_title: 'Boîte de nuit',
-        card_nightclub_sub:   'Tables VIP · BDE',
-        card_business_title:  'Business Perso',
-        card_business_sub:    '100% sur-mesure',
-        sections_features: 'Fonctionnalités',
-        features_h2:    'Tout ce dont votre business a besoin.',
-        feat1_title:    'Disponibilité en temps réel',
-        feat1_desc:     'L\'agent vérifie vos créneaux et propose des alternatives automatiquement si un créneau est complet.',
-        feat2_title:    'Paiement en ligne sécurisé',
-        feat2_desc:     'Vos clients paient un acompte ou la totalité via un lien sécurisé : Stripe, PayPal ou Revolut.',
-        feat3_title:    'Intégration de vos outils',
-        feat3_desc:     'L\'agent se connecte à vos calendriers, bases de données, et outils existants sans friction.',
-        feat4_title:    'Relance automatique',
-        feat4_desc:     'Si un client ne répond pas, l\'agent relance au bon moment, aucune opportunité ne disparaît.',
-        features_note:  'Une idée précise ? On peut la transformer en fonctionnalité sur-mesure.',
-        sections_benefits: 'Pourquoi Agent Booking',
-        benefits_h2:    'Ce que vous gagnez vraiment.',
-        benefits_p:     'Plus qu\'un outil, un levier de croissance qui travaille pendant que vous dormez.',
-        benefits_btn:   'En savoir plus →',
-        ben1_title:     'Zéro perte de réservation',
-        ben1_desc:      'L\'agent répond instantanément, même à 3h du matin ou pendant vos vacances.',
-        ben2_title:     'Gain de temps massif',
-        ben2_desc:      'Votre équipe se concentre sur le service, pas sur la gestion des messages entrants.',
-        ben3_title:     'Revenus optimisés',
-        ben3_desc:      'Application intelligente de vos offres et minimums pour maximiser chaque transaction.',
-        ben4_title:     'Données centralisées',
-        ben4_desc:      'Toutes les réservations dans une base consultable en temps réel par toute votre équipe.',
-        sections_reviews: 'Avis',
-        reviews_h2:     'Ce que disent nos clients.',
-        reviews_quote:  '"On a mis en place un agent de commande intelligent pour mon business. Les commandes sont automatisées et je reçois une notification instantanée à chaque nouvelle vente. Ça me fait gagner un temps énorme."',
-        reviews_name:   'Client Partenaire',
-        reviews_role:   'Business & Vente',
-        sections_cta:   'Passez à l\'action',
-        cta_h2:         'Prêt à ne plus perdre une réservation ?',
-        cta_p:          '30 minutes suffisent pour voir concrètement comment l\'agent peut transformer votre business dès ce week-end.',
-        cta_btn:        'Planifier une démo gratuite →',
-        footer_rights:  'Tous droits réservés.',
-        footer_legal:   'Mentions légales',
-        footer_privacy: 'Confidentialité',
-        footer_terms:   'CGU',
-        modal_cta:      'Avoir le même pour mon business',
-    },
-    en: {
-        banner_title:   'nightbook.io is live',
-        banner_text:    '· our turnkey solution for nightclubs, bars & restaurants. Create your assistant in 5 minutes',
-        banner_cta:     'Discover →',
-        nav_sectors:    'Sectors',
-        nav_features:   'Features',
-        nav_benefits:   'Benefits',
-        nav_reviews:    'Reviews',
-        nav_cta:        'Schedule a demo',
-        hero_badge:     'Available 24/7',
-        hero_h1_line1:  'Your AI agent',
-        hero_h1_line2:  'handles bookings',
-        hero_h1_line3:  'for you.',
-        hero_p:         'Responds, qualifies and closes your sales on WhatsApp and social media. Zero missed messages, even at night.',
-        hero_btn1:      'Explore sectors',
-        hero_btn2:      'Try the agent',
-        hero_tag1:      'No commitment',
-        hero_tag2:      '30-min demo',
-        hero_tag3:      'Custom-built',
-        wa_online:      'online',
-        sections_sectors:  'Sectors',
-        sectors_h2:     'An agent for every sector.',
-        sectors_click:  'Click to see an example conversation',
-        card_location_title:  'Rentals',
-        card_location_sub:    'Scooters · Quads · Jet-skis',
-        clients_h2:           'Businesses that trust us',
-        modal_cta_nightbook:  'Discover nightbook.io →',
-        card_tourism_title:   'Tourism',
-        card_tourism_sub:     'Activities · Planning',
-        card_nightclub_title: 'Nightclub',
-        card_nightclub_sub:   'VIP Tables · Events',
-        card_business_title:  'Personal Business',
-        card_business_sub:    '100% custom-built',
-        sections_features: 'Features',
-        features_h2:    'Everything your business needs.',
-        feat1_title:    'Real-time availability',
-        feat1_desc:     'The agent checks your slots and automatically suggests alternatives if a slot is full.',
-        feat2_title:    'Secure online payment',
-        feat2_desc:     'Your clients pay a deposit or full amount via a secure link: Stripe, PayPal or Revolut.',
-        feat3_title:    'Tool integrations',
-        feat3_desc:     'The agent connects to your calendars, databases, and existing tools without friction.',
-        feat4_title:    'Automatic follow-ups',
-        feat4_desc:     'If a client doesn\'t respond, the agent follows up at the right time, no opportunity slips away.',
-        features_note:  'Have a specific idea? We can turn it into a custom feature.',
-        sections_benefits: 'Why Agent Booking',
-        benefits_h2:    'What you truly gain.',
-        benefits_p:     'More than a tool: a growth lever that works while you sleep.',
-        benefits_btn:   'Learn more →',
-        ben1_title:     'Zero missed bookings',
-        ben1_desc:      'The agent responds instantly, even at 3am or during your vacation.',
-        ben2_title:     'Massive time savings',
-        ben2_desc:      'Your team focuses on service, not managing incoming messages.',
-        ben3_title:     'Optimized revenue',
-        ben3_desc:      'Smart application of your offers and minimums to maximize every transaction.',
-        ben4_title:     'Centralized data',
-        ben4_desc:      'All bookings in a database accessible in real-time by your entire team.',
-        sections_reviews: 'Reviews',
-        reviews_h2:     'What our clients say.',
-        reviews_quote:  '"We set up an intelligent order agent for my business. Orders are automated and I get an instant notification with every new sale. It saves me an enormous amount of time."',
-        reviews_name:   'Partner Client',
-        reviews_role:   'Business & Sales',
-        sections_cta:   'Take action',
-        cta_h2:         'Ready to never miss a booking again?',
-        cta_p:          '30 minutes is all it takes to see how the agent can transform your business starting this weekend.',
-        cta_btn:        'Schedule a free demo →',
-        footer_rights:  'All rights reserved.',
-        footer_legal:   'Legal Notice',
-        footer_privacy: 'Privacy',
-        footer_terms:   'Terms',
-        modal_cta:      'Get the same for my business',
-    }
+// ── i18n ──────────────────────────────────────────────
+const T = {
+  fr: {
+    nav_products:"Produits", nav_custom:"Sur-mesure", nav_method:"Méthode", nav_cta:"Tester une démo",
+    hero_eyebrow:"Agents IA de réservation",
+    hero_h1:"Vos clients écrivent.<br>L'agent <em>réserve</em>.",
+    hero_sub:"Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.",
+    hero_cta1:"Parler à un agent en direct", hero_cta2:"WhatsApp direct",
+    fact1_t:"24h/24 · 7j/7", fact1_s:"sans embaucher",
+    fact2_t:"4 canaux", fact2_s:"WhatsApp · Instagram · Messenger · Telegram",
+    fact3_t:"+250 résas", fact3_s:"automatisées cet été chez un seul client",
+    convo_label:"Conversation réelle · 23h47", convo_live:"Agent en ligne",
+    products_eyebrow:"Nos produits",
+    products_h2:"Deux logiciels. Chacun taillé<br>pour son métier.",
+    products_p:"Un agent générique répond à côté. Les nôtres connaissent votre carte, vos zones, vos horaires et vos règles, parce qu'ils sont construits pour votre secteur.",
+    nb_tag:"Disponible · nightbook.io",
+    nb_pitch:"L'agent de réservation des boîtes de nuit, bars et lounges. Il vend vos tables VIP sur WhatsApp et Instagram pendant que votre équipe gère la salle.",
+    nb_f1:"Tables, zones et minimums de bouteilles appliqués automatiquement",
+    nb_f2:"Récap de commande, notification au staff, plan de salle",
+    nb_f3:"Dashboard temps réel : résas, chiffre d'affaires, messagerie",
+    nb_cta:"Découvrir NightBook", nb_demo:"Essayer l'agent",
+    nb_v_head:"Réservations · ce soir", nb_v_ok:"Confirmée", nb_v_ok2:"Confirmée",
+    nb_v_pending:"acompte en attente", nb_v_wait:"En cours",
+    tb_tag:"Accès anticipé",
+    tb_pitch:"La réservation automatisée pour le tourisme : centres de plongée, excursions, locations, conciergeries. Multilingue et multi-devises, comme vos clients.",
+    tb_f1:"Activités, créneaux et capacités gérés par l'agent",
+    tb_f2:"FR · EN · ES, six devises, fuseaux horaires gérés",
+    tb_f3:"Planning, statistiques et messagerie centralisés",
+    tb_cta:"Rejoindre l'accès anticipé",
+    tb_v_tick:"Demain · 9h00",
+    tb_v_quote:"« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »",
+    custom_eyebrow:"Sur-mesure",
+    custom_h2:"Votre métier ne rentre pas<br>dans une case ?",
+    custom_p:"On construit aussi des agents uniques, brique par brique, autour de votre façon de travailler. Conciergerie, e-commerce, services : si vos clients vous écrivent, un agent peut répondre.",
+    custom_l1:"Audit de vos conversations et de votre process de vente",
+    custom_l2:"Agent entraîné sur vos offres, vos prix, votre ton",
+    custom_l3:"Branché à vos outils : calendrier, paiement, base clients",
+    case_tick:"Client en production",
+    case_quote:"« Les résas GetYourGuide et Viator rentrent toutes seules dans le planning, et les clients reçoivent leur confirmation WhatsApp sans qu'on touche à rien. »",
+    case_who:"Gérant · X-Quad Samui, Koh Samui",
+    case_stat:"<b>+250</b> résas prises automatiquement entre mai et août 2026 · GetYourGuide, Viator, Klook et leur site web",
+    case_link:"Voir comment →",
+    method_eyebrow:"Méthode",
+    method_h2:"En ligne en quelques jours,<br>pas en quelques mois.",
+    step1_n:"Un", step1_t:"On configure",
+    step1_p:"Votre carte, vos zones, vos horaires, vos règles de vente. L'agent apprend votre établissement, pas un modèle générique.",
+    step2_n:"Deux", step2_t:"L'agent répond",
+    step2_p:"Sur vos canaux existants. Il qualifie, applique vos minimums, envoie le récap et le lien de paiement. Vous validez ce que vous voulez valider.",
+    step3_n:"Trois", step3_t:"Vous suivez tout",
+    step3_p:"Chaque réservation, chaque conversation, chaque euro dans un dashboard temps réel accessible par toute l'équipe.",
+    method_note:"Testez avant de décider : la démo en direct utilise le vrai moteur, pas une vidéo.",
+    contact_eyebrow:"Parlons-en",
+    contact_h2:"Combien de réservations partent <em>sans réponse</em> ?",
+    contact_p:"Envoyez un message, on vous montre l'agent sur votre propre carte sous 24h. Sans engagement, sans slide de présentation.",
+    contact_cta1:"Écrire sur WhatsApp", contact_cta2:"Tester la démo en direct",
+    contact_alt:'Ou par email : <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a>',
+    footer_legal:"Mentions légales", footer_privacy:"Confidentialité", footer_terms:"CGU",
+  },
+  en: {
+    nav_products:"Products", nav_custom:"Custom", nav_method:"Method", nav_cta:"Try a live demo",
+    hero_eyebrow:"AI booking agents",
+    hero_h1:"Your clients text.<br>The agent <em>books</em>.",
+    hero_sub:"Agent Booking builds AI agents that answer, qualify and close your bookings on WhatsApp, Instagram and Messenger. At 3pm and at 3am.",
+    hero_cta1:"Talk to a live agent", hero_cta2:"WhatsApp us",
+    fact1_t:"24/7", fact1_s:"without hiring",
+    fact2_t:"4 channels", fact2_s:"WhatsApp · Instagram · Messenger · Telegram",
+    fact3_t:"+250 bookings", fact3_s:"automated this summer for a single client",
+    convo_label:"Real conversation · 11:47pm", convo_live:"Agent online",
+    products_eyebrow:"Our products",
+    products_h2:"Two products. Each built<br>for its industry.",
+    products_p:"A generic bot answers beside the point. Ours know your menu, your zones, your hours and your rules, because they are built for your industry.",
+    nb_tag:"Live · nightbook.io",
+    nb_pitch:"The booking agent for nightclubs, bars and lounges. It sells your VIP tables on WhatsApp and Instagram while your team runs the room.",
+    nb_f1:"Tables, zones and bottle minimums enforced automatically",
+    nb_f2:"Order recap, staff notifications, floor plan",
+    nb_f3:"Real-time dashboard: bookings, revenue, messaging",
+    nb_cta:"Discover NightBook", nb_demo:"Try the agent",
+    nb_v_head:"Bookings · tonight", nb_v_ok:"Confirmed", nb_v_ok2:"Confirmed",
+    nb_v_pending:"deposit pending", nb_v_wait:"Pending",
+    tb_tag:"Early access",
+    tb_pitch:"Automated bookings for tourism: dive centers, excursions, rentals, concierge services. Multilingual and multi-currency, like your clients.",
+    tb_f1:"Activities, time slots and capacity handled by the agent",
+    tb_f2:"FR · EN · ES, six currencies, time zones handled",
+    tb_f3:"Schedule, stats and messaging in one place",
+    tb_cta:"Join early access",
+    tb_v_tick:"Tomorrow · 9:00am",
+    tb_v_quote:"“Two dives in Koh Tao for<br>Saturday, <em>all booked.</em>”",
+    custom_eyebrow:"Custom builds",
+    custom_h2:"Your business doesn't<br>fit a template?",
+    custom_p:"We also build one-of-a-kind agents around the way you actually work. Concierge, e-commerce, services: if your clients text you, an agent can answer.",
+    custom_l1:"Audit of your conversations and sales process",
+    custom_l2:"Agent trained on your offers, your prices, your tone",
+    custom_l3:"Connected to your tools: calendar, payments, client base",
+    case_tick:"Client in production",
+    case_quote:"“GetYourGuide and Viator bookings flow straight into the schedule, and clients get their WhatsApp confirmation without us touching a thing.”",
+    case_who:"Owner · X-Quad Samui, Koh Samui",
+    case_stat:"<b>+250</b> bookings handled automatically between May and August 2026 · GetYourGuide, Viator, Klook and their website",
+    case_link:"See how →",
+    method_eyebrow:"Method",
+    method_h2:"Live in days,<br>not months.",
+    step1_n:"One", step1_t:"We configure",
+    step1_p:"Your menu, zones, hours and sales rules. The agent learns your venue, not a generic template.",
+    step2_n:"Two", step2_t:"The agent answers",
+    step2_p:"On your existing channels. It qualifies, applies your minimums, sends the recap and the payment link. You approve what you want to approve.",
+    step3_n:"Three", step3_t:"You see everything",
+    step3_p:"Every booking, every conversation, every euro in a real-time dashboard your whole team can access.",
+    method_note:"Test before you decide: the live demo runs on the real engine, not a video.",
+    contact_eyebrow:"Let's talk",
+    contact_h2:"How many bookings leave <em>unanswered</em>?",
+    contact_p:"Send us a message and we'll show you the agent running on your own menu within 24 hours. No commitment, no slide deck.",
+    contact_cta1:"Message us on WhatsApp", contact_cta2:"Try the live demo",
+    contact_alt:'Or by email: <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a>',
+    footer_legal:"Legal notice", footer_privacy:"Privacy", footer_terms:"Terms",
+  }
 };
-
-let currentLang = localStorage.getItem('lang') || 'fr';
-
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('lang', lang);
-
-    // Update text nodes
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        if (translations[lang][key] !== undefined) el.textContent = translations[lang][key];
-    });
-
-    // Update lang button
-    document.getElementById('lang-flag').textContent = lang === 'fr' ? '🇫🇷' : '🇺🇸';
-    document.getElementById('lang-code').textContent = lang === 'fr' ? 'FR' : 'EN';
-
-    // Update mobile buttons style
-    document.getElementById('mobile-lang-fr').className = `flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-medium transition-all ${lang === 'fr' ? 'border-cyan-400 text-cyan-600 bg-cyan-50' : 'border-gray-200 text-gray-500'}`;
-    document.getElementById('mobile-lang-en').className = `flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-medium transition-all ${lang === 'en' ? 'border-cyan-400 text-cyan-600 bg-cyan-50' : 'border-gray-200 text-gray-500'}`;
-
-    // Close dropdown
-    document.getElementById('lang-dropdown').classList.add('hidden');
-
-    // Restart hero chat with new language
-    clearTimeout(chatTimer);
-    heroChat.innerHTML = '';
-    runHeroChat();
-
-    // Update html lang attribute
-    document.documentElement.lang = lang;
+let lang = localStorage.getItem('ab_lang') || 'fr';
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if (T[lang][k] !== undefined) el.textContent = T[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k = el.getAttribute('data-i18n-html');
+    if (T[lang][k] !== undefined) el.innerHTML = T[lang][k];
+  });
+  const on = lang==='fr';
+  ['lang-fr','lang-fr-m'].forEach(id=>{const e=document.getElementById(id); if(e) e.style.color = on?'var(--ink)':'var(--ink-faint)';});
+  ['lang-en','lang-en-m'].forEach(id=>{const e=document.getElementById(id); if(e) e.style.color = on?'var(--ink-faint)':'var(--ink)';});
+  const vid = document.getElementById('nb-video');
+  const vsrc = 'https://nightbook.io/promo-' + lang + '.mp4';
+  if (vid && !vid.src.endsWith('promo-' + lang + '.mp4')) vid.src = vsrc;
+  startConvo();
 }
+function toggleLang(){ lang = lang==='fr' ? 'en' : 'fr'; localStorage.setItem('ab_lang', lang); applyLang(); }
 
-function toggleLangDropdown() {
-    document.getElementById('lang-dropdown').classList.toggle('hidden');
-}
+// ── mobile menu ───────────────────────────────────────
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+menuBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>mobileMenu.classList.remove('open')));
 
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (!document.getElementById('lang-switcher').contains(e.target)) {
-        document.getElementById('lang-dropdown').classList.add('hidden');
-    }
-});
+// ── scroll reveal ─────────────────────────────────────
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal:not(.visible)').forEach(el=>io.observe(el));
 
-// ── Hero chat animation ───────────────────────────────────────────────
-const heroMessages = {
-    fr: [
-        { role: 'client', text: 'Salut ! Table VIP vendredi soir pour 6 ?' },
-        { role: 'agent',  text: 'Salut 👋 Vendredi 11 septembre, c\'est noté ! Quelles bouteilles souhaitez-vous ?' },
-        { role: 'client', text: '2 Grey Goose + 1 Moët' },
-        { role: 'agent',  text: '🥂 Parfait !\n\n📅 Vendredi 11 septembre\n👥 6 personnes\n🍾 2× Grey Goose · 1× Moët\n\nRéservation confirmée ✅' },
-    ],
-    en: [
-        { role: 'client', text: 'Hey! VIP table Friday night for 6?' },
-        { role: 'agent',  text: 'Hey 👋 Friday September 11th, noted! What bottles would you like?' },
-        { role: 'client', text: '2 Grey Goose + 1 Moët' },
-        { role: 'agent',  text: '🥂 Perfect!\n\n📅 Friday September 11th\n👥 6 people\n🍾 2× Grey Goose · 1× Moët\n\nBooking confirmed ✅' },
-    ]
+// ── hero conversation loop ────────────────────────────
+const CONVOS = {
+  fr: [
+    {who:'client', text:"Salut, une table pour 6 samedi c'est possible ?", time:"23:47"},
+    {who:'agent',  text:"Bonsoir 👋 Oui. Il reste 2 tables en Carré VIP samedi. Plutôt proche du DJ ou en retrait ?", time:"23:47"},
+    {who:'client', text:"Proche du DJ 🔥", time:"23:48"},
+    {who:'agent',  text:"Parfait. Table 12, 6 personnes, minimum 2 bouteilles. Je vous envoie le récap et le lien d'acompte ?", time:"23:48"},
+    {who:'client', text:"Vas-y", time:"23:49"},
+    {who:'agent', confirm:true, text:"✅ Réservation confirmée · samedi · Table 12 · 6 pers. À samedi !", time:"23:49"},
+  ],
+  en: [
+    {who:'client', text:"Hey, any table for 6 this Saturday?", time:"11:47pm"},
+    {who:'agent',  text:"Good evening 👋 Yes. 2 VIP tables left on Saturday. Close to the DJ or further back?", time:"11:47pm"},
+    {who:'client', text:"Close to the DJ 🔥", time:"11:48pm"},
+    {who:'agent',  text:"Perfect. Table 12, 6 guests, 2-bottle minimum. Shall I send the recap and the deposit link?", time:"11:48pm"},
+    {who:'client', text:"Go for it", time:"11:49pm"},
+    {who:'agent', confirm:true, text:"✅ Booking confirmed · Saturday · Table 12 · 6 guests. See you Saturday!", time:"11:49pm"},
+  ]
 };
-
-const heroChat = document.getElementById('hero-chat');
-let chatTimer;
-let chatGen = 0; // generation counter to cancel stale async runs
-
-function addHeroMsg(msg, delay, gen) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            if (gen !== chatGen) { resolve(); return; } // stale run, bail
-            if (msg.role === 'agent') {
-                const typing = document.createElement('div');
-                typing.className = 'flex gap-1 items-center px-3 py-2 bg-white rounded-2xl rounded-bl-sm self-start max-w-[70%] shadow-sm';
-                typing.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-                heroChat.appendChild(typing);
-                heroChat.scrollTop = heroChat.scrollHeight;
-
-                setTimeout(() => {
-                    if (gen !== chatGen) { typing.remove(); resolve(); return; }
-                    typing.remove();
-                    const el = document.createElement('div');
-                    el.className = 'msg-in bg-[#dcf8c6] text-gray-900 px-3 py-2 rounded-2xl rounded-bl-sm self-start max-w-[80%] text-xs leading-relaxed shadow-sm whitespace-pre-wrap';
-                    el.textContent = msg.text;
-                    heroChat.appendChild(el);
-                    heroChat.scrollTop = heroChat.scrollHeight;
-                    resolve();
-                }, 900);
-            } else {
-                const el = document.createElement('div');
-                el.className = 'msg-in bg-white text-gray-900 px-3 py-2 rounded-2xl rounded-br-sm self-end max-w-[80%] text-xs leading-relaxed shadow-sm ml-auto';
-                el.textContent = msg.text;
-                heroChat.appendChild(el);
-                heroChat.scrollTop = heroChat.scrollHeight;
-                resolve();
-            }
-        }, delay);
-    });
+let convoTimers = [];
+function startConvo(){
+  convoTimers.forEach(clearTimeout); convoTimers = [];
+  const body = document.getElementById('convo-body');
+  body.innerHTML = '';
+  const seq = CONVOS[lang];
+  let delay = 500;
+  seq.forEach((m,i)=>{
+    if (m.who==='agent'){
+      convoTimers.push(setTimeout(()=>{
+        const t = document.createElement('div');
+        t.className = 'msg agent typing'; t.id = 'typing';
+        t.innerHTML = '<i></i><i></i><i></i>';
+        body.appendChild(t);
+      }, delay));
+      delay += 1100;
+      convoTimers.push(setTimeout(()=>{
+        document.getElementById('typing')?.remove();
+        addMsg(body, m);
+      }, delay));
+    } else {
+      convoTimers.push(setTimeout(()=> addMsg(body, m), delay));
+    }
+    delay += 1400;
+  });
+  convoTimers.push(setTimeout(startConvo, delay + 5000));
 }
-
-async function runHeroChat() {
-    const gen = ++chatGen;
-    heroChat.innerHTML = '';
-    let delay = 600;
-    for (const msg of heroMessages[currentLang]) {
-        if (gen !== chatGen) return;
-        await addHeroMsg(msg, delay, gen);
-        delay = msg.role === 'agent' ? 2200 : 1400;
-    }
-    if (gen !== chatGen) return;
-    chatTimer = setTimeout(runHeroChat, 4000);
+function addMsg(body, m){
+  const d = document.createElement('div');
+  d.className = 'msg ' + m.who + (m.confirm ? ' confirm' : '');
+  d.innerHTML = m.text + '<time>' + m.time + '</time>';
+  body.appendChild(d);
 }
-
-runHeroChat();
-
-// ── Scroll reveal ─────────────────────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// ── Sector data ───────────────────────────────────────────────────────
-const sectorData = {
-    location: {
-        fr: {
-            title: "Location",
-            subtitle: "Scooters, quads, jet-skis, véhicules",
-            explanation: `
-                <p class='text-lg font-bold text-gray-900'>L'agent qui loue vos véhicules pendant que vous êtes sur le terrain.</p>
-                <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Disponibilités du parc en temps réel</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Tarifs par durée appliqués automatiquement</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Caution & conditions annoncées sans erreur</li>
-                </ul>`,
-            chat: [
-                { role: 'client', text: "Bonjour, vous avez des scooters dispo ce week-end ?" },
-                { role: 'agent', text: "Bonjour ! Oui 🛵 Pour quelles dates exactement, et combien de scooters ?" },
-                { role: 'client', text: "2 scooters du samedi 12 au lundi 14 septembre." },
-                { role: 'agent', text: "C'est disponible ✅ Scooter 125cc : 15€/jour.\n\n📋 Récapitulatif :\n🛵 2× scooter 125cc\n📅 Du 12 au 14 septembre (3 jours)\n💰 Total : 90€ + caution 100€/scooter\n\nJe confirme ?" },
-                { role: 'client', text: "Oui parfait !" },
-                { role: 'agent', text: "Pour finaliser, votre nom et votre numéro de téléphone ?" },
-                { role: 'client', text: "Sacha - 0767466391" },
-                { role: 'agent', text: "Réservation confirmée ! 🎉 Les 2 scooters vous attendent samedi à 9h. À très vite !" }
-            ]
-        },
-        en: {
-            title: "Rentals",
-            subtitle: "Scooters, quads, jet-skis, vehicles",
-            explanation: `
-                <p class='text-lg font-bold text-gray-900'>The agent that rents out your vehicles while you're in the field.</p>
-                <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Real-time fleet availability</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Duration-based pricing applied automatically</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Deposit & conditions stated without errors</li>
-                </ul>`,
-            chat: [
-                { role: 'client', text: "Hi, do you have scooters available this weekend?" },
-                { role: 'agent', text: "Hello! Yes 🛵 Which dates exactly, and how many scooters?" },
-                { role: 'client', text: "2 scooters from Saturday Sept 12 to Monday Sept 14." },
-                { role: 'agent', text: "Available ✅ 125cc scooter: €15/day.\n\n📋 Summary:\n🛵 2× 125cc scooter\n📅 Sept 12 to 14 (3 days)\n💰 Total: €90 + €100 deposit/scooter\n\nShall I confirm?" },
-                { role: 'client', text: "Yes, perfect!" },
-                { role: 'agent', text: "To finalize, your name and phone number?" },
-                { role: 'client', text: "Sacha - 0767466391" },
-                { role: 'agent', text: "Booking confirmed! 🎉 Both scooters will be ready Saturday at 9am. See you soon!" }
-            ]
-        }
-    },
-    tourisme: {
-        fr: {
-            title: "Organisme de Tourisme",
-            subtitle: "Vente d'activités et réservations",
-            explanation: `<p class='text-lg font-bold text-gray-900'>Transformez chaque conversation en réservation confirmée.</p>
-                         <ul class='space-y-4 mt-5'>
-                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Catalogue interactif</strong><span class='text-xs text-gray-500'>Activités avec prix, horaires et disponibilités en temps réel</span></li>
-                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Gestion des places restantes</strong><span class='text-xs text-gray-500'>Mise à jour automatique après chaque réservation</span></li>
-                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Confirmation immédiate</strong><span class='text-xs text-gray-500'>Email, SMS et ajout automatique au calendrier</span></li>
-                         </ul>`,
-            chat: [
-                { role: 'agent', text: "Bonjour ! Je suis l'assistant de Xaman Experience, votre agence d'excursions à Playa del Carmen.\n\nQuelle activité vous intéresse ? 🌴" },
-                { role: 'client', text: "Bonjour, je serais intéressé par faire du snorkelling." },
-                { role: 'agent', text: "Parfait ! Voici nos meilleures excursions :\n\n🐢 El Cielo à Cozumel - 162€/pers\n🦈 Requins Baleines - 190€/pers\n🐬 Sian Ka'an - 137€/pers" },
-                { role: 'client', text: "Je vais choisir El Cielo à Cozumel pour ce samedi." },
-                { role: 'agent', text: "Excellent choix 🐢 ! Pour combien de personnes ?" },
-                { role: 'client', text: "Nous serons deux adultes au total." },
-                { role: 'agent', text: "📋 Récapitulatif :\n🎯 El Cielo\n📅 Samedi 12 septembre\n👥 2 adultes\n💰 Total : 324€\n\nConfirmez-vous ?" },
-                { role: 'client', text: "Oui, tout est absolument correct." },
-                { role: 'agent', text: "Parfait. Votre réservation est confirmée ! 🎉 Un message de confirmation vous a été envoyé." }
-            ]
-        },
-        en: {
-            title: "Tourism Agency",
-            subtitle: "Activity sales & bookings",
-            explanation: `<p class='text-lg font-bold text-gray-900'>Turn every conversation into a confirmed booking.</p>
-                         <ul class='space-y-4 mt-5'>
-                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Interactive catalogue</strong><span class='text-xs text-gray-500'>Activities with real-time prices, schedules and availability</span></li>
-                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Remaining spots management</strong><span class='text-xs text-gray-500'>Automatic update after every booking</span></li>
-                            <li><strong class='block font-bold text-gray-900 text-sm'>✅ Instant confirmation</strong><span class='text-xs text-gray-500'>Email, SMS and automatic calendar entry</span></li>
-                         </ul>`,
-            chat: [
-                { role: 'agent', text: "Hello! I'm the Xaman Experience assistant, your excursion agency in Playa del Carmen.\n\nWhat activity interests you? 🌴" },
-                { role: 'client', text: "Hi, I'd be interested in snorkelling." },
-                { role: 'agent', text: "Perfect! Here are our best excursions:\n\n🐢 El Cielo at Cozumel - €162/person\n🦈 Whale Sharks - €190/person\n🐬 Sian Ka'an - €137/person" },
-                { role: 'client', text: "I'll choose El Cielo at Cozumel for this Saturday." },
-                { role: 'agent', text: "Excellent choice 🐢! For how many people?" },
-                { role: 'client', text: "We'll be two adults total." },
-                { role: 'agent', text: "📋 Summary:\n🎯 El Cielo\n📅 Saturday September 12th\n👥 2 adults\n💰 Total: €324\n\nDo you confirm?" },
-                { role: 'client', text: "Yes, everything looks correct." },
-                { role: 'agent', text: "Your booking is confirmed! 🎉 A confirmation message has been sent to you." }
-            ]
-        }
-    },
-    nightlife: {
-        fr: {
-            title: "Boîte de nuit & BDE",
-            subtitle: "Gestion de réservation de tables",
-            video: "https://nightbook.io/promo-fr.mp4",
-            nightbookCta: true,
-            explanation: `
-                <p class='text-lg font-bold text-gray-900'>Automatisez vos réservations VIP avec vos conditions.</p>
-                <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Plan de table interactif pour maximiser vos ventes</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Enregistrement dans la base de données</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Notification immédiate à vos vendeurs</li>
-                </ul>`,
-            chat: [
-                { role: 'client', text: "Salut ! On voudrait réserver une table VIP pour ce vendredi." },
-                { role: 'agent', text: "Salut ! Je suis l'assistant des Loges. Je note vendredi 11 septembre. Combien de personnes ?" },
-                { role: 'client', text: "Nous serons 8 personnes au total." },
-                { role: 'agent', text: "Parfait, quelles bouteilles souhaitez-vous ?" },
-                { role: 'client', text: "On va prendre 2 grey goose 70cl et 1 ruinart 75cl." },
-                { role: 'agent', text: "Récapitulatif :\n📅 Vendredi 11 septembre\n👥 8 personnes\n🍾 2× Grey Goose 70cl (Offre spéciale 🎉)\n🍾 1× Ruinart 75cl\n💰 Total : 430€\n\nTout est bon ?" },
-                { role: 'client', text: "Oui, tout est parfait." },
-                { role: 'agent', text: "Votre réservation est maintenant confirmée ! Merci beaucoup, à vendredi 🥂" }
-            ]
-        },
-        en: {
-            title: "Nightclub & Events",
-            subtitle: "VIP table reservation management",
-            video: "https://nightbook.io/promo-en.mp4",
-            nightbookCta: true,
-            explanation: `
-                <p class='text-lg font-bold text-gray-900'>Automate your VIP bookings with your own conditions.</p>
-                <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Interactive table plan to maximize sales</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Automatic database entry</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Instant notification to your sales team</li>
-                </ul>`,
-            chat: [
-                { role: 'client', text: "Hey! We'd like to book a VIP table for this Friday." },
-                { role: 'agent', text: "Hey! I'm the Loges assistant. Noted for Friday September 11th. How many people?" },
-                { role: 'client', text: "We'll be 8 people total." },
-                { role: 'agent', text: "Great, which bottles would you like?" },
-                { role: 'client', text: "We'll take 2 Grey Goose 70cl and 1 Ruinart 75cl." },
-                { role: 'agent', text: "Summary:\n📅 Friday September 11th\n👥 8 people\n🍾 2× Grey Goose 70cl (Special offer 🎉)\n🍾 1× Ruinart 75cl\n💰 Total: €430\n\nDoes that look right?" },
-                { role: 'client', text: "Yes, everything is perfect." },
-                { role: 'agent', text: "Your booking is now confirmed! Thank you so much, see you Friday 🥂" }
-            ]
-        }
-    },
-    business: {
-        fr: {
-            title: "Business Perso",
-            subtitle: "100% adapté à votre business",
-            explanation: `
-                <p class='text-lg font-bold text-gray-900'>Une boutique Shopify ? Un agent service client !</p>
-                <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Suivi de commande en temps réel</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Réponses aux FAQ</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Conversion boostée sur WhatsApp</li>
-                </ul>`,
-            chat: [
-                { role: 'client', text: "Bonjour, j'ai passé commande hier et je n'ai pas mon numéro de suivi." },
-                { role: 'agent', text: "Bonjour ! Donnez-moi votre numéro de commande s'il vous plaît." },
-                { role: 'client', text: "C'est la commande #4521." },
-                { role: 'agent', text: "Votre colis est en cours de préparation et sera expédié demain. Souhaitez-vous une notification WhatsApp lors de l'envoi ?" },
-                { role: 'client', text: "Oui, je veux bien, merci." },
-                { role: 'agent', text: "C'est noté ! ✅ Autre chose ?" },
-                { role: 'client', text: "Non c'est tout, merci." }
-            ]
-        },
-        en: {
-            title: "Personal Business",
-            subtitle: "100% tailored to your business",
-            explanation: `
-                <p class='text-lg font-bold text-gray-900'>Got a Shopify store? Use a customer service agent!</p>
-                <ul class='space-y-2 mt-5'>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Real-time order tracking</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ FAQ responses</li>
-                    <li class='flex items-center gap-2 text-sm font-medium'>✅ Boosted conversion on WhatsApp</li>
-                </ul>`,
-            chat: [
-                { role: 'client', text: "Hi, I placed an order yesterday and haven't received my tracking number." },
-                { role: 'agent', text: "Hello! Please give me your order number." },
-                { role: 'client', text: "It's order #4521." },
-                { role: 'agent', text: "Your package is being prepared and will ship tomorrow. Would you like a WhatsApp notification when it ships?" },
-                { role: 'client', text: "Yes please, thank you." },
-                { role: 'agent', text: "Noted! ✅ Anything else?" },
-                { role: 'client', text: "No that's all, thanks." }
-            ]
-        }
-    }
-};
-
-// ── Mobile menu ───────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    // Apply saved language on load
-    if (currentLang !== 'fr') setLanguage(currentLang);
-    else {
-        // Just style mobile buttons
-        document.getElementById('mobile-lang-fr').className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-cyan-400 text-cyan-600 bg-cyan-50 text-sm font-medium transition-all';
-        document.getElementById('mobile-lang-en').className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-gray-500 text-sm font-medium transition-all';
-    }
-
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuBtn.onclick = () => mobileMenu.classList.toggle('hidden');
-
-    // Lang button toggle
-    document.getElementById('lang-btn').onclick = toggleLangDropdown;
-
-    // WhatsApp
-    const WA_LINKS = {
-        fr: 'https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20faire%20une%20d%C3%A9mo%20pour%20mon%20business%20!',
-        en: 'https://wa.me/33767466391?text=Hello%2C%20I%27d%20like%20to%20schedule%20a%20demo%20for%20my%20business!'
-    };
-    document.querySelectorAll('.open-calendly').forEach(btn => {
-        btn.onclick = () => {
-            mobileMenu.classList.add('hidden');
-            window.open(WA_LINKS[currentLang], '_blank');
-        };
-    });
-
-    // Demo modal
-    const demoModal = document.getElementById('demo-modal');
-    const closeDemo = document.getElementById('close-demo');
-
-    document.querySelectorAll('.sector-card').forEach(card => {
-        card.onclick = () => {
-            const sector = sectorData[card.dataset.sector][currentLang];
-            document.getElementById('modal-title').innerText = sector.title;
-            document.getElementById('modal-subtitle').innerText = sector.subtitle;
-
-            const grid = document.getElementById('modal-grid');
-            const expl = document.getElementById('modal-explanation');
-            const chatCont = document.getElementById('modal-chat');
-            const ctaBtn = document.getElementById('modal-cta-btn');
-            chatCont.innerHTML = '';
-
-            if (sector.video) {
-                // Boîte de nuit → la vidéo nightbook en grand + CTA vers nightbook.io
-                grid.classList.remove('md:grid-cols-2');
-                expl.innerHTML = '';
-                chatCont.className = 'w-full';
-                chatCont.innerHTML = `<video src="${sector.video}" controls autoplay muted playsinline class="w-full rounded-2xl shadow-lg" style="max-height:60vh"></video>`;
-                ctaBtn.textContent = translations[currentLang].modal_cta_nightbook;
-                ctaBtn.onclick = () => window.open('https://nightbook.io', '_blank');
-            } else {
-                grid.classList.add('md:grid-cols-2');
-                expl.innerHTML = sector.explanation;
-                chatCont.className = 'bg-gray-50 rounded-2xl p-5 border border-gray-100 h-[380px] overflow-y-auto';
-                sector.chat.forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = `p-3 rounded-2xl mb-2 text-sm max-w-[85%] ${msg.role === 'client' ? 'ml-auto chat-bubble-client' : 'chat-bubble-agent'}`;
-                    const agentLabel = currentLang === 'fr' ? 'Agent IA' : 'AI Agent';
-                    div.innerHTML = (msg.role === 'agent' ? `<p class='font-bold text-[10px] text-cyan-600 mb-1'>${agentLabel}</p>` : '') + msg.text.replace(/\n/g, '<br>');
-                    chatCont.appendChild(div);
-                });
-                ctaBtn.textContent = translations[currentLang].modal_cta;
-                ctaBtn.onclick = () => window.open(WA_LINKS[currentLang], '_blank');
-            }
-
-            demoModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        };
-    });
-
-    closeDemo.onclick = () => {
-        demoModal.classList.add('hidden');
-        document.body.style.overflow = '';
-    };
-
-    window.onclick = (e) => {
-        if (e.target === demoModal) closeDemo.onclick();
-    };
-});
+applyLang();
 </script>
 </body>
 </html>

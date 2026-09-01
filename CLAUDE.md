@@ -17,7 +17,7 @@ Pendant longtemps, **la prod ne venait PAS de GitHub**. Le site live était un *
 ## Structure
 
 - **Next.js** (App Router, TS) mais le vrai contenu = **fichiers statiques dans `public/`** :
-  - `public/agentbooking.html` , **LA landing** (tout le HTML/CSS/JS inline, ~910 lignes, Tailwind CDN + i18n maison FR/EN).
+  - `public/agentbooking.html` , **LA landing v2** (refonte août 2026 : tout le HTML/CSS/JS inline, CSS maison SANS Tailwind, i18n maison FR/EN). Ancienne v1 récupérable via la branche `backup-pre-v2` / git log.
   - `public/demo-start.html` (`/demo`) , formulaire "tester l'agent" (nom + domaine + problème, stocké en localStorage, PAS de lead en base).
   - `public/demo-agent.html` (`/agent`) , chat de démo qui tape le webhook n8n via `/api/chat`.
   - `public/mentions-legales.html`, `public/confidentialite.html`, `public/service.html` (pages légales).
@@ -26,20 +26,22 @@ Pendant longtemps, **la prod ne venait PAS de GitHub**. Le site live était un *
 - `src/app/api/chat/route.ts` : proxy vers le **webhook n8n démo** `132e5738-e018-40eb-83b9-c184bf95359f` (workflow "agent demo" `INtyqZY99dP0vVRy`, LE MÊME que la démo nightbook.io). Payload : `{chatInput, sessionId, source:'agentbooking-demo', clubName, domain, problem}`.
 - `src/app/src/app/{mentions-legales,confidentialite}/page.tsx` : copies React des pages légales (garder synchro avec les .html si modifiées).
 
-## Landing (`agentbooking.html`) , anatomie
+## Landing (`agentbooking.html`) , anatomie v2 (août 2026)
 
-Bannière lancement nightbook.io (top, i18n `banner_*`) → Header (nav + switch langue FR/EN + CTA WhatsApp) → Hero (chat animé WhatsApp) → **Domaines** (4 cartes : Boîte de nuit, Tourisme, Location, Business Perso) → **Bandeau clients** ("Ces entreprises qui nous font confiance" + logos) → Fonctionnalités → Avantages (section sombre) → Avis → CTA → Footer.
+Positionnement **société umbrella** : Agent Booking = la maison mère, qui présente ses 2 SaaS + le sur-mesure.
+Header (nav + toggle FR/EN + CTA `/demo`) → Hero (titre éditorial + conversation animée en boucle `CONVOS`, 3 faits dont « +250 résas ») → **01 Produits** (panneau sombre **NightBook** avec la vidéo promo `https://nightbook.io/promo-{fr,en}.mp4` intégrée + CTA nightbook.io · panneau clair **TripBook** en accès anticipé, CTA WhatsApp) → **02 Sur-mesure** (liste a/b/c + carte témoignage réel **Nico / X-Quad Samui** avec stat +250 résas et lien `tripbook.agent-booking.fr/agent-plateformes.html`) → **03 Méthode** (3 étapes) → **Contact** (section sombre, CTA WhatsApp + `/demo` + email) → Footer.
 
-- **i18n** : objet `translations = {fr:{...}, en:{...}}` inline + `data-i18n` sur les éléments. `setLanguage()` réécrit les textNodes. **Toute string user-facing FR + EN** (pas d'ES sur ce site).
-- **Modale secteurs** (`sectorData`) : clic sur une carte → modale. Cas spécial **`nightlife`** : au lieu du faux chat, affiche la **vidéo promo nightbook** (`video: https://nightbook.io/promo-{fr,en}.mp4`) en grand + CTA "Découvrir nightbook.io →" (flag `nightbookCta`). Les autres secteurs (tourisme, location, business) = faux chat de démo + CTA WhatsApp.
-- **CTA** : les boutons `.open-calendly` ouvrent en fait **WhatsApp** (`WA_LINKS`, wa.me/33767466391) , Calendly a été retiré en avril malgré le nom de classe resté.
+- **Design v2** : éditorial premium sur papier clair. Fonts **Fraunces** (display) + **Archivo** (body) + Instrument Serif (carte TripBook uniquement). Accent teal `#0b6477` ; le cyan `#00e5ff` ne vit QUE dans le panneau NightBook (son identité produit). Pas de Tailwind, pas de modales.
+- **i18n** : objet `T = {fr:{...}, en:{...}}` inline + `data-i18n`/`data-i18n-html`, `toggleLang()` + localStorage `ab_lang`. **Toute string user-facing FR + EN** (pas d'ES sur ce site).
+- **CTA** : WhatsApp `wa.me/33767466391` (hero, TripBook, contact) + `/demo` (démo live). Plus aucun `.open-calendly`.
+- La vidéo NightBook change de langue dans `applyLang()` (id `nb-video`).
 
 ## Conventions (héritées du business)
 
 - **Pas de `—`/`–`** user-facing → `·`, `,`, `.`.
 - Téléphone pro : **07 67 46 63 91** (`33767466391` pour wa.me). Email pro : **agentbooking.contact@gmail.com**.
 - Hébergeur (mentions légales) : **Vercel** (pas IONOS). SIRET 990 009 466 00014, adresse 17 Bis route de Boussange 57270 Richemont.
-- Accent cyan `#00e5ff`, fonts Syne (display) + Plus Jakarta Sans. Jamais de glow cyan fluo.
+- Design v2 : accent teal `#0b6477` sur papier clair, cyan `#00e5ff` réservé au panneau NightBook. Fonts Fraunces + Archivo. Jamais de glow cyan fluo.
 
 ## Déployer / tester
 
@@ -52,7 +54,6 @@ Test local sans build : ouvrir `public/agentbooking.html` en `file://` (Playwrig
 ## État / TODO
 
 - ✅ S91 : restauration prod, bannière lancement nightbook.io (i18n), secteur **Location** (remplace Conciergerie), Boîte de nuit en 1er, bandeau clients (logo **X-Quad Samui Raid**), modale nightlife = vidéo promo + CTA nightbook, SEO (meta desc + OG + canonical), légal vérifié, nouveau numéro.
-- ⏭️ **Ajouter d'autres logos clients** au bandeau `#clients` dès qu'ils arrivent (nightbook clubs, agences tourisme…) , juste dupliquer le `<img>` dans la section.
-- ⏭️ Titre onglet en anglais ("AI Booking & Sales Agents 24/7") alors que le site ouvre en FR , à trancher avec Sacha.
+- ✅ Août 2026 : **refonte v2 complète** (positionnement société : NightBook + TripBook + sur-mesure, design éditorial Fraunces/Archivo, vidéo promo nightbook intégrée, témoignage X-Quad + stat +250 résas, titre onglet en FR, canonical). La bannière lancement, le bandeau clients et les modales secteurs de la v1 ont été absorbés/remplacés par les panneaux produits.
+- ⏭️ **Ajouter des témoignages/logos clients** (section Sur-mesure ou nouvelle section) dès qu'ils arrivent (clubs nightbook, agences tourisme…).
 - ⏭️ Pas d'ES (le SaaS nightbook est FR/EN/ES) , à ajouter si prospection hispano via l'agence.
-- 💡 Refonte design éventuelle (Sacha "sans doute", mais pas prioritaire , le site couvre plusieurs secteurs, pas que le nightlife).
