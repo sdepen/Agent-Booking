@@ -197,27 +197,27 @@ section{padding:clamp(60px,9vh,110px) 0}
 .contact-alt a{color:var(--text2);border-bottom:1px solid var(--border2)}
 .contact-alt a:hover{color:var(--text)}
 
-/* footer , même structure que nightbook.io (bloc sombre) */
-footer{background:#0a0a0f;color:#e2e0f0;border-top:1px solid rgba(255,255,255,.07);padding:56px 32px 24px}
+/* footer , même structure que nightbook.io, version claire */
+footer{background:var(--bg2);color:var(--text);border-top:1px solid var(--border2);padding:56px 32px 24px}
 .f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;max-width:1200px;margin:0 auto;align-items:start}
 .f-brand{display:flex;flex-direction:column;gap:14px}
-.f-logo{font-size:20px;font-weight:800;letter-spacing:-.045em;color:#fff;display:inline-flex;align-items:center}
+.f-logo{font-size:20px;font-weight:800;letter-spacing:-.045em;color:var(--text);display:inline-flex;align-items:center}
 .f-logo span{color:var(--accent);font-weight:700}
-.f-tagline{font-size:13px;color:#8b86a8;line-height:1.55;max-width:280px}
-.f-cta-wa{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25d366;font-size:12px;font-weight:700;transition:all .2s;width:fit-content;margin-top:4px}
+.f-tagline{font-size:13px;color:var(--text2);line-height:1.55;max-width:280px}
+.f-cta-wa{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.5);color:#0e7a3d;font-size:12px;font-weight:700;transition:all .2s;width:fit-content;margin-top:4px}
 .f-cta-wa:hover{background:rgba(37,211,102,.18);border-color:rgba(37,211,102,.5);transform:translateY(-1px)}
 .f-cta-wa svg{width:16px;height:16px}
-.f-mail{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.3);color:var(--accent);font-size:12px;font-weight:700;transition:all .2s;width:fit-content}
+.f-mail{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.55);color:var(--text);font-size:12px;font-weight:700;transition:all .2s;width:fit-content}
 .f-mail:hover{background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.5);transform:translateY(-1px)}
 .f-mail svg{width:16px;height:16px;flex-shrink:0}
-.f-col-title{font-size:11px;font-weight:800;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.f-col-title{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
 .f-col-links{display:flex;flex-direction:column;gap:10px}
-.f-col-links a{font-size:13px;color:#8b86a8;transition:color .15s}
-.f-col-links a:hover{color:var(--accent)}
-.f-signature{max-width:1200px;margin:52px auto 0;text-align:center;font-size:22px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.f-col-links a{font-size:13px;color:var(--text3);transition:color .15s}
+.f-col-links a:hover{color:var(--text)}
+.f-signature{max-width:1200px;margin:52px auto 0;text-align:center;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.01em}
 .f-signature::after{content:'';display:block;width:38px;height:2px;background:var(--accent);margin:16px auto 0;border-radius:2px}
-.f-bottom{max-width:1200px;margin:28px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:center;align-items:center}
-.f-copy{font-size:12px;color:#8b86a8}
+.f-bottom{max-width:1200px;margin:28px auto 0;padding-top:24px;border-top:1px solid var(--border2);display:flex;justify-content:center;align-items:center}
+.f-copy{font-size:12px;color:var(--text3)}
 @media(max-width:880px){footer{padding:40px 24px 20px}.f-grid{grid-template-columns:1fr 1fr;gap:32px}.f-brand{grid-column:1 / -1}}
 @media(max-width:520px){.f-grid{grid-template-columns:1fr;gap:28px}}
 
@@ -240,11 +240,38 @@ footer{background:#0a0a0f;color:#e2e0f0;border-top:1px solid rgba(255,255,255,.0
 }
 </style>
     <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "ybo9tkvtoe");
+      // Cookies analytics (Microsoft Clarity) : chargé UNIQUEMENT après consentement.
+      (function(){
+        var KEY='ab_cookie_consent';
+        function loadClarity(){
+          (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "ybo9tkvtoe");
+        }
+        var c=null; try{c=localStorage.getItem(KEY);}catch(e){}
+        if(c==='yes'){loadClarity();return;}
+        if(c==='no'){return;}
+        function showBanner(){
+          var lang='fr'; try{lang=localStorage.getItem('ab_lang')||'fr';}catch(e){}
+          var en=lang==='en';
+          var b=document.createElement('div');
+          b.setAttribute('role','dialog');
+          b.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:1000;background:#fff;color:#0f1419;border:1px solid rgba(15,20,25,.16);border-radius:16px;padding:14px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;box-shadow:0 12px 40px rgba(15,20,25,.16);max-width:calc(100vw - 32px);width:max-content;font-family:Inter,system-ui,sans-serif;font-size:13.5px;line-height:1.5';
+          b.innerHTML=(en
+            ? 'We use cookies to understand how the site is used (Microsoft Clarity). <a href="/confidentialite" style="color:#0f1419;text-decoration:underline">Privacy</a>'
+            : 'On utilise des cookies pour comprendre comment le site est utilisé (Microsoft Clarity). <a href="/confidentialite" style="color:#0f1419;text-decoration:underline">Confidentialité</a>')
+            +'<span style="display:inline-flex;gap:8px;margin-left:auto">'
+            +'<button id="ab-ck-no" style="font-family:inherit;font-size:13px;font-weight:600;padding:9px 16px;border-radius:100px;border:1px solid rgba(15,20,25,.2);background:#fff;color:#475066;cursor:pointer">'+(en?'Decline':'Refuser')+'</button>'
+            +'<button id="ab-ck-yes" style="font-family:inherit;font-size:13px;font-weight:600;padding:9px 18px;border-radius:100px;border:none;background:#00e5ff;color:#000;cursor:pointer">'+(en?'Accept':'Accepter')+'</button>'
+            +'</span>';
+          document.body.appendChild(b);
+          document.getElementById('ab-ck-yes').onclick=function(){try{localStorage.setItem(KEY,'yes');}catch(e){} b.remove(); loadClarity();};
+          document.getElementById('ab-ck-no').onclick=function(){try{localStorage.setItem(KEY,'no');}catch(e){} b.remove();};
+        }
+        if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',showBanner);}else{showBanner();}
+      })();
     </script>
 </head>
 <body>

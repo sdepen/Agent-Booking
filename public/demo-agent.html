@@ -304,11 +304,38 @@
       }
     </style>
       <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "ybo9tkvtoe");
+      // Cookies analytics (Microsoft Clarity) : chargé UNIQUEMENT après consentement.
+      (function(){
+        var KEY='ab_cookie_consent';
+        function loadClarity(){
+          (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "ybo9tkvtoe");
+        }
+        var c=null; try{c=localStorage.getItem(KEY);}catch(e){}
+        if(c==='yes'){loadClarity();return;}
+        if(c==='no'){return;}
+        function showBanner(){
+          var lang='fr'; try{lang=localStorage.getItem('ab_lang')||'fr';}catch(e){}
+          var en=lang==='en';
+          var b=document.createElement('div');
+          b.setAttribute('role','dialog');
+          b.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:1000;background:#fff;color:#0f1419;border:1px solid rgba(15,20,25,.16);border-radius:16px;padding:14px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;box-shadow:0 12px 40px rgba(15,20,25,.16);max-width:calc(100vw - 32px);width:max-content;font-family:Inter,system-ui,sans-serif;font-size:13.5px;line-height:1.5';
+          b.innerHTML=(en
+            ? 'We use cookies to understand how the site is used (Microsoft Clarity). <a href="/confidentialite" style="color:#0f1419;text-decoration:underline">Privacy</a>'
+            : 'On utilise des cookies pour comprendre comment le site est utilisé (Microsoft Clarity). <a href="/confidentialite" style="color:#0f1419;text-decoration:underline">Confidentialité</a>')
+            +'<span style="display:inline-flex;gap:8px;margin-left:auto">'
+            +'<button id="ab-ck-no" style="font-family:inherit;font-size:13px;font-weight:600;padding:9px 16px;border-radius:100px;border:1px solid rgba(15,20,25,.2);background:#fff;color:#475066;cursor:pointer">'+(en?'Decline':'Refuser')+'</button>'
+            +'<button id="ab-ck-yes" style="font-family:inherit;font-size:13px;font-weight:600;padding:9px 18px;border-radius:100px;border:none;background:#00e5ff;color:#000;cursor:pointer">'+(en?'Accept':'Accepter')+'</button>'
+            +'</span>';
+          document.body.appendChild(b);
+          document.getElementById('ab-ck-yes').onclick=function(){try{localStorage.setItem(KEY,'yes');}catch(e){} b.remove(); loadClarity();};
+          document.getElementById('ab-ck-no').onclick=function(){try{localStorage.setItem(KEY,'no');}catch(e){} b.remove();};
+        }
+        if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',showBanner);}else{showBanner();}
+      })();
     </script>
 </head>
   <body>

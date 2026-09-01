@@ -35,6 +35,7 @@ Nav pill flottante (blur, logo Agent**Booking**, toggle FR/EN, CTA `/demo`) → 
 - **Vidéo hero** : servie depuis nightbook.io (pas de mp4 dans ce repo). `pickVideoSrc()` bascule `promo-fr/en.mp4` au changement de langue ; fallback FR sur erreur ; autoplay muet (son au clic).
 - **i18n** : objet `T = {fr:{...}, en:{...}}` inline + `data-i18n`/`data-i18n-html`, `toggleLang()` + localStorage `ab_lang`. **Toute string user-facing FR + EN** (pas d'ES sur ce site). ⚠️ Espace avant chaque `<br>` des titres (les `<br>` sont masqués en mobile, sinon les mots se collent).
 - **CTA** : WhatsApp `wa.me/33767466391` (hero, TripBook, contact) + `/demo` (démo live). Plus aucun `.open-calendly`.
+- **Analytics** : Microsoft Clarity projet `ybo9tkvtoe`, sur les 6 pages, **gaté par une bannière de consentement** (clé localStorage `ab_cookie_consent` = yes/no ; Clarity ne se charge qu'après « Accepter »). Footer en version claire (fond `--bg2`).
 
 ## Conventions (héritées du business)
 
