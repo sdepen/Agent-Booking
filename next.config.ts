@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
       { source: "/mentions-legales.html", destination: "/mentions-legales", permanent: true },
       { source: "/confidentialite.html", destination: "/confidentialite", permanent: true },
       { source: "/service.html", destination: "/conditions-service", permanent: true },
+      { source: "/demo-start.html", destination: "/demo", permanent: true },
+      { source: "/demo-agent.html", destination: "/agent", permanent: true },
     ];
   },
   async rewrites() {
