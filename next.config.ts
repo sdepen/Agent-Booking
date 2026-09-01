@@ -6,17 +6,28 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/", destination: "/agentbooking.html", permanent: false },
-      { source: "/mentions-legales", destination: "/mentions-legales.html", permanent: false },
-      { source: "/confidentialite", destination: "/confidentialite.html", permanent: false },
-      { source: "/conditions-service", destination: "/service.html", permanent: false },
+      // Les vieilles URLs .html renvoient vers les URLs propres
+      { source: "/agentbooking.html", destination: "/", permanent: true },
+      { source: "/mentions-legales.html", destination: "/mentions-legales", permanent: true },
+      { source: "/confidentialite.html", destination: "/confidentialite", permanent: true },
+      { source: "/service.html", destination: "/conditions-service", permanent: true },
     ];
   },
   async rewrites() {
-    return [
-      { source: "/demo", destination: "/demo-start.html" },
-      { source: "/agent", destination: "/demo-agent.html" },
-    ];
+    return {
+      // beforeFiles : prioritaire sur les pages App Router (sinon src/app/page.tsx
+      // , le wrapper iframe , servirait la racine à la place du vrai HTML)
+      beforeFiles: [
+        { source: "/", destination: "/agentbooking.html" },
+        { source: "/mentions-legales", destination: "/mentions-legales.html" },
+        { source: "/confidentialite", destination: "/confidentialite.html" },
+        { source: "/conditions-service", destination: "/service.html" },
+        { source: "/demo", destination: "/demo-start.html" },
+        { source: "/agent", destination: "/demo-agent.html" },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
 };
 
