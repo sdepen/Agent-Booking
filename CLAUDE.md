@@ -22,7 +22,7 @@ Pendant longtemps, **la prod ne venait PAS de GitHub**. Le site live était un *
   - `public/demo-agent.html` (`/agent`) , chat de démo qui tape le webhook n8n via `/api/chat`.
   - `public/mentions-legales.html`, `public/confidentialite.html`, `public/service.html` (pages légales).
   - `public/logo.png`, `public/favicon.png`, `public/logo-xquad.jpg` (logo client bandeau).
-- `next.config.ts` : **rewrite `/` → `/agentbooking.html`** (sert la landing à la racine, pas d'iframe) + redirects `/mentions-legales`, `/confidentialite`, `/conditions-service` + rewrites `/demo`, `/agent`.
+- `next.config.ts` : **URLs propres partout** , rewrites `beforeFiles` (`/`→agentbooking.html, `/demo`, `/agent`, `/mentions-legales`, `/confidentialite`, `/conditions-service`) + redirects 308 des vieilles URLs `.html` vers les propres. ⚠️ `beforeFiles` obligatoire : sinon `src/app/page.tsx` (wrapper iframe legacy) capte `/` à la place du vrai HTML.
 - `src/app/api/chat/route.ts` : proxy vers le **webhook n8n démo** `132e5738-e018-40eb-83b9-c184bf95359f` (workflow "agent demo" `INtyqZY99dP0vVRy`, LE MÊME que la démo nightbook.io). Payload : `{chatInput, sessionId, source:'agentbooking-demo', clubName, domain, problem}`.
 - `src/app/src/app/{mentions-legales,confidentialite}/page.tsx` : copies React des pages légales (garder synchro avec les .html si modifiées).
 
