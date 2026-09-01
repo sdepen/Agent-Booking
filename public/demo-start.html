@@ -50,33 +50,40 @@
         background: #fff;
         border: 1px solid var(--border2);
         border-radius: 20px;
-        padding: 40px 36px;
-        max-width: 460px;
+        padding: 34px 38px 30px;
+        max-width: 780px;
         width: 100%;
         box-shadow: 0 30px 80px rgba(15, 20, 25, 0.1);
         position: relative;
       }
+      .card-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
       .logo {
         display: inline-flex;
-        font-size: 21px;
+        font-size: 19px;
         font-weight: 600;
         letter-spacing: -0.045em;
         color: var(--text);
         text-decoration: none;
-        margin-bottom: 28px;
       }
       .logo span { color: var(--accent); font-weight: 700; }
       .title {
-        font-size: 24px;
+        font-size: 23px;
         font-weight: 700;
         letter-spacing: -0.03em;
-        margin-bottom: 10px;
+        margin: 14px 0 6px;
       }
       .subtitle {
-        font-size: 14px;
+        font-size: 13.5px;
         color: var(--text2);
-        margin-bottom: 30px;
-        line-height: 1.6;
+        margin-bottom: 24px;
+        line-height: 1.55;
       }
       .question {
         font-size: 11px;
@@ -88,19 +95,19 @@
       }
       .domain-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        margin-bottom: 28px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 22px;
       }
       button.domain-option {
         background: var(--bg2);
         border: 1px solid var(--border2);
         color: var(--text);
         font-family: inherit;
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 600;
         border-radius: 14px;
-        padding: 16px 14px;
+        padding: 13px 13px;
         cursor: pointer;
         text-align: left;
         transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
@@ -112,7 +119,7 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--text3);
-        margin-top: 7px;
+        margin-top: 6px;
       }
       button.domain-option:hover {
         border-color: rgba(15, 20, 25, 0.3);
@@ -140,8 +147,8 @@
         border-radius: 14px;
         color: var(--text);
         font-family: inherit;
-        font-size: 14.5px;
-        padding: 15px 18px;
+        font-size: 14px;
+        padding: 13px 16px;
         outline: none;
         transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
       }
@@ -158,11 +165,11 @@
         font-family: inherit;
         font-weight: 600;
         font-size: 15px;
-        padding: 15px;
+        padding: 14px;
         border-radius: 100px;
         border: none;
         cursor: pointer;
-        margin-top: 28px;
+        margin-top: 24px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       }
@@ -182,20 +189,26 @@
         text-decoration: none;
         font-size: 13px;
         font-weight: 500;
-        margin-top: 18px;
+        margin-top: 14px;
         transition: color var(--t);
       }
       a.back-link:hover { color: var(--text); }
       a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      @media (max-width: 720px) {
+        .domain-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
       @media (max-width: 480px) {
         body { padding: 18px 14px; }
-        .card { padding: 30px 22px; }
+        .card { padding: 28px 20px 24px; }
       }
     </style>
   </head>
   <body>
     <div class="card">
-      <a href="/" class="logo">Agent<span>Booking</span></a>
+      <div class="card-head">
+        <a href="/" class="logo">Agent<span>Booking</span></a>
+        <a class="back-link" href="/" style="margin:0">← Retour à l'accueil</a>
+      </div>
       <div class="title">Tester l'agent</div>
       <div class="subtitle">
         Répondez aux 3 questions ci-dessous. Les réponses seront utilisées pour personnaliser la démo.
@@ -245,7 +258,6 @@
       </div>
 
       <button id="start-btn" type="button" disabled>Commencer →</button>
-      <a class="back-link" href="/">← Retour à l'accueil</a>
     </div>
 
     <script>
