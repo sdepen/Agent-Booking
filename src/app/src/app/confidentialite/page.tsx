@@ -25,10 +25,14 @@ export default function Page() {
           sauf obligation légale.
         </p>
 
-        <h2 className="text-xl font-semibold mt-6">Cookies</h2>
+        <h2 className="text-xl font-semibold mt-6">Cookies et mesure d’audience</h2>
         <p>
-          Le site peut utiliser des cookies afin d’améliorer l’expérience utilisateur et mesurer
-          l’audience. L’utilisateur peut configurer son navigateur pour refuser les cookies.
+          Le site utilise Microsoft Clarity pour comprendre comment les visiteurs utilisent le site
+          (pages consultées, clics, cartes de chaleur, enregistrements de session). Ces cookies ne
+          sont déposés qu’après votre consentement, donné via la bannière affichée lors de votre
+          première visite. Si vous refusez, aucun cookie de mesure d’audience n’est déposé. Votre
+          choix est conservé dans votre navigateur (clé « ab_cookie_consent ») et peut être modifié
+          à tout moment depuis la page /confidentialite du site.
         </p>
 
         <h2 className="text-xl font-semibold mt-6">Durée de conservation</h2>
