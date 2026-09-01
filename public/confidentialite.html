@@ -2,10 +2,54 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>Politique de confidentialité – Agent Booking</title>
+  <title>Politique de confidentialité · Agent Booking</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #00e5ff;
+      --bg2: #f8fafc;
+      --border2: rgba(15, 20, 25, 0.14);
+      --text: #0f1419;
+      --text2: #475066;
+      --text3: #6b7280;
+    }
+    body {
+      background: #fff;
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 22px 80px; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border2);
+      margin-bottom: 34px;
+    }
+    .logo { font-size: 19px; font-weight: 600; letter-spacing: -0.045em; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); font-weight: 700; }
+    .back { font-size: 13px; font-weight: 500; color: var(--text3); text-decoration: none; }
+    .back:hover { color: var(--text); }
+    h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 24px; }
+    h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin: 30px 0 10px; }
+    p, li { font-size: 14.5px; color: var(--text2); }
+    p + p { margin-top: 10px; }
+    ul { padding-left: 22px; margin: 10px 0; display: flex; flex-direction: column; gap: 6px; }
+    strong { color: var(--text); font-weight: 600; }
+    main a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    main a:hover { color: var(--text3); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
     <script type="text/javascript">
       // Cookies analytics (Microsoft Clarity) : chargé UNIQUEMENT après consentement.
       (function(){
@@ -41,51 +85,45 @@
       })();
     </script>
 </head>
-<body class="bg-[#101726] text-gray-200 antialiased">
-  <main class="max-w-3xl mx-auto px-6 py-12">
-    <h1 class="text-3xl font-bold mb-6">Politique de confidentialité et de cookies</h1>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a href="/" class="logo">Agent<span>Booking</span></a>
+      <a href="/" class="back">← Retour à l'accueil</a>
+    </div>
+    <main>
+      <h1>Politique de confidentialité et de cookies</h1>
+      <p>Le site <strong>Agent Booking</strong> peut collecter des informations personnelles (nom, prénom, adresse e-mail, etc.) uniquement lorsque l'utilisateur remplit un formulaire de contact ou s'inscrit volontairement à une newsletter.</p>
 
-    <section class="space-y-4 leading-relaxed">
-      <p>Le site <strong>AgentBooking</strong> peut collecter des informations personnelles (nom, prénom, adresse e-mail, etc.) uniquement lorsque l’utilisateur remplit un formulaire de contact ou s’inscrit volontairement à une newsletter.</p>
-
-      <h2 class="text-xl font-semibold mt-6">Utilisation des données</h2>
+      <h2>Utilisation des données</h2>
       <p>Les données collectées sont utilisées uniquement pour répondre aux demandes de contact, gérer la relation client et, le cas échéant, envoyer des informations commerciales.</p>
 
-      <h2 class="text-xl font-semibold mt-6">Utilisation de WhatsApp</h2>
-      <p>Dans le cadre du service AgentBooking, certaines communications
-peuvent être envoyées ou reçues via WhatsApp Business API.
+      <h2>Utilisation de WhatsApp</h2>
+      <p>Dans le cadre du service Agent Booking, certaines communications peuvent être envoyées ou reçues via WhatsApp Business API.</p>
+      <p>Ces messages peuvent être automatisés afin de répondre aux demandes des utilisateurs (réservations, informations, confirmations).</p>
+      <p>Les utilisateurs peuvent à tout moment demander l'arrêt des messages en envoyant "STOP".</p>
 
-Ces messages peuvent être automatisés afin de répondre aux demandes
-des utilisateurs (réservations, informations, confirmations).
+      <h2>Partage des données</h2>
+      <p>Aucune donnée personnelle n'est transmise à des tiers sans consentement explicite, sauf obligation légale.</p>
 
-Les utilisateurs peuvent à tout moment demander l’arrêt des messages
-en envoyant "STOP".</p>
-
-      <h2 class="text-xl font-semibold mt-6">Partage des données</h2>
-      <p>Aucune donnée personnelle n’est transmise à des tiers sans consentement explicite, sauf obligation légale.</p>
-
-      <h2 class="text-xl font-semibold mt-6">Cookies et mesure d’audience</h2>
-      <p>Le site utilise <strong>Microsoft Clarity</strong> pour comprendre comment les visiteurs utilisent le site (pages consultées, clics, cartes de chaleur, enregistrements de session). Ces cookies ne sont déposés <strong>qu’après votre consentement</strong>, donné via la bannière affichée lors de votre première visite. Si vous refusez, aucun cookie de mesure d’audience n’est déposé et le site reste pleinement utilisable.</p>
+      <h2>Cookies et mesure d'audience</h2>
+      <p>Le site utilise <strong>Microsoft Clarity</strong> pour comprendre comment les visiteurs utilisent le site (pages consultées, clics, cartes de chaleur, enregistrements de session). Ces cookies ne sont déposés <strong>qu'après votre consentement</strong>, donné via la bannière affichée lors de votre première visite. Si vous refusez, aucun cookie de mesure d'audience n'est déposé et le site reste pleinement utilisable.</p>
       <p>Votre choix est conservé dans votre navigateur (clé « ab_cookie_consent »). Vous pouvez le modifier à tout moment :
-        <a href="#" class="underline text-cyan-300" onclick="try{localStorage.removeItem('ab_cookie_consent')}catch(e){};location.reload();return false;">cliquer ici pour réafficher la bannière de consentement</a>.</p>
+        <a href="#" onclick="try{localStorage.removeItem('ab_cookie_consent')}catch(e){};location.reload();return false;">cliquer ici pour réafficher la bannière de consentement</a>.</p>
       <p>Les données collectées via Clarity sont traitées par Microsoft conformément à sa
-        <a href="https://privacy.microsoft.com/fr-fr/privacystatement" target="_blank" rel="noopener" class="underline text-cyan-300">déclaration de confidentialité</a>.
-        Clarity masque par défaut les contenus sensibles saisis à l’écran.</p>
+        <a href="https://privacy.microsoft.com/fr-fr/privacystatement" target="_blank" rel="noopener">déclaration de confidentialité</a>.
+        Clarity masque par défaut les contenus sensibles saisis à l'écran.</p>
       <p>Le site utilise par ailleurs le stockage local du navigateur pour des préférences techniques non traçantes : langue choisie et réponses du formulaire de démo. Ces informations restent sur votre appareil et ne sont transmises à aucun tiers.</p>
 
-      <h2 class="text-xl font-semibold mt-6">Durée de conservation</h2>
+      <h2>Durée de conservation</h2>
       <p>Les données sont conservées pour une durée maximale de 3 ans à compter du dernier contact.</p>
 
-      <h2 class="text-xl font-semibold mt-6">Droits des utilisateurs</h2>
-      <p>Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et de suppression de vos données. Pour exercer vos droits :</p>
-      <ul class="list-disc pl-6">
-        <li>Email : <a href="mailto:agentbooking.contact@gmail.com" class="underline text-cyan-300">agentbooking.contact@gmail.com</a></li>
+      <h2>Droits des utilisateurs</h2>
+      <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer vos droits :</p>
+      <ul>
+        <li>Email : <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a></li>
       </ul>
-    </section>
-
-    <div class="mt-10">
-      <a href="/" class="underline text-cyan-300">← Retour</a>
-    </div>
-  </main>
+    </main>
+  </div>
 </body>
 </html>

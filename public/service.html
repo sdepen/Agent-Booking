@@ -2,10 +2,54 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>Conditions de service – Agent Booking</title>
+  <title>Conditions de service · Agent Booking</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #00e5ff;
+      --bg2: #f8fafc;
+      --border2: rgba(15, 20, 25, 0.14);
+      --text: #0f1419;
+      --text2: #475066;
+      --text3: #6b7280;
+    }
+    body {
+      background: #fff;
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 22px 80px; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border2);
+      margin-bottom: 34px;
+    }
+    .logo { font-size: 19px; font-weight: 600; letter-spacing: -0.045em; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); font-weight: 700; }
+    .back { font-size: 13px; font-weight: 500; color: var(--text3); text-decoration: none; }
+    .back:hover { color: var(--text); }
+    h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 24px; }
+    h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin: 30px 0 10px; }
+    p, li { font-size: 14.5px; color: var(--text2); }
+    p + p { margin-top: 10px; }
+    ul { padding-left: 22px; margin: 10px 0; display: flex; flex-direction: column; gap: 6px; }
+    strong { color: var(--text); font-weight: 600; }
+    main a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    main a:hover { color: var(--text3); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
     <script type="text/javascript">
       // Cookies analytics (Microsoft Clarity) : chargé UNIQUEMENT après consentement.
       (function(){
@@ -41,30 +85,18 @@
       })();
     </script>
 </head>
-
-<body class="bg-[#101726] text-gray-200 antialiased">
-  <main class="max-w-3xl mx-auto px-6 py-12">
-    <h1 class="text-3xl font-bold mb-6">Conditions de service</h1>
-
-    <section class="space-y-4 leading-relaxed">
-      <p>
-        Le service <strong>AgentBooking</strong> permet la gestion automatisée de demandes
-        de réservation et d’information via WhatsApp.
-      </p>
-
-      <p>
-        L’utilisateur accepte de recevoir des messages automatisés.
-        Il peut arrêter le service à tout moment en envoyant "STOP".
-      </p>
-
-      <p>
-        Le service est fourni sans garantie de disponibilité continue.
-      </p>
-    </section>
-
-    <div class="mt-10">
-      <a href="/" class="underline text-cyan-300">← Retour</a>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a href="/" class="logo">Agent<span>Booking</span></a>
+      <a href="/" class="back">← Retour à l'accueil</a>
     </div>
-  </main>
+    <main>
+      <h1>Conditions de service</h1>
+      <p>Le service <strong>Agent Booking</strong> permet la gestion automatisée de demandes de réservation et d'information via WhatsApp.</p>
+      <p>L'utilisateur accepte de recevoir des messages automatisés. Il peut arrêter le service à tout moment en envoyant "STOP".</p>
+      <p>Le service est fourni sans garantie de disponibilité continue.</p>
+    </main>
+  </div>
 </body>
 </html>
