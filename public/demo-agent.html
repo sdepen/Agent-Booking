@@ -383,6 +383,7 @@
 
       // Unique session ID per demo — prevents n8n memory from mixing users
       const SESSION_ID = crypto.randomUUID();
+      let firstMessage = true;
 
       const DOMAIN_LABELS = {
         boite_de_nuit: 'Boîte de nuit',
@@ -429,6 +430,7 @@
 
         addBubble(content, 'user');
         input.value = '';
+        firstMessage = false;
         sendBtn.disabled = true;
         showTyping();
 
@@ -440,6 +442,7 @@
           body: JSON.stringify({
             chatInput: content,
             sessionId: SESSION_ID,
+            first: firstMessage,
             source: 'agentbooking-demo',
             clubName: BUSINESS_NAME,
             domain: BUSINESS_DOMAIN,
