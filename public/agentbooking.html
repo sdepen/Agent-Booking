@@ -9,343 +9,273 @@
 <meta property="og:description" content="Vos clients écrivent, l'agent réserve. 24h/24, sur les canaux qu'ils utilisent déjà.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://agent-booking.fr/">
-<link rel="canonical" href="https://agent-booking.fr/">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --paper:#faf8f3;
-  --paper-2:#f2efe7;
-  --ink:#181712;
-  --ink-soft:#5c584d;
-  --ink-faint:#8a8578;
-  --line:#e4dfd2;
-  --line-strong:#cfc9b8;
-  --accent:#0b6477;
-  --accent-bright:#00c2e0;
-  --night:#0b0f14;
-  --night-2:#111820;
-  --cyan:#00e5ff;
+  --accent:#00e5ff;--accent2:#67f0ff;--accent-rgb:0,229,255;
+  --accent-ink:#0891b2;
+  --bg:#ffffff;--bg2:#f8fafc;--bg3:#eef2f7;--bg4:#e2e8f0;
+  --border:rgba(15,20,25,0.08);--border2:rgba(15,20,25,0.14);
+  --text:#0f1419;--text2:#475066;--text3:#6b7280;
+  --btn-text:#000;--green:#059669;--wa:#25D366;
+  --paper:#f5f3ec;--paper-2:#eceadf;--ink:#181712;--ink-soft:#5c584d;--ink-line:#dcd8c9;
+  --font-head:'Inter',system-ui,sans-serif;
+  --r:12px;--t:.2s ease;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{
-  font-family:'Archivo',sans-serif;
-  background:var(--paper);
-  color:var(--ink);
-  -webkit-font-smoothing:antialiased;
-  line-height:1.6;
-}
-::selection{background:var(--accent);color:var(--paper)}
-.serif{font-family:'Fraunces',serif;font-optical-sizing:auto}
-.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{background:var(--bg);color:var(--text);font-family:var(--font-head);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(0,229,255,.35);color:#0f1419}
 a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,32px)}
 
-/* ── labels ─────────────────────────────── */
-.eyebrow{
-  display:flex;align-items:center;gap:14px;
-  font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--accent);
+/* ── NAV pill ─────────────────────────────── */
+nav#nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:200;height:56px;display:flex;align-items:center;padding:0 10px 0 22px;justify-content:space-between;border:1px solid var(--border2);background:rgba(255,255,255,.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:100px;gap:28px;max-width:calc(100vw - 48px);transition:background var(--t)}
+nav#nav.blur{background:rgba(255,255,255,.92);box-shadow:0 8px 30px rgba(15,20,25,.08)}
+.logo{font-size:18px;font-weight:600;letter-spacing:-.045em;color:var(--text);display:inline-flex;align-items:center}
+.logo span{color:var(--accent-ink);font-weight:700}
+.nav-mid{display:flex;gap:28px;flex-wrap:nowrap}
+.nav-mid a{font-size:13px;color:var(--text2);transition:color var(--t);white-space:nowrap}
+.nav-mid a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:nowrap}
+.lang-toggle{border:none;background:none;cursor:pointer;font:inherit;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--text3);padding:8px 6px;white-space:nowrap}
+.lang-toggle b{color:var(--text)}
+.btn-cta{padding:10px 20px;background:var(--accent);color:var(--btn-text);font-size:13px;font-weight:600;border-radius:100px;transition:all var(--t);box-shadow:0 4px 20px rgba(var(--accent-rgb),.25);white-space:nowrap}
+.btn-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(var(--accent-rgb),.4)}
+@media (max-width:760px){
+  .nav-mid{display:none}
+  nav#nav{gap:10px;padding:0 8px 0 16px;height:50px;top:12px}
+  .logo{font-size:16px}
+  .lang-toggle{padding:6px 2px;font-size:11px}
+  .btn-cta{padding:8px 14px;font-size:12px}
 }
-.eyebrow::before{content:"";width:34px;height:1px;background:var(--accent)}
-.eyebrow .num{color:var(--ink-faint);letter-spacing:.1em}
 
-/* ── header ─────────────────────────────── */
-header{
-  position:sticky;top:0;z-index:60;
-  background:color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.brand{display:flex;align-items:baseline;gap:2px;font-family:'Fraunces',serif;font-size:21px;font-weight:600;letter-spacing:-.01em}
-.brand em{font-style:italic;font-weight:500;color:var(--accent)}
-.nav-links{display:flex;align-items:center;gap:34px;font-size:14px;font-weight:500}
-.nav-links a:not(.btn){color:var(--ink-soft);transition:color .2s}
-.nav-links a:not(.btn):hover{color:var(--ink)}
-.lang-toggle{
-  border:none;background:none;cursor:pointer;
-  font:inherit;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--ink-faint);
-}
-.lang-toggle b{color:var(--ink)}
-.lang-toggle:hover{color:var(--ink-soft)}
+/* ── buttons ─────────────────────────────── */
+.btn-main{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;background:var(--accent);color:var(--btn-text);font-size:15px;font-weight:600;border-radius:100px;transition:all var(--t);box-shadow:0 8px 32px rgba(var(--accent-rgb),.25),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(var(--accent-rgb),.4),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-sec{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border:1px solid var(--border2);background:#fff;color:var(--text);font-size:15px;font-weight:500;border-radius:100px;transition:all var(--t)}
+.btn-sec:hover{background:var(--bg2);border-color:rgba(15,20,25,.3)}
+.btn-wa{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;background:var(--wa);color:#04150a;font-size:15px;font-weight:600;border-radius:100px;transition:all var(--t);box-shadow:0 8px 32px rgba(37,211,102,.22)}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(37,211,102,.35)}
+.btn-wa svg,.hsa svg{width:17px;height:17px;flex-shrink:0}
+.textlink{font-size:14px;font-weight:600;color:var(--text2);border-bottom:1px solid var(--border2);padding-bottom:2px;transition:color var(--t),border-color var(--t)}
+.textlink:hover{color:var(--text);border-color:var(--text2)}
 
-.btn{
-  display:inline-flex;align-items:center;gap:9px;
-  padding:12px 22px;border-radius:2px;
-  font-size:14px;font-weight:600;letter-spacing:.01em;
-  transition:background .2s,color .2s,border-color .2s,transform .2s;
-}
-.btn-ink{background:var(--ink);color:var(--paper)}
-.btn-ink:hover{background:var(--accent)}
-.btn-ghost{border:1px solid var(--line-strong);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--ink);}
-.btn-wa{background:#1faa59;color:#fff}
-.btn-wa:hover{background:#178a48}
-.btn svg{width:15px;height:15px;flex:none}
+/* ── HERO ─────────────────────────────────── */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:128px 32px 48px;max-width:1300px;margin:0 auto}
+@media(min-width:961px){.hero{grid-template-columns:1fr 1.12fr}.hero-right{align-self:start;margin-top:64px}}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(8,145,178,.07);border:1px solid rgba(8,145,178,.22);border-radius:100px;font-size:12px;color:var(--accent-ink);margin-bottom:30px;width:fit-content;letter-spacing:.02em}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-ink);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(40px,5vw,68px);font-weight:600;letter-spacing:-.045em;line-height:1.04;color:var(--text);margin-bottom:26px}
+.hero h1 em{font-style:normal;color:var(--accent-ink)}
+.hero-sub{font-size:17px;color:var(--text2);line-height:1.75;max-width:480px;margin-bottom:36px}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.hero-subactions{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:48px;font-size:14px}
+.hsa{display:inline-flex;align-items:center;gap:8px;color:var(--text2);font-weight:500;transition:color var(--t)}
+.hsa:hover{color:var(--text);text-decoration:underline;text-underline-offset:4px}
+.hero-proof{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.proof-item{display:flex;flex-direction:column;gap:3px}
+.proof-num{font-size:24px;font-weight:800;color:var(--accent-ink);letter-spacing:-.02em}
+.proof-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.proof-sep{width:1px;height:32px;background:var(--border2)}
 
-#menu-btn{display:none;border:none;background:none;cursor:pointer;padding:6px}
-#menu-btn span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:.25s}
-#mobile-menu{display:none;border-top:1px solid var(--line);background:var(--paper);padding:26px clamp(20px,4vw,48px) 34px;flex-direction:column;gap:20px;font-size:16px;font-weight:500}
-#mobile-menu.open{display:flex}
+/* video frame */
+.hero-right{position:relative}
+.hero-right::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:520px;height:520px;background:radial-gradient(ellipse,rgba(6,182,212,.10) 0%,transparent 65%);pointer-events:none;z-index:0}
+.hero-video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#0a0e17;border:1px solid rgba(15,20,25,.15);box-shadow:0 30px 80px rgba(15,20,25,.25);z-index:1}
+.hero-video-frame video{width:100%;height:100%;display:block;object-fit:contain;background:#0a0e17}
+.hvf-poster{position:absolute;inset:0;background:#0a0e17;border:0;cursor:pointer;color:#fff;font-family:var(--font-head);z-index:4}
+.hvf-brand{position:absolute;top:22px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;font-size:24px;font-weight:600;letter-spacing:-.045em;color:#f5f5f7;white-space:nowrap}
+.hvf-brand .cy{color:var(--accent);font-weight:700}
+.hvf-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:rgba(var(--accent-rgb),.12);border:1px solid rgba(var(--accent-rgb),.5);color:var(--accent);font-size:24px;padding-left:4px;transition:transform .2s,background .2s}
+.hvf-poster:hover .hvf-play{transform:translate(-50%,-50%) scale(1.06);background:rgba(var(--accent-rgb),.2)}
+.hero-video-frame.playing .hvf-poster{display:none}
+.hvf-controls{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(transparent,rgba(4,6,11,.88));opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
+.hero-video-frame:hover .hvf-controls,.hero-video-frame.paused .hvf-controls{opacity:1;pointer-events:auto}
+.hvf-cbtn{display:grid;place-items:center;width:30px;height:30px;flex:none;background:none;border:0;color:#fff;cursor:pointer;padding:0;opacity:.9;transition:opacity .15s,color .15s}
+.hvf-cbtn:hover{opacity:1;color:var(--accent)}
+.hvf-time{font-size:12px;color:rgba(255,255,255,.82);font-variant-numeric:tabular-nums;white-space:nowrap}
+.hvf-track{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.22);cursor:pointer;position:relative}
+.hvf-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;background:var(--accent)}
+.hvf-knob{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .15s}
+.hvf-track:hover .hvf-knob{opacity:1}
+.hero-video-frame:fullscreen{width:100vw;height:100vh;aspect-ratio:auto;border:0;border-radius:0}
 
-/* ── hero ───────────────────────────────── */
-.hero{padding:clamp(56px,9vh,110px) 0 clamp(50px,8vh,90px);border-bottom:1px solid var(--line)}
-.hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(40px,6vw,90px);align-items:start}
-.hero h1{
-  font-family:'Fraunces',serif;font-weight:500;
-  font-size:clamp(2.5rem,5.6vw,4.4rem);
-  line-height:1.04;letter-spacing:-.025em;
-  margin:26px 0 0;
-}
-.hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{
-  margin-top:28px;max-width:46ch;
-  font-size:clamp(15px,1.4vw,17.5px);color:var(--ink-soft);
-}
-.hero-ctas{margin-top:38px;display:flex;flex-wrap:wrap;gap:14px}
-.hero-facts{
-  margin-top:52px;display:flex;flex-wrap:wrap;gap:0;
-  border-top:1px solid var(--line);
-}
-.hero-facts div{
-  padding:16px 26px 0 0;margin-right:26px;
-  font-size:13px;color:var(--ink-faint);
-}
-.hero-facts strong{display:block;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:.01em}
-
-/* conversation column */
-.convo{
-  border:1px solid var(--line);background:#fffdf8;
-  padding:26px 24px 22px;position:relative;
-}
-.convo::after{
-  content:"";position:absolute;inset:0;transform:translate(10px,10px);
-  border:1px solid var(--line);z-index:-1;background:var(--paper-2);
-}
-.convo-head{
-  display:flex;justify-content:space-between;align-items:baseline;
-  padding-bottom:16px;border-bottom:1px solid var(--line);
-  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);
-}
-.convo-head .live{color:var(--accent);font-weight:600}
-.convo-head .live::before{content:"●";font-size:8px;vertical-align:2px;margin-right:6px;animation:pulse 2.4s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.convo-body{padding-top:20px;display:flex;flex-direction:column;gap:12px;min-height:330px}
-.msg{
-  max-width:88%;padding:11px 15px;font-size:14px;line-height:1.5;
-  opacity:0;transform:translateY(8px);
-  animation:msgIn .4s cubic-bezier(.16,1,.3,1) forwards;
-}
-.msg.client{align-self:flex-end;background:var(--ink);color:var(--paper);border-radius:14px 14px 3px 14px}
-.msg.agent{align-self:flex-start;background:var(--paper-2);border:1px solid var(--line);border-radius:14px 14px 14px 3px}
-.msg.confirm{background:#eef6ee;border:1px solid #cfe3cf;color:#1d5c2f;font-weight:500}
-.msg time{display:block;font-size:10px;opacity:.55;margin-top:5px;letter-spacing:.05em}
-@keyframes msgIn{to{opacity:1;transform:translateY(0)}}
-.typing{display:inline-flex;gap:4px;align-items:center;padding:13px 16px}
-.typing i{width:5px;height:5px;border-radius:50%;background:var(--ink-faint);animation:tb 1.2s infinite ease-in-out}
-.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
-@keyframes tb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
-
-/* ── sections ───────────────────────────── */
-section{padding:clamp(64px,10vh,120px) 0}
-.sec-head{max-width:640px;margin-bottom:clamp(36px,5vh,60px)}
-.sec-head h2{
-  font-family:'Fraunces',serif;font-weight:500;
-  font-size:clamp(1.9rem,3.6vw,2.9rem);line-height:1.1;letter-spacing:-.02em;
-  margin-top:22px;
-}
-.sec-head p{margin-top:16px;color:var(--ink-soft);font-size:15.5px;max-width:52ch}
+/* ── sections ─────────────────────────────── */
+section{padding:clamp(60px,9vh,110px) 0}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink)}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--accent-ink)}
+.sec-head{max-width:680px;margin-bottom:clamp(34px,5vh,54px)}
+.sec-head h2{font-size:clamp(28px,3.6vw,44px);font-weight:600;letter-spacing:-.04em;line-height:1.08;margin-top:20px}
+.sec-head p{margin-top:16px;color:var(--text2);font-size:15.5px;max-width:56ch;line-height:1.7}
 
 /* products */
-#produits{border-bottom:1px solid var(--line);padding-bottom:clamp(64px,10vh,110px)}
-.product{
-  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
-  border:1px solid var(--line);
-}
-.product + .product{margin-top:28px}
-.product-info{padding:clamp(30px,4vw,52px)}
-.product-tag{
-  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  padding:5px 11px;border-radius:2px;margin-bottom:22px;
-}
-.product h3{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,2.6vw,2.3rem);letter-spacing:-.02em;line-height:1.05}
-.product .pitch{margin-top:14px;font-size:15px;max-width:44ch}
-.product ul{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.product{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);border-radius:20px;overflow:hidden;border:1px solid var(--border2)}
+.product + .product{margin-top:26px}
+.product-info{padding:clamp(28px,4vw,48px)}
+.product-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:20px}
+.product h3{font-size:clamp(26px,2.6vw,34px);font-weight:700;letter-spacing:-.04em;line-height:1.05}
+.product .pitch{margin-top:13px;font-size:15px;max-width:46ch;line-height:1.7}
+.product ul{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:10px;font-size:14px}
 .product ul li{display:flex;gap:12px;align-items:baseline}
 .product ul li::before{content:"→";flex:none;font-size:12px}
-.product-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.product-cta{margin-top:30px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .product-visual{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:300px}
 
-/* nightbook */
-.p-night{background:var(--night);color:#e8edf2}
-.p-night .product-tag{background:rgba(0,229,255,.12);color:var(--cyan)}
-.p-night .pitch{color:#9aa7b4}
-.p-night ul li::before{color:var(--cyan)}
-.p-night .btn-ink{background:var(--cyan);color:var(--night)}
-.p-night .btn-ink:hover{background:#5eeeff}
-.p-night .textlink{color:#9aa7b4}
-.p-night .textlink:hover{color:#fff}
-.p-night .product-visual{background:var(--night-2);border-left:1px solid #1c2630;padding:clamp(18px,2.5vw,34px)}
-.p-night .product-visual video{width:100%;max-height:420px;display:block;border:1px solid #223040;border-radius:6px;background:#000}
+/* nightbook card : glass sombre cyan (identité produit, reste dark sur page claire) */
+.p-night{background:#111116;color:#f5f5f7;border-radius:20px}
+.p-night .product-tag{background:rgba(var(--accent-rgb),.1);border:1px solid rgba(var(--accent-rgb),.25);color:var(--accent)}
+.p-night .pitch{color:#9a96a8}
+.p-night ul li::before{color:var(--accent)}
+.p-night .btn-p{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--accent);color:#000;font-size:14px;font-weight:600;border-radius:100px;transition:all var(--t);box-shadow:0 6px 24px rgba(var(--accent-rgb),.25)}
+.p-night .btn-p:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(var(--accent-rgb),.4)}
+.p-night .product-visual{background:#1a1a22;border-left:1px solid rgba(255,255,255,.07)}
+.p-night .textlink{color:#9a96a8;border-color:rgba(255,255,255,.2)}
+.p-night .textlink:hover{color:#f5f5f7;border-color:#f5f5f7}
+.nb-visual{width:min(340px,82%);font-size:13px}
+.nb-visual .sum{display:flex;justify-content:space-between;padding:0 4px 12px;color:#5a5668;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.nb-visual .row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border:1px solid rgba(255,255,255,.12);background:#15151b;border-radius:12px;margin-bottom:10px;color:#9a96a8}
+.nb-visual .row b{font-weight:600;color:#f5f5f7}
+.nb-visual .ok{color:var(--accent);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.nb-visual .wait{color:#5a5668;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 
-/* tripbook */
-.p-trip{background:#fffdf8}
-.p-trip .product-tag{background:var(--paper-2);color:var(--ink-soft)}
-.p-trip h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(1.9rem,2.8vw,2.5rem)}
+/* tripbook card : papier clair éditorial (sa propre DA) */
+.p-trip{background:var(--paper);color:var(--ink)}
+.p-trip .product-tag{background:var(--paper-2);border:1px solid var(--ink-line);color:var(--ink-soft)}
+.p-trip h3{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-.01em;font-size:clamp(30px,3vw,38px)}
 .p-trip .pitch{color:var(--ink-soft)}
-.p-trip ul li::before{color:var(--accent)}
-.p-trip .product-visual{background:var(--paper-2);border-left:1px solid var(--line);order:-1;border-left:none;border-right:1px solid var(--line)}
+.p-trip ul li::before{color:#0b6477}
+.p-trip .product-visual{background:var(--paper-2);order:-1;border-right:1px solid var(--ink-line)}
 .p-trip .product-info{order:1}
-.tb-visual{width:min(320px,80%);font-family:'Instrument Serif',serif;font-size:19px;line-height:1.5;color:var(--ink)}
-.tb-visual .tick{font-family:'Archivo',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:14px}
-.tb-visual .quote em{font-style:italic;color:var(--accent)}
-.textlink{font-size:14px;font-weight:600;color:var(--ink-soft);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .2s,border-color .2s}
-.textlink:hover{color:var(--ink);border-color:var(--ink)}
+.p-trip .btn-p{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;border-radius:100px;transition:all var(--t)}
+.p-trip .btn-p:hover{transform:translateY(-1px)}
+.tb-visual{width:min(320px,82%);font-family:'Instrument Serif',serif;font-size:20px;line-height:1.5;color:var(--ink)}
+.tb-visual .tick{font-family:var(--font-head);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.tb-visual em{font-style:italic;color:#0b6477}
 
 /* sur-mesure */
-#sur-mesure{background:var(--paper-2);border-bottom:1px solid var(--line)}
-.custom-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(36px,6vw,90px);align-items:start}
-.case{
-  background:#fffdf8;border:1px solid var(--line);padding:clamp(26px,3vw,40px);
-}
-.case .tick{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px;display:block}
-.case p.q{font-family:'Fraunces',serif;font-size:clamp(1.15rem,1.8vw,1.45rem);font-style:italic;font-weight:400;line-height:1.4}
-.case .who{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-faint);display:flex;align-items:center;gap:13px}
-.case .who img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none}
-.case .who b{display:block;color:var(--ink);font-size:14px}
-.case .stat{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-soft);line-height:1.55}
-.case .stat b{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--accent);margin-right:2px}
-.case .see{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:border-color .2s}
-.case .see:hover{border-color:var(--accent)}
-.custom-list{list-style:none;margin-top:30px;display:flex;flex-direction:column}
-.custom-list li{
-  display:flex;gap:18px;align-items:baseline;
-  padding:15px 0;border-top:1px solid var(--line-strong);
-  font-size:15px;
-}
-.custom-list li:last-child{border-bottom:1px solid var(--line-strong)}
-.custom-list li i{font-style:normal;font-size:12px;color:var(--ink-faint);letter-spacing:.08em;flex:none;width:28px}
+#sur-mesure .custom-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(36px,6vw,80px);align-items:start}
+.custom-list{list-style:none;margin-top:28px;display:flex;flex-direction:column}
+.custom-list li{display:flex;gap:18px;align-items:baseline;padding:15px 0;border-top:1px solid var(--border2);font-size:15px;color:var(--text2)}
+.custom-list li:last-child{border-bottom:1px solid var(--border2)}
+.custom-list li i{font-style:normal;font-size:12px;color:var(--accent-ink);letter-spacing:.08em;flex:none;width:28px}
+.case{background:#fff;border:1px solid var(--border2);border-radius:20px;padding:clamp(26px,3vw,38px);box-shadow:0 24px 60px rgba(15,20,25,.08)}
+.case .tick{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-ink);font-weight:700;margin-bottom:18px;display:block}
+.case p.q{font-size:clamp(16px,1.6vw,18.5px);line-height:1.65;color:var(--text);font-weight:500}
+.case .who{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--text3);display:flex;align-items:center;gap:13px}
+.case .who img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--border2);flex:none}
+.case .who b{display:block;color:var(--text);font-size:14px}
+.case .stat{margin-top:16px;padding-top:15px;border-top:1px solid var(--border);font-size:13.5px;color:var(--text2);line-height:1.6}
+.case .stat b{font-size:19px;font-weight:800;color:var(--accent-ink);margin-right:2px}
+.case .see{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600;color:var(--accent-ink)}
+.case .see:hover{text-decoration:underline;text-underline-offset:4px}
 
 /* méthode */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
-.step{padding:clamp(26px,3vw,42px);border-right:1px solid var(--line)}
-.step:last-child{border-right:none}
-.step .n{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--accent)}
-.step h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:14px 0 10px;letter-spacing:-.01em}
-.step p{font-size:14px;color:var(--ink-soft)}
-.method-note{margin-top:26px;font-size:13.5px;color:var(--ink-faint);font-style:italic}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.step{padding:clamp(24px,3vw,36px);border:1px solid var(--border2);background:var(--bg2);border-radius:16px}
+.step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(8,145,178,.08);border:1px solid rgba(8,145,178,.3);color:var(--accent-ink);font-size:13px;font-weight:700}
+.step h3{font-size:18px;font-weight:600;letter-spacing:-.02em;margin:16px 0 9px}
+.step p{font-size:14px;color:var(--text2);line-height:1.65}
+.method-note{margin-top:24px;font-size:13.5px;color:var(--text3)}
 
-/* CTA final */
-#contact{border-top:1px solid var(--line);background:var(--night);color:#e8edf2;text-align:left}
-#contact .eyebrow{color:var(--cyan)}
-#contact .eyebrow::before{background:var(--cyan)}
-#contact h2{
-  font-family:'Fraunces',serif;font-weight:500;
-  font-size:clamp(2rem,4.4vw,3.4rem);letter-spacing:-.02em;line-height:1.07;
-  margin-top:24px;max-width:16ch;
-}
-#contact h2 em{font-style:italic;color:var(--cyan)}
-#contact p{margin-top:20px;color:#9aa7b4;max-width:48ch;font-size:15.5px}
-#contact .hero-ctas{margin-top:36px}
-#contact .btn-ghost{border-color:#2a3846;color:#e8edf2}
-#contact .btn-ghost:hover{border-color:#e8edf2}
-.contact-alt{margin-top:30px;font-size:13px;color:#6d7c8a}
-.contact-alt a{color:#9aa7b4;border-bottom:1px solid #2a3846}
-.contact-alt a:hover{color:#fff}
+/* contact */
+#contact{border-top:1px solid var(--border);position:relative;overflow:hidden}
+#contact::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(6,182,212,.08) 0%,transparent 65%);pointer-events:none}
+#contact h2{font-size:clamp(30px,4.4vw,52px);font-weight:600;letter-spacing:-.045em;line-height:1.06;margin-top:22px;max-width:17ch}
+#contact h2 em{font-style:normal;color:var(--accent-ink)}
+#contact .lead{margin-top:18px;color:var(--text2);max-width:50ch;font-size:15.5px;line-height:1.7}
+#contact .hero-actions{margin-top:34px;margin-bottom:0}
+.contact-alt{margin-top:28px;font-size:13px;color:var(--text3)}
+.contact-alt a{color:var(--text2);border-bottom:1px solid var(--border2)}
+.contact-alt a:hover{color:var(--text)}
 
 /* footer */
-footer{background:var(--night);color:#6d7c8a;border-top:1px solid #1c2630;padding:26px 0;font-size:13px}
+footer{border-top:1px solid var(--border);padding:26px 0;font-size:13px;color:var(--text3)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
-footer nav{display:flex;gap:22px}
-footer a:hover{color:#e8edf2}
+footer nav{display:flex;gap:22px;position:static;transform:none;height:auto;border:none;background:none;padding:0;backdrop-filter:none}
+footer a:hover{color:var(--text)}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 .reveal.visible{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
-@media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
-  .msg{animation:none;opacity:1;transform:none}
-}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* responsive */
-@media (max-width:900px){
-  .hero-grid{grid-template-columns:1fr}
-  .convo{max-width:480px}
+@media (max-width:960px){
+  .hero{grid-template-columns:1fr;padding-top:110px}
   .product{grid-template-columns:1fr}
-  .p-night .product-visual{border-left:none;border-top:1px solid #1c2630;min-height:240px}
-  .p-trip .product-visual{order:1;border-right:none;border-top:1px solid var(--line);min-height:220px}
+  .p-night .product-visual{border-left:none;border-top:1px solid rgba(255,255,255,.07);min-height:240px}
+  .p-trip .product-visual{order:1;border-right:none;border-top:1px solid var(--ink-line);min-height:200px}
   .p-trip .product-info{order:0}
-  .custom-grid{grid-template-columns:1fr}
+  #sur-mesure .custom-grid{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
-  .step{border-right:none;border-bottom:1px solid var(--line)}
-  .step:last-child{border-bottom:none}
-}
-@media (max-width:760px){
-  .nav-links{display:none}
-  #menu-btn{display:block}
-  .sec-head h2 br,#contact h2 br,.product h3 br{display:none}
+  .sec-head h2 br,#contact h2 br,.hero h1 br{display:none}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap nav">
-    <a href="#top" class="brand">Agent<em>Booking</em></a>
-    <nav class="nav-links">
-      <a href="#produits" data-i18n="nav_products">Produits</a>
-      <a href="#sur-mesure" data-i18n="nav_custom">Sur-mesure</a>
-      <a href="#methode" data-i18n="nav_method">Méthode</a>
-      <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><b id="lang-fr">FR</b> / <span id="lang-en">EN</span></button>
-      <a class="btn btn-ink" href="/demo" data-i18n="nav_cta">Tester une démo</a>
-    </nav>
-    <button id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
-  <div id="mobile-menu">
+<nav id="nav">
+  <a href="#top" class="logo">Agent<span>Booking</span></a>
+  <div class="nav-mid">
     <a href="#produits" data-i18n="nav_products">Produits</a>
     <a href="#sur-mesure" data-i18n="nav_custom">Sur-mesure</a>
     <a href="#methode" data-i18n="nav_method">Méthode</a>
-    <button class="lang-toggle" style="text-align:left" onclick="toggleLang()"><b id="lang-fr-m">FR</b> / <span id="lang-en-m">EN</span></button>
-    <a class="btn btn-ink" href="/demo" data-i18n="nav_cta">Tester une démo</a>
   </div>
-</header>
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><b id="lang-fr">FR</b> / <span id="lang-en">EN</span></button>
+    <a class="btn-cta" href="/demo" data-i18n="nav_cta">Tester la démo →</a>
+  </div>
+</nav>
 
 <main id="top">
 
 <!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow reveal visible" data-i18n="hero_eyebrow">Agents IA de réservation</div>
-      <h1 class="reveal visible" data-i18n-html="hero_h1">Vos clients écrivent.<br>L'agent <em>réserve</em>.</h1>
-      <p class="hero-sub reveal visible d1" data-i18n="hero_sub">
-        Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations
-        sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.
-      </p>
-      <div class="hero-ctas reveal visible d2">
-        <a class="btn btn-ink" href="/demo" data-i18n="hero_cta1">Parler à un agent en direct</a>
-        <a class="btn btn-wa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20un%20agent%20de%20r%C3%A9servation%20pour%20mon%20business." target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.8.8 1.9.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.7-.1 1.4Z"/></svg>
-          <span data-i18n="hero_cta2">WhatsApp direct</span>
-        </a>
-      </div>
-      <div class="hero-facts reveal visible d3">
-        <div><strong data-i18n="fact1_t">24h/24 · 7j/7</strong><span data-i18n="fact1_s">sans embaucher</span></div>
-        <div><strong data-i18n="fact2_t">4 canaux</strong><span data-i18n="fact2_s">WhatsApp · Instagram · Messenger · Telegram</span></div>
-        <div><strong data-i18n="fact3_t">+250 résas</strong><span data-i18n="fact3_s">automatisées cet été chez un seul client</span></div>
-      </div>
+<section class="hero" style="padding-bottom:24px">
+  <div class="hero-left">
+    <div class="hero-tag"><span class="hero-dot"></span> <span data-i18n="hero_eyebrow">Agents IA de réservation</span></div>
+    <h1 data-i18n-html="hero_h1">Vos clients écrivent. <br><em>L'agent réserve.</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.</p>
+    <div class="hero-actions">
+      <a href="/demo" class="btn-main" data-i18n="hero_cta1">Parler à un agent en direct</a>
     </div>
+    <div class="hero-subactions">
+      <a class="hsa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20un%20agent%20de%20r%C3%A9servation%20pour%20mon%20business." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span data-i18n="hero_cta2">Parler sur WhatsApp</span>
+      </a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item"><div class="proof-num">24h/7</div><div class="proof-label" data-i18n="fact1_s">sans embaucher</div></div>
+      <div class="proof-sep"></div>
+      <div class="proof-item"><div class="proof-num">4</div><div class="proof-label" data-i18n="fact2_s">canaux connectés</div></div>
+      <div class="proof-sep"></div>
+      <div class="proof-item"><div class="proof-num">+250</div><div class="proof-label" data-i18n="fact3_s">résas automatisées cet été</div></div>
+    </div>
+  </div>
 
-    <div class="convo reveal visible d2" aria-hidden="true">
-      <div class="convo-head">
-        <span data-i18n="convo_label">Conversation réelle · 23h47</span>
-        <span class="live" data-i18n="convo_live">Agent en ligne</span>
+  <div class="hero-right">
+    <div class="hero-video-frame" id="videoFrame">
+      <video id="promoVideo" playsinline muted preload="metadata">
+        <source src="https://nightbook.io/promo-fr.mp4" type="video/mp4">
+      </video>
+      <div class="hvf-controls">
+        <button class="hvf-cbtn" id="hvfPlay" type="button" aria-label="Lecture / Pause"></button>
+        <span class="hvf-time"><span id="hvfCur">0:00</span> / <span id="hvfDur">0:00</span></span>
+        <div class="hvf-track" id="hvfTrack"><div class="hvf-fill" id="hvfFill"><span class="hvf-knob"></span></div></div>
+        <button class="hvf-cbtn" id="hvfMute" type="button" aria-label="Activer / couper le son"></button>
+        <button class="hvf-cbtn" id="hvfFs" type="button" aria-label="Plein écran"></button>
       </div>
-      <div class="convo-body" id="convo-body"></div>
+      <button class="hvf-poster" id="hvfPoster" type="button" aria-label="Lire la vidéo de présentation">
+        <span class="hvf-brand">Agent<span class="cy">Booking</span></span>
+        <span class="hvf-play">▶</span>
+      </button>
     </div>
   </div>
 </section>
@@ -354,8 +284,8 @@ footer a:hover{color:#e8edf2}
 <section id="produits">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div class="eyebrow"><span class="num">01</span><span data-i18n="products_eyebrow">Nos produits</span></div>
-      <h2 data-i18n-html="products_h2">Deux logiciels. Chacun taillé<br>pour son métier.</h2>
+      <div class="eyebrow" data-i18n="products_eyebrow">Nos produits</div>
+      <h2 data-i18n-html="products_h2">Deux logiciels. Chacun taillé <br>pour son métier.</h2>
       <p data-i18n="products_p">Un agent générique répond à côté. Les nôtres connaissent votre carte, vos zones, vos horaires et vos règles, parce qu'ils sont construits pour votre secteur.</p>
     </div>
 
@@ -363,7 +293,7 @@ footer a:hover{color:#e8edf2}
     <article class="product p-night reveal">
       <div class="product-info">
         <span class="product-tag" data-i18n="nb_tag">Disponible · nightbook.io</span>
-        <h3>NightBook</h3>
+        <h3>Night<span style="color:var(--accent)">book</span></h3>
         <p class="pitch" data-i18n="nb_pitch">L'agent de réservation des boîtes de nuit, bars et lounges. Il vend vos tables VIP sur WhatsApp et Instagram pendant que votre équipe gère la salle.</p>
         <ul>
           <li><span data-i18n="nb_f1">Tables, zones et minimums de bouteilles appliqués automatiquement</span></li>
@@ -371,12 +301,17 @@ footer a:hover{color:#e8edf2}
           <li><span data-i18n="nb_f3">Dashboard temps réel : résas, chiffre d'affaires, messagerie</span></li>
         </ul>
         <div class="product-cta">
-          <a class="btn btn-ink" href="https://nightbook.io" target="_blank" rel="noopener" data-i18n="nb_cta">Découvrir NightBook</a>
+          <a class="btn-p" href="https://nightbook.io" target="_blank" rel="noopener" data-i18n="nb_cta">Découvrir NightBook</a>
           <a class="textlink" href="/demo" data-i18n="nb_demo">Essayer l'agent</a>
         </div>
       </div>
       <div class="product-visual">
-        <video id="nb-video" src="https://nightbook.io/promo-fr.mp4" controls preload="metadata" playsinline></video>
+        <div class="nb-visual">
+          <div class="sum"><span data-i18n="nb_v_head">Réservations · ce soir</span><span>23:52</span></div>
+          <div class="row"><span><b>Table 12 · Carré VIP</b><br>6 pers · 2 btl</span><span class="ok" data-i18n="nb_v_ok">Confirmée</span></div>
+          <div class="row"><span><b>Table 4 · Mezzanine</b><br>4 pers · 1 btl</span><span class="ok" data-i18n="nb_v_ok2">Confirmée</span></div>
+          <div class="row"><span><b>Groupe BDE · 25 pers</b><br><span data-i18n="nb_v_pending">acompte en attente</span></span><span class="wait" data-i18n="nb_v_wait">En cours</span></div>
+        </div>
       </div>
     </article>
 
@@ -385,7 +320,7 @@ footer a:hover{color:#e8edf2}
       <div class="product-visual">
         <div class="tb-visual">
           <div class="tick" data-i18n="tb_v_tick">Demain · 9h00</div>
-          <p class="quote" data-i18n-html="tb_v_quote">« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »</p>
+          <p data-i18n-html="tb_v_quote">« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »</p>
         </div>
       </div>
       <div class="product-info">
@@ -398,7 +333,7 @@ footer a:hover{color:#e8edf2}
           <li><span data-i18n="tb_f3">Planning, statistiques et messagerie centralisés</span></li>
         </ul>
         <div class="product-cta">
-          <a class="btn btn-ghost" href="https://wa.me/33767466391?text=Bonjour%2C%20TripBook%20m%27int%C3%A9resse%20pour%20mon%20activit%C3%A9%20tourisme." target="_blank" rel="noopener" data-i18n="tb_cta">Rejoindre l'accès anticipé</a>
+          <a class="btn-p" href="https://wa.me/33767466391?text=Bonjour%2C%20TripBook%20m%27int%C3%A9resse%20pour%20mon%20activit%C3%A9%20tourisme." target="_blank" rel="noopener" data-i18n="tb_cta">Rejoindre l'accès anticipé</a>
         </div>
       </div>
     </article>
@@ -409,9 +344,9 @@ footer a:hover{color:#e8edf2}
 <section id="sur-mesure">
   <div class="wrap custom-grid">
     <div>
-      <div class="eyebrow reveal"><span class="num">02</span><span data-i18n="custom_eyebrow">Sur-mesure</span></div>
+      <div class="eyebrow reveal" data-i18n="custom_eyebrow">Sur-mesure</div>
       <div class="sec-head" style="margin-bottom:0">
-        <h2 class="reveal" data-i18n-html="custom_h2">Votre métier ne rentre pas<br>dans une case ?</h2>
+        <h2 class="reveal" data-i18n-html="custom_h2">Votre métier ne rentre pas <br>dans une case ?</h2>
         <p class="reveal d1" data-i18n="custom_p">On construit aussi des agents uniques, brique par brique, autour de votre façon de travailler. Conciergerie, e-commerce, services : si vos clients vous écrivent, un agent peut répondre.</p>
       </div>
       <ul class="custom-list reveal d2">
@@ -440,27 +375,24 @@ footer a:hover{color:#e8edf2}
 <section id="methode">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div class="eyebrow"><span class="num">03</span><span data-i18n="method_eyebrow">Méthode</span></div>
-      <h2 data-i18n-html="method_h2">En ligne en quelques jours,<br>pas en quelques mois.</h2>
+      <div class="eyebrow" data-i18n="method_eyebrow">Méthode</div>
+      <h2 data-i18n-html="method_h2">En ligne en quelques jours, <br>pas en quelques mois.</h2>
     </div>
-    <div class="steps reveal d1">
-      <div class="step">
-        <span class="n" data-i18n="step1_n">Un</span>
+    <div class="steps">
+      <div class="step reveal"><span class="n">1</span>
         <h3 data-i18n="step1_t">On configure</h3>
         <p data-i18n="step1_p">Votre carte, vos zones, vos horaires, vos règles de vente. L'agent apprend votre établissement, pas un modèle générique.</p>
       </div>
-      <div class="step">
-        <span class="n" data-i18n="step2_n">Deux</span>
+      <div class="step reveal d1"><span class="n">2</span>
         <h3 data-i18n="step2_t">L'agent répond</h3>
         <p data-i18n="step2_p">Sur vos canaux existants. Il qualifie, applique vos minimums, envoie le récap et le lien de paiement. Vous validez ce que vous voulez valider.</p>
       </div>
-      <div class="step">
-        <span class="n" data-i18n="step3_n">Trois</span>
+      <div class="step reveal d2"><span class="n">3</span>
         <h3 data-i18n="step3_t">Vous suivez tout</h3>
         <p data-i18n="step3_p">Chaque réservation, chaque conversation, chaque euro dans un dashboard temps réel accessible par toute l'équipe.</p>
       </div>
     </div>
-    <p class="method-note reveal d2" data-i18n="method_note">Testez avant de décider : la démo en direct utilise le vrai moteur, pas une vidéo.</p>
+    <p class="method-note reveal d3" data-i18n="method_note">Testez avant de décider : la démo en direct utilise le vrai moteur, pas une vidéo.</p>
   </div>
 </section>
 
@@ -469,13 +401,13 @@ footer a:hover{color:#e8edf2}
   <div class="wrap">
     <div class="eyebrow reveal" data-i18n="contact_eyebrow">Parlons-en</div>
     <h2 class="reveal" data-i18n-html="contact_h2">Combien de réservations partent <em>sans réponse</em> ?</h2>
-    <p class="reveal d1" data-i18n="contact_p">Envoyez un message, on vous montre l'agent sur votre propre carte sous 24h. Sans engagement, sans slide de présentation.</p>
-    <div class="hero-ctas reveal d2">
-      <a class="btn btn-wa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20une%20d%C3%A9mo%20avec%20ma%20propre%20carte." target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.8.8 1.9.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.7-.1 1.4Z"/></svg>
+    <p class="lead reveal d1" data-i18n="contact_p">Envoyez un message, on vous montre l'agent sur votre propre carte sous 24h. Sans engagement, sans slide de présentation.</p>
+    <div class="hero-actions reveal d2">
+      <a class="btn-wa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20une%20d%C3%A9mo%20avec%20ma%20propre%20carte." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span data-i18n="contact_cta1">Écrire sur WhatsApp</span>
       </a>
-      <a class="btn btn-ghost" href="/demo" data-i18n="contact_cta2">Tester la démo en direct</a>
+      <a class="btn-sec" href="/demo" data-i18n="contact_cta2">Tester la démo en direct</a>
     </div>
     <p class="contact-alt reveal d3" data-i18n-html="contact_alt">Ou par email : <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a></p>
   </div>
@@ -498,17 +430,14 @@ footer a:hover{color:#e8edf2}
 // ── i18n ──────────────────────────────────────────────
 const T = {
   fr: {
-    nav_products:"Produits", nav_custom:"Sur-mesure", nav_method:"Méthode", nav_cta:"Tester une démo",
+    nav_products:"Produits", nav_custom:"Sur-mesure", nav_method:"Méthode", nav_cta:"Tester la démo →",
     hero_eyebrow:"Agents IA de réservation",
-    hero_h1:"Vos clients écrivent.<br>L'agent <em>réserve</em>.",
+    hero_h1:"Vos clients écrivent. <br><em>L'agent réserve.</em>",
     hero_sub:"Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.",
-    hero_cta1:"Parler à un agent en direct", hero_cta2:"WhatsApp direct",
-    fact1_t:"24h/24 · 7j/7", fact1_s:"sans embaucher",
-    fact2_t:"4 canaux", fact2_s:"WhatsApp · Instagram · Messenger · Telegram",
-    fact3_t:"+250 résas", fact3_s:"automatisées cet été chez un seul client",
-    convo_label:"Conversation réelle · 23h47", convo_live:"Agent en ligne",
+    hero_cta1:"Parler à un agent en direct", hero_cta2:"Parler sur WhatsApp",
+    fact1_s:"sans embaucher", fact2_s:"canaux connectés", fact3_s:"résas automatisées cet été",
     products_eyebrow:"Nos produits",
-    products_h2:"Deux logiciels. Chacun taillé<br>pour son métier.",
+    products_h2:"Deux logiciels. Chacun taillé <br>pour son métier.",
     products_p:"Un agent générique répond à côté. Les nôtres connaissent votre carte, vos zones, vos horaires et vos règles, parce qu'ils sont construits pour votre secteur.",
     nb_tag:"Disponible · nightbook.io",
     nb_pitch:"L'agent de réservation des boîtes de nuit, bars et lounges. Il vend vos tables VIP sur WhatsApp et Instagram pendant que votre équipe gère la salle.",
@@ -527,7 +456,7 @@ const T = {
     tb_v_tick:"Demain · 9h00",
     tb_v_quote:"« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »",
     custom_eyebrow:"Sur-mesure",
-    custom_h2:"Votre métier ne rentre pas<br>dans une case ?",
+    custom_h2:"Votre métier ne rentre pas <br>dans une case ?",
     custom_p:"On construit aussi des agents uniques, brique par brique, autour de votre façon de travailler. Conciergerie, e-commerce, services : si vos clients vous écrivent, un agent peut répondre.",
     custom_l1:"Audit de vos conversations et de votre process de vente",
     custom_l2:"Agent entraîné sur vos offres, vos prix, votre ton",
@@ -538,12 +467,12 @@ const T = {
     case_stat:"<b>+250</b> résas prises automatiquement entre mai et août 2026 · GetYourGuide, Viator, Klook et leur site web",
     case_link:"Voir comment →",
     method_eyebrow:"Méthode",
-    method_h2:"En ligne en quelques jours,<br>pas en quelques mois.",
-    step1_n:"Un", step1_t:"On configure",
+    method_h2:"En ligne en quelques jours, <br>pas en quelques mois.",
+    step1_t:"On configure",
     step1_p:"Votre carte, vos zones, vos horaires, vos règles de vente. L'agent apprend votre établissement, pas un modèle générique.",
-    step2_n:"Deux", step2_t:"L'agent répond",
+    step2_t:"L'agent répond",
     step2_p:"Sur vos canaux existants. Il qualifie, applique vos minimums, envoie le récap et le lien de paiement. Vous validez ce que vous voulez valider.",
-    step3_n:"Trois", step3_t:"Vous suivez tout",
+    step3_t:"Vous suivez tout",
     step3_p:"Chaque réservation, chaque conversation, chaque euro dans un dashboard temps réel accessible par toute l'équipe.",
     method_note:"Testez avant de décider : la démo en direct utilise le vrai moteur, pas une vidéo.",
     contact_eyebrow:"Parlons-en",
@@ -554,17 +483,14 @@ const T = {
     footer_legal:"Mentions légales", footer_privacy:"Confidentialité", footer_terms:"CGU",
   },
   en: {
-    nav_products:"Products", nav_custom:"Custom", nav_method:"Method", nav_cta:"Try a live demo",
+    nav_products:"Products", nav_custom:"Custom", nav_method:"Method", nav_cta:"Try the demo →",
     hero_eyebrow:"AI booking agents",
-    hero_h1:"Your clients text.<br>The agent <em>books</em>.",
+    hero_h1:"Your clients text. <br><em>The agent books.</em>",
     hero_sub:"Agent Booking builds AI agents that answer, qualify and close your bookings on WhatsApp, Instagram and Messenger. At 3pm and at 3am.",
-    hero_cta1:"Talk to a live agent", hero_cta2:"WhatsApp us",
-    fact1_t:"24/7", fact1_s:"without hiring",
-    fact2_t:"4 channels", fact2_s:"WhatsApp · Instagram · Messenger · Telegram",
-    fact3_t:"+250 bookings", fact3_s:"automated this summer for a single client",
-    convo_label:"Real conversation · 11:47pm", convo_live:"Agent online",
+    hero_cta1:"Talk to a live agent", hero_cta2:"Chat on WhatsApp",
+    fact1_s:"without hiring", fact2_s:"connected channels", fact3_s:"bookings automated this summer",
     products_eyebrow:"Our products",
-    products_h2:"Two products. Each built<br>for its industry.",
+    products_h2:"Two products. Each built <br>for its industry.",
     products_p:"A generic bot answers beside the point. Ours know your menu, your zones, your hours and your rules, because they are built for your industry.",
     nb_tag:"Live · nightbook.io",
     nb_pitch:"The booking agent for nightclubs, bars and lounges. It sells your VIP tables on WhatsApp and Instagram while your team runs the room.",
@@ -583,7 +509,7 @@ const T = {
     tb_v_tick:"Tomorrow · 9:00am",
     tb_v_quote:"“Two dives in Koh Tao for<br>Saturday, <em>all booked.</em>”",
     custom_eyebrow:"Custom builds",
-    custom_h2:"Your business doesn't<br>fit a template?",
+    custom_h2:"Your business doesn't <br>fit a template?",
     custom_p:"We also build one-of-a-kind agents around the way you actually work. Concierge, e-commerce, services: if your clients text you, an agent can answer.",
     custom_l1:"Audit of your conversations and sales process",
     custom_l2:"Agent trained on your offers, your prices, your tone",
@@ -594,12 +520,12 @@ const T = {
     case_stat:"<b>+250</b> bookings handled automatically between May and August 2026 · GetYourGuide, Viator, Klook and their website",
     case_link:"See how →",
     method_eyebrow:"Method",
-    method_h2:"Live in days,<br>not months.",
-    step1_n:"One", step1_t:"We configure",
+    method_h2:"Live in days, <br>not months.",
+    step1_t:"We configure",
     step1_p:"Your menu, zones, hours and sales rules. The agent learns your venue, not a generic template.",
-    step2_n:"Two", step2_t:"The agent answers",
+    step2_t:"The agent answers",
     step2_p:"On your existing channels. It qualifies, applies your minimums, sends the recap and the payment link. You approve what you want to approve.",
-    step3_n:"Three", step3_t:"You see everything",
+    step3_t:"You see everything",
     step3_p:"Every booking, every conversation, every euro in a real-time dashboard your whole team can access.",
     method_note:"Test before you decide: the live demo runs on the real engine, not a video.",
     contact_eyebrow:"Let's talk",
@@ -622,79 +548,84 @@ function applyLang(){
     if (T[lang][k] !== undefined) el.innerHTML = T[lang][k];
   });
   const on = lang==='fr';
-  ['lang-fr','lang-fr-m'].forEach(id=>{const e=document.getElementById(id); if(e) e.style.color = on?'var(--ink)':'var(--ink-faint)';});
-  ['lang-en','lang-en-m'].forEach(id=>{const e=document.getElementById(id); if(e) e.style.color = on?'var(--ink-faint)':'var(--ink)';});
-  const vid = document.getElementById('nb-video');
-  const vsrc = 'https://nightbook.io/promo-' + lang + '.mp4';
-  if (vid && !vid.src.endsWith('promo-' + lang + '.mp4')) vid.src = vsrc;
-  startConvo();
+  const fr=document.getElementById('lang-fr'), en=document.getElementById('lang-en');
+  if(fr) fr.style.color = on?'var(--text)':'var(--text3)';
+  if(en) en.style.color = on?'var(--text3)':'var(--text)';
+  pickVideoSrc();
 }
 function toggleLang(){ lang = lang==='fr' ? 'en' : 'fr'; localStorage.setItem('ab_lang', lang); applyLang(); }
 
-// ── mobile menu ───────────────────────────────────────
-const menuBtn = document.getElementById('menu-btn');
-const mobileMenu = document.getElementById('mobile-menu');
-menuBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('open'));
-mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>mobileMenu.classList.remove('open')));
+// ── nav blur on scroll ────────────────────────────────
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', ()=> navEl.classList.toggle('blur', window.scrollY > 20), {passive:true});
 
 // ── scroll reveal ─────────────────────────────────────
 const io = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
 },{threshold:.12});
-document.querySelectorAll('.reveal:not(.visible)').forEach(el=>io.observe(el));
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-// ── hero conversation loop ────────────────────────────
-const CONVOS = {
-  fr: [
-    {who:'client', text:"Salut, une table pour 6 samedi c'est possible ?", time:"23:47"},
-    {who:'agent',  text:"Bonsoir 👋 Oui. Il reste 2 tables en Carré VIP samedi. Plutôt proche du DJ ou en retrait ?", time:"23:47"},
-    {who:'client', text:"Proche du DJ 🔥", time:"23:48"},
-    {who:'agent',  text:"Parfait. Table 12, 6 personnes, minimum 2 bouteilles. Je vous envoie le récap et le lien d'acompte ?", time:"23:48"},
-    {who:'client', text:"Vas-y", time:"23:49"},
-    {who:'agent', confirm:true, text:"✅ Réservation confirmée · samedi · Table 12 · 6 pers. À samedi !", time:"23:49"},
-  ],
-  en: [
-    {who:'client', text:"Hey, any table for 6 this Saturday?", time:"11:47pm"},
-    {who:'agent',  text:"Good evening 👋 Yes. 2 VIP tables left on Saturday. Close to the DJ or further back?", time:"11:47pm"},
-    {who:'client', text:"Close to the DJ 🔥", time:"11:48pm"},
-    {who:'agent',  text:"Perfect. Table 12, 6 guests, 2-bottle minimum. Shall I send the recap and the deposit link?", time:"11:48pm"},
-    {who:'client', text:"Go for it", time:"11:49pm"},
-    {who:'agent', confirm:true, text:"✅ Booking confirmed · Saturday · Table 12 · 6 guests. See you Saturday!", time:"11:49pm"},
-  ]
-};
-let convoTimers = [];
-function startConvo(){
-  convoTimers.forEach(clearTimeout); convoTimers = [];
-  const body = document.getElementById('convo-body');
-  body.innerHTML = '';
-  const seq = CONVOS[lang];
-  let delay = 500;
-  seq.forEach((m,i)=>{
-    if (m.who==='agent'){
-      convoTimers.push(setTimeout(()=>{
-        const t = document.createElement('div');
-        t.className = 'msg agent typing'; t.id = 'typing';
-        t.innerHTML = '<i></i><i></i><i></i>';
-        body.appendChild(t);
-      }, delay));
-      delay += 1100;
-      convoTimers.push(setTimeout(()=>{
-        document.getElementById('typing')?.remove();
-        addMsg(body, m);
-      }, delay));
-    } else {
-      convoTimers.push(setTimeout(()=> addMsg(body, m), delay));
-    }
-    delay += 1400;
+// ── Vidéo promo : /promo-<lang>.mp4 (servie par nightbook.io), autoplay muet ──
+(function(){
+  var vid = document.getElementById('promoVideo');
+  if(!vid) return;
+  var srcEl = vid.querySelector('source');
+  var frame = document.getElementById('videoFrame');
+  var BASE = 'https://nightbook.io/promo-';
+  var FALLBACK = BASE + 'fr.mp4';
+  var VIDEO_LANGS = ['fr','en'];
+  window.pickVideoSrc = function(){
+    var l = VIDEO_LANGS.indexOf(lang) === -1 ? 'fr' : lang;
+    var want = BASE + l + '.mp4';
+    if (srcEl.getAttribute('src') === want) return;
+    var wasPlaying = !vid.paused;
+    srcEl.setAttribute('src', want); vid.load();
+    if (wasPlaying){ vid.play().catch(function(){}); }
+  };
+  vid.addEventListener('error', function(){
+    if (srcEl.getAttribute('src') !== FALLBACK){ srcEl.setAttribute('src', FALLBACK); vid.load(); }
+  }, true);
+
+  var poster = document.getElementById('hvfPoster');
+  if (poster) poster.addEventListener('click', function(){ frame.classList.add('playing'); vid.muted = false; vid.play().catch(function(){}); });
+  vid.addEventListener('play', function(){ frame.classList.add('playing'); });
+
+  // Autoplay muet à l'arrivée sur la page. Si le navigateur bloque, le poster reste cliquable.
+  function autoStart(){ vid.muted = true; var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
+  setTimeout(autoStart, 150);
+  setTimeout(function(){ if (vid.paused) autoStart(); }, 1500);
+
+  // Contrôles custom
+  var ICON={
+    play:'<svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>',
+    pause:'<svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 5h3v14H7zm7 0h3v14h-3z" fill="currentColor"/></svg>',
+    vol:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 8.8a4 4 0 010 6.4" stroke-linecap="round"/></svg>',
+    mute:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M17 9.5l4 5M21 9.5l-4 5" stroke-linecap="round"/></svg>',
+    fs:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  var playBtn=document.getElementById('hvfPlay'),muteBtn=document.getElementById('hvfMute'),fsBtn=document.getElementById('hvfFs');
+  var curEl=document.getElementById('hvfCur'),durEl=document.getElementById('hvfDur'),track=document.getElementById('hvfTrack'),fill=document.getElementById('hvfFill');
+  function fmt(s){s=Math.max(0,s|0);return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);}
+  playBtn.innerHTML=ICON.play; muteBtn.innerHTML=ICON.mute; fsBtn.innerHTML=ICON.fs;
+  playBtn.addEventListener('click',function(){vid.paused?vid.play():vid.pause();});
+  vid.addEventListener('play',function(){playBtn.innerHTML=ICON.pause;frame.classList.remove('paused');});
+  vid.addEventListener('pause',function(){playBtn.innerHTML=ICON.play;frame.classList.add('paused');});
+  vid.addEventListener('loadedmetadata',function(){durEl.textContent=fmt(vid.duration);});
+  vid.addEventListener('timeupdate',function(){if(vid.duration){fill.style.width=(vid.currentTime/vid.duration*100)+'%';curEl.textContent=fmt(vid.currentTime);}});
+  vid.addEventListener('volumechange',function(){muteBtn.innerHTML=vid.muted?ICON.mute:ICON.vol;});
+  var seeking=false;
+  function seek(e){var r=track.getBoundingClientRect();var x=(e.clientX-r.left)/r.width;vid.currentTime=Math.min(1,Math.max(0,x))*(vid.duration||0);}
+  track.addEventListener('mousedown',function(e){seeking=true;seek(e);});
+  document.addEventListener('mousemove',function(e){if(seeking)seek(e);});
+  document.addEventListener('mouseup',function(){seeking=false;});
+  muteBtn.addEventListener('click',function(){vid.muted=!vid.muted;});
+  fsBtn.addEventListener('click',function(){
+    var fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fsEl){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return;}
+    (frame.requestFullscreen||frame.webkitRequestFullscreen).call(frame);
   });
-  convoTimers.push(setTimeout(startConvo, delay + 5000));
-}
-function addMsg(body, m){
-  const d = document.createElement('div');
-  d.className = 'msg ' + m.who + (m.confirm ? ' confirm' : '');
-  d.innerHTML = m.text + '<time>' + m.time + '</time>';
-  body.appendChild(d);
-}
+})();
+
 applyLang();
 </script>
 </body>
