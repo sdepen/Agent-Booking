@@ -18,12 +18,13 @@ Pendant longtemps, **la prod ne venait PAS de GitHub**. Le site live était un *
 
 - **Next.js** (App Router, TS) mais le vrai contenu = **fichiers statiques dans `public/`** :
   - `public/agentbooking.html` , **LA landing v2** (refonte août 2026 : tout le HTML/CSS/JS inline, CSS maison SANS Tailwind, i18n maison FR/EN). Ancienne v1 récupérable via la branche `backup-pre-v2` / git log.
-  - `public/demo-start.html` (`/demo`) , formulaire "tester l'agent" (nom + domaine + problème, stocké en localStorage, PAS de lead en base).
-  - `public/demo-agent.html` (`/agent`) , chat de démo qui tape le webhook n8n via `/api/chat`.
-  - `public/mentions-legales.html`, `public/confidentialite.html`, `public/service.html` (pages légales).
+  - `public/demo-start.html` (`/demo`) , formulaire "tester l'agent" (nom + domaine + problème, stocké en localStorage, PAS de lead en base). DA claire du site, i18n FR/EN inline.
+  - `public/demo-agent.html` (`/agent`) , chat de démo qui tape le webhook n8n via `/api/chat`. DA claire, i18n FR/EN, flag `first` au 1er message (→ notif Telegram). L'agent répond déjà dans la langue du visiteur tout seul.
+  - `public/mentions-legales.html`, `public/confidentialite.html`, `public/service.html` (pages légales). Gabarit commun clair sans Tailwind, **bilingues** via blocs `data-lang="fr|en"` + toggle. `/confidentialite` contient la section « Cookies et mesure d'audience » (Clarity, lien de réaffichage de la bannière).
+  - 🌍 **Toutes les pages partagent la clé localStorage `ab_lang`** : changer la langue n'importe où bascule tout le site.
   - `public/logo.png`, `public/favicon.png`, `public/logo-xquad.jpg` (logo client bandeau).
 - `next.config.ts` : **URLs propres partout** , rewrites `beforeFiles` (`/`→agentbooking.html, `/demo`, `/agent`, `/mentions-legales`, `/confidentialite`, `/conditions-service`) + redirects 308 des vieilles URLs `.html` vers les propres. ⚠️ `beforeFiles` obligatoire : sinon `src/app/page.tsx` (wrapper iframe legacy) capte `/` à la place du vrai HTML.
-- `src/app/api/chat/route.ts` : proxy vers le **webhook n8n démo** `132e5738-e018-40eb-83b9-c184bf95359f` (workflow "agent demo" `INtyqZY99dP0vVRy`, LE MÊME que la démo nightbook.io). Payload : `{chatInput, sessionId, source:'agentbooking-demo', clubName, domain, problem}`.
+- `src/app/api/chat/route.ts` : proxy vers le **webhook n8n démo** `132e5738-e018-40eb-83b9-c184bf95359f` (workflow "agent demo" `Sm2iWph76tovtZBi` , ⚠️ l'ancien ID `INtyqZY99dP0vVRy` noté ici avant était périmé). Payload : `{chatInput, sessionId, source:'agentbooking-demo', clubName, domain, problem, first}`. **Notif Telegram** : au 1er message d'une session (`first:true`, posé par demo-agent.html), le proxy POST `{message}` sur le webhook générique `nightbook-notify` (workflow "modif client nightbook.io" `GZWv0mBJA3Tc6X2f`) en fire-and-forget → ping Telegram « 🧪 Démo agent-booking.fr testée » avec nom/domaine/problème/message. Le workflow démo lui-même n'a AUCUN node de notif (et ne sauvegarde pas ses exécutions réussies : historique n8n vide = normal).
 - `src/app/src/app/{mentions-legales,confidentialite}/page.tsx` : copies React des pages légales (garder synchro avec les .html si modifiées).
 
 ## Landing (`agentbooking.html`) , anatomie v3 (fin août 2026, DA nightbook fond blanc)
@@ -55,6 +56,7 @@ Test local sans build : ouvrir `public/agentbooking.html` en `file://` (Playwrig
 ## État / TODO
 
 - ✅ S91 : restauration prod, bannière lancement nightbook.io (i18n), secteur **Location** (remplace Conciergerie), Boîte de nuit en 1er, bandeau clients (logo **X-Quad Samui Raid**), modale nightlife = vidéo promo + CTA nightbook, SEO (meta desc + OG + canonical), légal vérifié, nouveau numéro.
+- ✅ 1er sept. 2026 : **v3 en prod sur TOUT le site** , DA nightbook thème clair partout (/demo, /agent, 3 pages légales harmonisées), i18n FR/EN généralisée, URLs propres, Clarity + bannière consentement, notif Telegram sur test de la démo (validée E2E, exéc `44213`).
 - ✅ Août 2026 : **refonte v2 complète** (positionnement société : NightBook + TripBook + sur-mesure, design éditorial Fraunces/Archivo, vidéo promo nightbook intégrée, témoignage X-Quad + stat +250 résas, titre onglet en FR, canonical). La bannière lancement, le bandeau clients et les modales secteurs de la v1 ont été absorbés/remplacés par les panneaux produits.
 - ⏭️ **Ajouter des témoignages/logos clients** (section Sur-mesure ou nouvelle section) dès qu'ils arrivent (clubs nightbook, agences tourisme…).
 - ⏭️ Pas d'ES (le SaaS nightbook est FR/EN/ES) , à ajouter si prospection hispano via l'agence.
