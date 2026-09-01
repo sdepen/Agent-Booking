@@ -12,12 +12,12 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --accent:#00e5ff;--accent2:#67f0ff;--accent-rgb:0,229,255;
-  --accent-ink:#0891b2;
+  --accent-ink:#00e5ff;
   --bg:#ffffff;--bg2:#f8fafc;--bg3:#eef2f7;--bg4:#e2e8f0;
   --border:rgba(15,20,25,0.08);--border2:rgba(15,20,25,0.14);
   --text:#0f1419;--text2:#475066;--text3:#6b7280;
@@ -68,7 +68,7 @@ nav#nav.blur{background:rgba(255,255,255,.92);box-shadow:0 8px 30px rgba(15,20,2
 /* ── HERO ─────────────────────────────────── */
 .hero{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:128px 32px 48px;max-width:1300px;margin:0 auto}
 @media(min-width:961px){.hero{grid-template-columns:1fr 1.12fr}.hero-right{align-self:start;margin-top:64px}}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(8,145,178,.07);border:1px solid rgba(8,145,178,.22);border-radius:100px;font-size:12px;color:var(--accent-ink);margin-bottom:30px;width:fit-content;letter-spacing:.02em}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.35);border-radius:100px;font-size:12px;color:var(--accent-ink);margin-bottom:30px;width:fit-content;letter-spacing:.02em}
 .hero-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-ink);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .hero h1{font-size:clamp(40px,5vw,68px);font-weight:600;letter-spacing:-.045em;line-height:1.04;color:var(--text);margin-bottom:26px}
@@ -86,7 +86,7 @@ nav#nav.blur{background:rgba(255,255,255,.92);box-shadow:0 8px 30px rgba(15,20,2
 
 /* video frame */
 .hero-right{position:relative}
-.hero-right::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:520px;height:520px;background:radial-gradient(ellipse,rgba(6,182,212,.10) 0%,transparent 65%);pointer-events:none;z-index:0}
+.hero-right::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:520px;height:520px;background:radial-gradient(ellipse,rgba(0,229,255,.10) 0%,transparent 65%);pointer-events:none;z-index:0}
 .hero-video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#0a0e17;border:1px solid rgba(15,20,25,.15);box-shadow:0 30px 80px rgba(15,20,25,.25);z-index:1}
 .hero-video-frame video{width:100%;height:100%;display:block;object-fit:contain;background:#0a0e17}
 .hvf-poster{position:absolute;inset:0;background:#0a0e17;border:0;cursor:pointer;color:#fff;font-family:var(--font-head);z-index:4}
@@ -144,19 +144,22 @@ section{padding:clamp(60px,9vh,110px) 0}
 .nb-visual .ok{color:var(--accent);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 .nb-visual .wait{color:#5a5668;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 
-/* tripbook card : papier clair éditorial (sa propre DA) */
-.p-trip{background:var(--paper);color:var(--ink)}
-.p-trip .product-tag{background:var(--paper-2);border:1px solid var(--ink-line);color:var(--ink-soft)}
-.p-trip h3{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-.01em;font-size:clamp(30px,3vw,38px)}
-.p-trip .pitch{color:var(--ink-soft)}
-.p-trip ul li::before{color:#0b6477}
-.p-trip .product-visual{background:var(--paper-2);order:-1;border-right:1px solid var(--ink-line)}
+/* tripbook card : même DA que le site, version claire */
+.p-trip{background:var(--bg2)}
+.p-trip .product-tag{background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.35);color:var(--accent-ink)}
+.p-trip h3 span{color:var(--accent-ink)}
+.p-trip .pitch{color:var(--text2)}
+.p-trip ul li::before{color:var(--accent-ink)}
+.p-trip .product-visual{background:var(--bg3);order:-1;border-right:1px solid var(--border)}
 .p-trip .product-info{order:1}
-.p-trip .btn-p{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;border-radius:100px;transition:all var(--t)}
-.p-trip .btn-p:hover{transform:translateY(-1px)}
-.tb-visual{width:min(320px,82%);font-family:'Instrument Serif',serif;font-size:20px;line-height:1.5;color:var(--ink)}
-.tb-visual .tick{font-family:var(--font-head);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
-.tb-visual em{font-style:italic;color:#0b6477}
+.p-trip .btn-p{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--accent);color:#000;font-size:14px;font-weight:600;border-radius:100px;transition:all var(--t);box-shadow:0 6px 24px rgba(var(--accent-rgb),.25)}
+.p-trip .btn-p:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(var(--accent-rgb),.4)}
+.tb-visual{width:min(340px,82%);font-size:13px}
+.tb-visual .sum{display:flex;justify-content:space-between;padding:0 4px 12px;color:var(--text3);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.tb-visual .row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border:1px solid var(--border2);background:#fff;border-radius:12px;margin-bottom:10px;color:var(--text2)}
+.tb-visual .row b{font-weight:600;color:var(--text)}
+.tb-visual .ok{color:var(--accent-ink);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.tb-visual .wait{color:var(--text3);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 
 /* sur-mesure */
 #sur-mesure .custom-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(36px,6vw,80px);align-items:start}
@@ -178,14 +181,14 @@ section{padding:clamp(60px,9vh,110px) 0}
 /* méthode */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .step{padding:clamp(24px,3vw,36px);border:1px solid var(--border2);background:var(--bg2);border-radius:16px}
-.step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(8,145,178,.08);border:1px solid rgba(8,145,178,.3);color:var(--accent-ink);font-size:13px;font-weight:700}
+.step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.4);color:var(--accent-ink);font-size:13px;font-weight:700}
 .step h3{font-size:18px;font-weight:600;letter-spacing:-.02em;margin:16px 0 9px}
 .step p{font-size:14px;color:var(--text2);line-height:1.65}
 .method-note{margin-top:24px;font-size:13.5px;color:var(--text3)}
 
 /* contact */
 #contact{border-top:1px solid var(--border);position:relative;overflow:hidden}
-#contact::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(6,182,212,.08) 0%,transparent 65%);pointer-events:none}
+#contact::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(0,229,255,.08) 0%,transparent 65%);pointer-events:none}
 #contact h2{font-size:clamp(30px,4.4vw,52px);font-weight:600;letter-spacing:-.045em;line-height:1.06;margin-top:22px;max-width:17ch}
 #contact h2 em{font-style:normal;color:var(--accent-ink)}
 #contact .lead{margin-top:18px;color:var(--text2);max-width:50ch;font-size:15.5px;line-height:1.7}
@@ -194,11 +197,29 @@ section{padding:clamp(60px,9vh,110px) 0}
 .contact-alt a{color:var(--text2);border-bottom:1px solid var(--border2)}
 .contact-alt a:hover{color:var(--text)}
 
-/* footer */
-footer{border-top:1px solid var(--border);padding:26px 0;font-size:13px;color:var(--text3)}
-footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
-footer nav{display:flex;gap:22px;position:static;transform:none;height:auto;border:none;background:none;padding:0;backdrop-filter:none}
-footer a:hover{color:var(--text)}
+/* footer , même structure que nightbook.io (bloc sombre) */
+footer{background:#0a0a0f;color:#e2e0f0;border-top:1px solid rgba(255,255,255,.07);padding:56px 32px 24px}
+.f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;max-width:1200px;margin:0 auto;align-items:start}
+.f-brand{display:flex;flex-direction:column;gap:14px}
+.f-logo{font-size:20px;font-weight:800;letter-spacing:-.045em;color:#fff;display:inline-flex;align-items:center}
+.f-logo span{color:var(--accent);font-weight:700}
+.f-tagline{font-size:13px;color:#8b86a8;line-height:1.55;max-width:280px}
+.f-cta-wa{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25d366;font-size:12px;font-weight:700;transition:all .2s;width:fit-content;margin-top:4px}
+.f-cta-wa:hover{background:rgba(37,211,102,.18);border-color:rgba(37,211,102,.5);transform:translateY(-1px)}
+.f-cta-wa svg{width:16px;height:16px}
+.f-mail{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.3);color:var(--accent);font-size:12px;font-weight:700;transition:all .2s;width:fit-content}
+.f-mail:hover{background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.5);transform:translateY(-1px)}
+.f-mail svg{width:16px;height:16px;flex-shrink:0}
+.f-col-title{font-size:11px;font-weight:800;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.f-col-links{display:flex;flex-direction:column;gap:10px}
+.f-col-links a{font-size:13px;color:#8b86a8;transition:color .15s}
+.f-col-links a:hover{color:var(--accent)}
+.f-signature{max-width:1200px;margin:52px auto 0;text-align:center;font-size:22px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.f-signature::after{content:'';display:block;width:38px;height:2px;background:var(--accent);margin:16px auto 0;border-radius:2px}
+.f-bottom{max-width:1200px;margin:28px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:center;align-items:center}
+.f-copy{font-size:12px;color:#8b86a8}
+@media(max-width:880px){footer{padding:40px 24px 20px}.f-grid{grid-template-columns:1fr 1fr;gap:32px}.f-brand{grid-column:1 / -1}}
+@media(max-width:520px){.f-grid{grid-template-columns:1fr;gap:28px}}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
@@ -211,7 +232,7 @@ footer a:hover{color:var(--text)}
   .hero{grid-template-columns:1fr;padding-top:110px}
   .product{grid-template-columns:1fr}
   .p-night .product-visual{border-left:none;border-top:1px solid rgba(255,255,255,.07);min-height:240px}
-  .p-trip .product-visual{order:1;border-right:none;border-top:1px solid var(--ink-line);min-height:200px}
+  .p-trip .product-visual{order:1;border-right:none;border-top:1px solid var(--border);min-height:200px}
   .p-trip .product-info{order:0}
   #sur-mesure .custom-grid{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
@@ -242,12 +263,10 @@ footer a:hover{color:var(--text)}
     <div class="hero-tag"><span class="hero-dot"></span> <span data-i18n="hero_eyebrow">Agents IA de réservation</span></div>
     <h1 data-i18n-html="hero_h1">Vos clients écrivent. <br><em>L'agent réserve.</em></h1>
     <p class="hero-sub" data-i18n="hero_sub">Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.</p>
-    <div class="hero-actions">
-      <a href="/demo" class="btn-main" data-i18n="hero_cta1">Parler à un agent en direct</a>
-    </div>
-    <div class="hero-subactions">
-      <a class="hsa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20un%20agent%20de%20r%C3%A9servation%20pour%20mon%20business." target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <div class="hero-actions" style="margin-bottom:48px">
+      <a href="/demo" class="btn-main" data-i18n="hero_cta1">Tester la démo →</a>
+      <a class="btn-wa" href="https://wa.me/33767466391?text=Bonjour%2C%20je%20souhaite%20un%20agent%20de%20r%C3%A9servation%20pour%20mon%20business." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span data-i18n="hero_cta2">Parler sur WhatsApp</span>
       </a>
     </div>
@@ -302,7 +321,7 @@ footer a:hover{color:var(--text)}
         </ul>
         <div class="product-cta">
           <a class="btn-p" href="https://nightbook.io" target="_blank" rel="noopener" data-i18n="nb_cta">Découvrir NightBook</a>
-          <a class="textlink" href="/demo" data-i18n="nb_demo">Essayer l'agent</a>
+          <a class="textlink" href="https://nightbook.io/demo-start" target="_blank" rel="noopener" data-i18n="nb_demo">Essayer l'agent</a>
         </div>
       </div>
       <div class="product-visual">
@@ -319,13 +338,15 @@ footer a:hover{color:var(--text)}
     <article class="product p-trip reveal">
       <div class="product-visual">
         <div class="tb-visual">
-          <div class="tick" data-i18n="tb_v_tick">Demain · 9h00</div>
-          <p data-i18n-html="tb_v_quote">« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »</p>
+          <div class="sum"><span data-i18n="tb_v_head">Réservations · demain</span><span>09:00</span></div>
+          <div class="row"><span><b data-i18n="tb_r1">Plongée · Koh Tao</b><br>2 pers · 9h00</span><span class="ok" data-i18n="tb_v_ok">Confirmée</span></div>
+          <div class="row"><span><b data-i18n="tb_r2">Tour en quad · jungle</b><br>4 pers · 14h30</span><span class="ok" data-i18n="tb_v_ok2">Confirmée</span></div>
+          <div class="row"><span><b data-i18n="tb_r3">Transfert aéroport</b><br><span data-i18n="tb_v_pending">paiement en attente</span></span><span class="wait" data-i18n="tb_v_wait">En cours</span></div>
         </div>
       </div>
       <div class="product-info">
         <span class="product-tag" data-i18n="tb_tag">Accès anticipé</span>
-        <h3>TripBook</h3>
+        <h3>Trip<span>book</span></h3>
         <p class="pitch" data-i18n="tb_pitch">La réservation automatisée pour le tourisme : centres de plongée, excursions, locations, conciergeries. Multilingue et multi-devises, comme vos clients.</p>
         <ul>
           <li><span data-i18n="tb_f1">Activités, créneaux et capacités gérés par l'agent</span></li>
@@ -416,13 +437,46 @@ footer a:hover{color:var(--text)}
 </main>
 
 <footer>
-  <div class="wrap">
-    <p>© 2026 Agent Booking · Sacha Depenweiller</p>
-    <nav>
-      <a href="/mentions-legales" data-i18n="footer_legal">Mentions légales</a>
-      <a href="/confidentialite" data-i18n="footer_privacy">Confidentialité</a>
-      <a href="/conditions-service" data-i18n="footer_terms">CGU</a>
-    </nav>
+  <div class="f-grid">
+    <div class="f-brand">
+      <a href="#top" class="f-logo">Agent<span>Booking</span></a>
+      <p class="f-tagline" data-i18n="f_tagline">Des agents IA qui prennent vos réservations 24h/24 sur WhatsApp, Instagram, Messenger et Telegram. NightBook, TripBook et sur-mesure.</p>
+      <a href="https://wa.me/33767466391?text=Bonjour%2C%20je%20viens%20de%20agent-booking.fr%20et%20j%27aimerais%20en%20savoir%20plus" target="_blank" rel="noopener" class="f-cta-wa"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"/></svg>
+        +33 7 67 46 63 91
+      </a>
+      <a href="mailto:agentbooking.contact@gmail.com" class="f-mail">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        agentbooking.contact@gmail.com
+      </a>
+    </div>
+    <div class="f-col">
+      <div class="f-col-title" data-i18n="f_col_products">Produits</div>
+      <div class="f-col-links">
+        <a href="https://nightbook.io" target="_blank" rel="noopener">NightBook</a>
+        <a href="https://wa.me/33767466391?text=Bonjour%2C%20TripBook%20m%27int%C3%A9resse%20pour%20mon%20activit%C3%A9%20tourisme." target="_blank" rel="noopener">TripBook</a>
+        <a href="#sur-mesure" data-i18n="f_link_custom">Sur-mesure</a>
+        <a href="/demo" data-i18n="f_link_demo">Tester la démo</a>
+      </div>
+    </div>
+    <div class="f-col">
+      <div class="f-col-title" data-i18n="f_col_contact">Contact</div>
+      <div class="f-col-links">
+        <a href="https://wa.me/33767466391" target="_blank" rel="noopener" data-i18n="f_link_wa">Contact WhatsApp</a>
+        <a href="mailto:agentbooking.contact@gmail.com" data-i18n="f_link_email">Contact email</a>
+      </div>
+    </div>
+    <div class="f-col">
+      <div class="f-col-title" data-i18n="f_col_legal">Légal</div>
+      <div class="f-col-links">
+        <a href="/mentions-legales" data-i18n="footer_legal">Mentions légales</a>
+        <a href="/confidentialite" data-i18n="footer_privacy">Confidentialité</a>
+        <a href="/conditions-service" data-i18n="footer_terms">CGU</a>
+      </div>
+    </div>
+  </div>
+  <div class="f-signature" data-i18n="f_signature">Votre meilleur employé ne dort jamais.</div>
+  <div class="f-bottom">
+    <div class="f-copy" data-i18n="f_copy">© 2026 Agent Booking · Sacha Depenweiller, Tous droits réservés</div>
   </div>
 </footer>
 
@@ -434,7 +488,7 @@ const T = {
     hero_eyebrow:"Agents IA de réservation",
     hero_h1:"Vos clients écrivent. <br><em>L'agent réserve.</em>",
     hero_sub:"Agent Booking conçoit des agents IA qui répondent, qualifient et encaissent vos réservations sur WhatsApp, Instagram et Messenger. À 15h comme à 3h du matin.",
-    hero_cta1:"Parler à un agent en direct", hero_cta2:"Parler sur WhatsApp",
+    hero_cta1:"Tester la démo →", hero_cta2:"Parler sur WhatsApp",
     fact1_s:"sans embaucher", fact2_s:"canaux connectés", fact3_s:"résas automatisées cet été",
     products_eyebrow:"Nos produits",
     products_h2:"Deux logiciels. Chacun taillé <br>pour son métier.",
@@ -453,8 +507,8 @@ const T = {
     tb_f2:"FR · EN · ES, six devises, fuseaux horaires gérés",
     tb_f3:"Planning, statistiques et messagerie centralisés",
     tb_cta:"Rejoindre l'accès anticipé",
-    tb_v_tick:"Demain · 9h00",
-    tb_v_quote:"« Deux plongées à Koh Tao pour<br>samedi, <em>c'est réservé.</em> »",
+    tb_v_head:"Réservations · demain", tb_r1:"Plongée · Koh Tao", tb_r2:"Tour en quad · jungle", tb_r3:"Transfert aéroport",
+    tb_v_ok:"Confirmée", tb_v_ok2:"Confirmée", tb_v_pending:"paiement en attente", tb_v_wait:"En cours",
     custom_eyebrow:"Sur-mesure",
     custom_h2:"Votre métier ne rentre pas <br>dans une case ?",
     custom_p:"On construit aussi des agents uniques, brique par brique, autour de votre façon de travailler. Conciergerie, e-commerce, services : si vos clients vous écrivent, un agent peut répondre.",
@@ -481,13 +535,18 @@ const T = {
     contact_cta1:"Écrire sur WhatsApp", contact_cta2:"Tester la démo en direct",
     contact_alt:'Ou par email : <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a>',
     footer_legal:"Mentions légales", footer_privacy:"Confidentialité", footer_terms:"CGU",
+    f_tagline:"Des agents IA qui prennent vos réservations 24h/24 sur WhatsApp, Instagram, Messenger et Telegram. NightBook, TripBook et sur-mesure.",
+    f_col_products:"Produits", f_link_custom:"Sur-mesure", f_link_demo:"Tester la démo",
+    f_col_contact:"Contact", f_link_wa:"Contact WhatsApp", f_link_email:"Contact email", f_col_legal:"Légal",
+    f_signature:"Votre meilleur employé ne dort jamais.",
+    f_copy:"© 2026 Agent Booking · Sacha Depenweiller, Tous droits réservés",
   },
   en: {
     nav_products:"Products", nav_custom:"Custom", nav_method:"Method", nav_cta:"Try the demo →",
     hero_eyebrow:"AI booking agents",
     hero_h1:"Your clients text. <br><em>The agent books.</em>",
     hero_sub:"Agent Booking builds AI agents that answer, qualify and close your bookings on WhatsApp, Instagram and Messenger. At 3pm and at 3am.",
-    hero_cta1:"Talk to a live agent", hero_cta2:"Chat on WhatsApp",
+    hero_cta1:"Try the demo →", hero_cta2:"Chat on WhatsApp",
     fact1_s:"without hiring", fact2_s:"connected channels", fact3_s:"bookings automated this summer",
     products_eyebrow:"Our products",
     products_h2:"Two products. Each built <br>for its industry.",
@@ -506,8 +565,8 @@ const T = {
     tb_f2:"FR · EN · ES, six currencies, time zones handled",
     tb_f3:"Schedule, stats and messaging in one place",
     tb_cta:"Join early access",
-    tb_v_tick:"Tomorrow · 9:00am",
-    tb_v_quote:"“Two dives in Koh Tao for<br>Saturday, <em>all booked.</em>”",
+    tb_v_head:"Bookings · tomorrow", tb_r1:"Dive trip · Koh Tao", tb_r2:"Quad tour · jungle", tb_r3:"Airport transfer",
+    tb_v_ok:"Confirmed", tb_v_ok2:"Confirmed", tb_v_pending:"payment pending", tb_v_wait:"Pending",
     custom_eyebrow:"Custom builds",
     custom_h2:"Your business doesn't <br>fit a template?",
     custom_p:"We also build one-of-a-kind agents around the way you actually work. Concierge, e-commerce, services: if your clients text you, an agent can answer.",
@@ -534,6 +593,11 @@ const T = {
     contact_cta1:"Message us on WhatsApp", contact_cta2:"Try the live demo",
     contact_alt:'Or by email: <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a>',
     footer_legal:"Legal notice", footer_privacy:"Privacy", footer_terms:"Terms",
+    f_tagline:"AI agents that take your bookings 24/7 on WhatsApp, Instagram, Messenger and Telegram. NightBook, TripBook and custom builds.",
+    f_col_products:"Products", f_link_custom:"Custom builds", f_link_demo:"Try the demo",
+    f_col_contact:"Contact", f_link_wa:"WhatsApp", f_link_email:"Email", f_col_legal:"Legal",
+    f_signature:"Your best employee never sleeps.",
+    f_copy:"© 2026 Agent Booking · Sacha Depenweiller, All rights reserved",
   }
 };
 let lang = localStorage.getItem('ab_lang') || 'fr';
