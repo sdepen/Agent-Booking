@@ -17,7 +17,7 @@ Pendant longtemps, **la prod ne venait PAS de GitHub**. Le site live était un *
 ## Structure
 
 - **Next.js** (App Router, TS) mais le vrai contenu = **fichiers statiques dans `public/`** :
-  - `public/agentbooking.html` , **LA landing v2** (refonte août 2026 : tout le HTML/CSS/JS inline, CSS maison SANS Tailwind, i18n maison FR/EN). Ancienne v1 récupérable via la branche `backup-pre-v2` / git log.
+  - `public/agentbooking.html` , **LA landing v3** (refonte fin août 2026 : tout le HTML/CSS/JS inline, CSS maison SANS Tailwind, i18n maison FR/EN). Ancienne v1 récupérable via la branche `backup-pre-v2` / git log.
   - `public/demo-start.html` (`/demo`) , formulaire "tester l'agent" (nom + domaine + problème, stocké en localStorage, PAS de lead en base). DA claire du site, i18n FR/EN inline.
   - `public/demo-agent.html` (`/agent`) , chat de démo qui tape le webhook n8n via `/api/chat`. DA claire, i18n FR/EN, flag `first` au 1er message (→ notif Telegram). L'agent répond déjà dans la langue du visiteur tout seul.
   - `public/mentions-legales.html`, `public/confidentialite.html`, `public/service.html` (pages légales). Gabarit commun clair sans Tailwind, **bilingues** via blocs `data-lang="fr|en"` + toggle. `/confidentialite` contient la section « Cookies et mesure d'audience » (Clarity, lien de réaffichage de la bannière).
@@ -32,7 +32,7 @@ Pendant longtemps, **la prod ne venait PAS de GitHub**. Le site live était un *
 Positionnement **société umbrella** : Agent Booking = la maison mère, qui présente ses 2 SaaS + le sur-mesure.
 Nav pill flottante (blur, logo Agent**Booking**, toggle FR/EN, CTA `/demo`) → **Hero** (h1 Inter + **vidéo promo nightbook** `https://nightbook.io/promo-{fr,en}.mp4` en cadre 16/9, **autoplay muet à l'arrivée**, contrôles custom cyan repris de nightbook, barre de preuve 24h/7 · 4 canaux · +250 résas) → **Produits** (carte **NightBook** sombre `#111116` accent cyan + visuel résas · carte **TripBook** papier clair Instrument Serif, accès anticipé, CTA WhatsApp) → **Sur-mesure** (liste a/b/c + témoignage réel **Nico / X-Quad Samui**, stat +250 résas, lien `tripbook.agent-booking.fr/agent-plateformes.html`) → **Méthode** (3 étapes) → **Contact** (CTA WhatsApp vert + `/demo` + email) → Footer.
 
-- **Design v3** : **DA nightbook en thème clair** (tokens du `theme-light` du SaaS) : fond blanc, texte `#0f1419`, font **Inter** partout (+ Instrument Serif carte TripBook), accents texte cyan foncé `#0891b2`, boutons pilule cyan vif `#00e5ff` texte noir. Restent sombres pour le contraste : cadre vidéo, carte NightBook. Pas de Tailwind, pas de modales, jamais de glow cyan fluo.
+- **Design v3** : **DA nightbook en thème clair** (tokens du `theme-light` du SaaS) : fond blanc, texte `#0f1419`, font **Inter** partout (+ Instrument Serif carte TripBook), accents texte ET boutons pilule en cyan vif `#00e5ff` (décision Sacha : le même cyan partout, texte noir sur les boutons). Restent sombres pour le contraste : cadre vidéo, carte NightBook. Pas de Tailwind, pas de modales, jamais de glow cyan fluo.
 - **Vidéo hero** : servie depuis nightbook.io (pas de mp4 dans ce repo). `pickVideoSrc()` bascule `promo-fr/en.mp4` au changement de langue ; fallback FR sur erreur ; autoplay muet (son au clic).
 - **i18n** : objet `T = {fr:{...}, en:{...}}` inline + `data-i18n`/`data-i18n-html`, `toggleLang()` + localStorage `ab_lang`. **Toute string user-facing FR + EN** (pas d'ES sur ce site). ⚠️ Espace avant chaque `<br>` des titres (les `<br>` sont masqués en mobile, sinon les mots se collent).
 - **CTA** : WhatsApp `wa.me/33767466391` (hero, TripBook, contact) + `/demo` (démo live). Plus aucun `.open-calendly`.
@@ -43,7 +43,7 @@ Nav pill flottante (blur, logo Agent**Booking**, toggle FR/EN, CTA `/demo`) → 
 - **Pas de `—`/`–`** user-facing → `·`, `,`, `.`.
 - Téléphone pro : **07 67 46 63 91** (`33767466391` pour wa.me). Email pro : **agentbooking.contact@gmail.com**.
 - Hébergeur (mentions légales) : **Vercel** (pas IONOS). SIRET 990 009 466 00014, adresse 17 Bis route de Boussange 57270 Richemont.
-- Design v2 : accent teal `#0b6477` sur papier clair, cyan `#00e5ff` réservé au panneau NightBook. Fonts Fraunces + Archivo. Jamais de glow cyan fluo.
+- Design v3 : DA nightbook thème clair, font Inter, cyan `#00e5ff` unique (accents + boutons). **Jamais de glow cyan fluo**, pages compactes qui tiennent dans un écran.
 
 ## Déployer / tester
 
