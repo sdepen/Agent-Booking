@@ -291,7 +291,10 @@
   <body>
     <header>
       <a href="/" class="logo" style="text-decoration:none; color:inherit;">Agent<span>Booking</span></a>
-      <a href="/demo">← Modifier la démo</a>
+      <span style="display:flex;gap:16px;align-items:baseline">
+        <button onclick="toggleLang()" aria-label="Switch language" style="border:none;background:none;cursor:pointer;font:inherit;font-size:12px;font-weight:600;color:var(--text3);white-space:nowrap;padding:0"><b id="lang-fr" style="color:var(--text)">FR</b> / <span id="lang-en">EN</span></button>
+        <a href="/demo" id="edit-link">← Modifier la démo</a>
+      </span>
     </header>
 
     <main class="chat" id="chat"></main>
@@ -305,9 +308,9 @@
     <div class="popup-overlay" id="popup-overlay">
       <div class="popup">
         <div id="popup-form">
-          <div class="popup-title">Vous voulez la même chose ?</div>
-          <div class="popup-sub">Laissez vos coordonnées — on vous propose une solution 100% adaptée à votre business.</div>
-          <label for="popup-mail">Email</label>
+          <div class="popup-title" id="pp-title">Vous voulez la même chose ?</div>
+          <div class="popup-sub" id="pp-sub">Laissez vos coordonnées, on vous propose une solution 100% adaptée à votre business.</div>
+          <label for="popup-mail" id="pp-mail-l">Email</label>
           <input id="popup-mail" type="email" placeholder="vous@exemple.com" autocomplete="email" />
           <label for="popup-whatsapp">WhatsApp</label>
           <input id="popup-whatsapp" type="tel" placeholder="+33 6 00 00 00 00" autocomplete="tel" />
@@ -318,12 +321,60 @@
         </div>
         <div id="popup-success" class="popup-success" style="display:none;">
           <div style="font-size:32px;">✅</div>
-          <p>Parfait ! On revient vers vous très rapidement.</p>
+          <p id="pp-ok">Parfait ! On revient vers vous très rapidement.</p>
         </div>
       </div>
     </div>
 
     <script>
+      const T = {
+        fr: {
+          doc_title: "Test Agent · Agent Booking",
+          edit: "← Modifier la démo",
+          intro: "🎯 Mode démo connecté à l'agent Agent Booking",
+          typing: "L'agent rédige...",
+          input_ph: "Écrivez votre message...",
+          send: "Envoyer",
+          err: "Erreur de connexion : ",
+          home: "← Retour à l'accueil",
+          pp_title: "Vous voulez la même chose ?",
+          pp_sub: "Laissez vos coordonnées, on vous propose une solution 100% adaptée à votre business.",
+          pp_submit: "Être recontacté →", pp_skip: "Plus tard",
+          pp_ok: "Parfait ! On revient vers vous très rapidement.",
+        },
+        en: {
+          doc_title: "Try the agent · Agent Booking",
+          edit: "← Edit the demo",
+          intro: "🎯 Demo mode connected to the Agent Booking agent",
+          typing: "The agent is typing...",
+          input_ph: "Type your message...",
+          send: "Send",
+          err: "Connection error: ",
+          home: "← Back to home",
+          pp_title: "Want the same for your business?",
+          pp_sub: "Leave your details and we will come back with a solution built for your business.",
+          pp_submit: "Get a callback →", pp_skip: "Later",
+          pp_ok: "Perfect! We will get back to you very soon.",
+        }
+      };
+      let lang = 'fr'; try { lang = localStorage.getItem('ab_lang') || 'fr'; } catch (e) {}
+      function applyLang() {
+        document.documentElement.lang = lang;
+        document.title = T[lang].doc_title;
+        document.getElementById('edit-link').textContent = T[lang].edit;
+        document.getElementById('message-input').placeholder = T[lang].input_ph;
+        document.getElementById('send-btn').textContent = T[lang].send;
+        document.getElementById('pp-title').textContent = T[lang].pp_title;
+        document.getElementById('pp-sub').textContent = T[lang].pp_sub;
+        document.getElementById('popup-submit').textContent = T[lang].pp_submit;
+        document.getElementById('popup-skip').textContent = T[lang].pp_skip;
+        document.getElementById('pp-ok').textContent = T[lang].pp_ok;
+        const fr = document.getElementById('lang-fr'), en = document.getElementById('lang-en');
+        if (fr) fr.style.color = lang === 'fr' ? 'var(--text)' : 'var(--text3)';
+        if (en) en.style.color = lang === 'fr' ? 'var(--text3)' : 'var(--text)';
+      }
+      function toggleLang() { lang = lang === 'fr' ? 'en' : 'fr'; try { localStorage.setItem('ab_lang', lang); } catch (e) {} applyLang(); }
+
       const WEBHOOK_URL = '/api/chat';
       const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzuB0nVcB8qN5ERBywFUR5jl82jWCHeI6A03c-1D0_UdtC0YTW_VqsdKf5eIbtzf3fU/exec';
       const BUSINESS_NAME = localStorage.getItem('agent_demo_name') || 'votre établissement';
@@ -354,14 +405,14 @@
       }
 
       function showIntro() {
-        addBubble('🎯 Mode démo connecté à l\'agent Agent Booking', 'meta');
+        addBubble(T[lang].intro, 'meta');
       }
 
       let typingBubble = null;
 
       function showTyping() {
         if (!typingBubble) {
-          typingBubble = addBubble("L'agent rédige...", 'typing');
+          typingBubble = addBubble(T[lang].typing, 'typing');
         }
       }
 
@@ -408,7 +459,7 @@
           })
           .catch((error) => {
             hideTyping();
-            addBubble(`Erreur de connexion : ${error.message}`, 'error');
+            addBubble(T[lang].err + error.message, 'error');
             sendBtn.disabled = false;
             input.focus();
           });
@@ -439,7 +490,7 @@
         el.className = 'bubble meta';
         el.style.cursor = 'pointer';
         el.style.textDecoration = 'none';
-        el.textContent = '← Retour à l\'accueil';
+        el.textContent = T[lang].home;
         chat.appendChild(el);
         chat.scrollTop = chat.scrollHeight;
       }
@@ -466,6 +517,7 @@
         }, 2500);
       });
 
+      applyLang();
       showIntro();
       input.focus();
     </script>

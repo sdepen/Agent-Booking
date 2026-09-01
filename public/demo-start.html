@@ -228,60 +228,102 @@
     <div class="card">
       <div class="card-head">
         <a href="/" class="logo">Agent<span>Booking</span></a>
-        <a class="back-link" href="/" style="margin:0">← Retour à l'accueil</a>
+        <span style="display:flex;gap:16px;align-items:baseline">
+          <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language" style="border:none;background:none;cursor:pointer;font:inherit;font-size:12px;font-weight:600;color:var(--text3);white-space:nowrap;padding:0"><b id="lang-fr" style="color:var(--text)">FR</b> / <span id="lang-en">EN</span></button>
+          <a class="back-link" href="/" style="margin:0" data-i18n="back">← Retour à l'accueil</a>
+        </span>
       </div>
-      <div class="title">Tester l'agent</div>
-      <div class="subtitle">
+      <div class="title" data-i18n="title">Tester l'agent</div>
+      <div class="subtitle" data-i18n="subtitle">
         Répondez aux 3 questions ci-dessous. Les réponses seront utilisées pour personnaliser la démo.
       </div>
 
-      <div class="question">Quel type de domaine vous intéresse ?</div>
+      <div class="question" data-i18n="q1">Quel type de domaine vous intéresse ?</div>
       <div class="domain-grid" id="domain-grid">
         <button class="domain-option" type="button" data-domain="boite_de_nuit">
-          Boîte de nuit
-          <span>Réservations VIP</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="d1">Boîte de nuit</span>
+          <span data-i18n="d1_s">Réservations VIP</span>
         </button>
         <button class="domain-option" type="button" data-domain="conciergerie">
-          Conciergerie
-          <span>Service premium</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="d2">Conciergerie</span>
+          <span data-i18n="d2_s">Service premium</span>
         </button>
         <button class="domain-option" type="button" data-domain="tourisme">
-          Tourisme
-          <span>Activités & ventes</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="d3">Tourisme</span>
+          <span data-i18n="d3_s">Activités & ventes</span>
         </button>
         <button class="domain-option" type="button" data-domain="location">
-          Location
-          <span>Villas & événements</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="d4">Location</span>
+          <span data-i18n="d4_s">Villas & événements</span>
         </button>
       </div>
 
-      <label for="business-name">Nom de l'établissement</label>
+      <label for="business-name" data-i18n="name_label">Nom de l'établissement</label>
       <input id="business-name" type="text" placeholder="Ex. Le Club 54" autocomplete="off" />
 
-      <div class="question" style="margin-top: 28px;">Quel est votre problème principal ?</div>
+      <div class="question" style="margin-top: 28px;" data-i18n="q2">Quel est votre problème principal ?</div>
       <div class="domain-grid" id="problem-grid">
         <button class="domain-option" type="button" data-problem="repondre_messages">
-          Répondre aux messages
-          <span>Trop de sollicitations</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="p1">Répondre aux messages</span>
+          <span data-i18n="p1_s">Trop de sollicitations</span>
         </button>
         <button class="domain-option" type="button" data-problem="gerer_reservations">
-          Gérer les réservations
-          <span>Suivi & confirmation</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="p2">Gérer les réservations</span>
+          <span data-i18n="p2_s">Suivi & confirmation</span>
         </button>
         <button class="domain-option" type="button" data-problem="notifier_equipe">
-          Notifier mon équipe
-          <span>Alertes en temps réel</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="p3">Notifier mon équipe</span>
+          <span data-i18n="p3_s">Alertes en temps réel</span>
         </button>
         <button class="domain-option" type="button" data-problem="autre">
-          Autre
-          <span>Besoin spécifique</span>
+          <span style="display:block;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0" data-i18n="p4">Autre</span>
+          <span data-i18n="p4_s">Besoin spécifique</span>
         </button>
       </div>
 
-      <button id="start-btn" type="button" disabled>Commencer →</button>
+      <button id="start-btn" type="button" disabled data-i18n="start">Commencer →</button>
     </div>
 
     <script>
+      const T = {
+        fr: {
+          back: "← Retour à l'accueil", title: "Tester l'agent",
+          subtitle: "Répondez aux 3 questions ci-dessous. Les réponses seront utilisées pour personnaliser la démo.",
+          q1: "Quel type de domaine vous intéresse ?", q2: "Quel est votre problème principal ?",
+          d1: "Boîte de nuit", d1_s: "Réservations VIP", d2: "Conciergerie", d2_s: "Service premium",
+          d3: "Tourisme", d3_s: "Activités & ventes", d4: "Location", d4_s: "Villas & événements",
+          p1: "Répondre aux messages", p1_s: "Trop de sollicitations", p2: "Gérer les réservations", p2_s: "Suivi & confirmation",
+          p3: "Notifier mon équipe", p3_s: "Alertes en temps réel", p4: "Autre", p4_s: "Besoin spécifique",
+          name_label: "Nom de l'établissement", name_ph: "Ex. Le Club 54", start: "Commencer →",
+          doc_title: "Tester l'agent · Agent Booking",
+        },
+        en: {
+          back: "← Back to home", title: "Try the agent",
+          subtitle: "Answer the 3 questions below. Your answers are used to personalize the demo.",
+          q1: "Which industry are you in?", q2: "What is your main problem?",
+          d1: "Nightclub", d1_s: "VIP tables", d2: "Concierge", d2_s: "Premium service",
+          d3: "Tourism", d3_s: "Activities & sales", d4: "Rentals", d4_s: "Villas & events",
+          p1: "Answering messages", p1_s: "Too many requests", p2: "Managing bookings", p2_s: "Tracking & confirmation",
+          p3: "Notifying my team", p3_s: "Real-time alerts", p4: "Other", p4_s: "Specific need",
+          name_label: "Business name", name_ph: "E.g. Club 54", start: "Start →",
+          doc_title: "Try the agent · Agent Booking",
+        }
+      };
+      let lang = 'fr'; try { lang = localStorage.getItem('ab_lang') || 'fr'; } catch (e) {}
+      function applyLang() {
+        document.documentElement.lang = lang;
+        document.title = T[lang].doc_title;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const k = el.getAttribute('data-i18n');
+          if (T[lang][k] !== undefined) el.textContent = T[lang][k];
+        });
+        document.getElementById('business-name').placeholder = T[lang].name_ph;
+        const fr = document.getElementById('lang-fr'), en = document.getElementById('lang-en');
+        if (fr) fr.style.color = lang === 'fr' ? 'var(--text)' : 'var(--text3)';
+        if (en) en.style.color = lang === 'fr' ? 'var(--text3)' : 'var(--text)';
+      }
+      function toggleLang() { lang = lang === 'fr' ? 'en' : 'fr'; try { localStorage.setItem('ab_lang', lang); } catch (e) {} applyLang(); }
+
       const nameInput = document.getElementById('business-name');
       const startBtn = document.getElementById('start-btn');
       const domainButtons = Array.from(document.querySelectorAll('[data-domain]'));
@@ -357,6 +399,7 @@
 
       startBtn.addEventListener('click', startDemo);
       updateState();
+      applyLang();
     </script>
   </body>
 </html>

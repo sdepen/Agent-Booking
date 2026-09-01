@@ -36,10 +36,13 @@
       border-bottom: 1px solid var(--border2);
       margin-bottom: 34px;
     }
+    .top-right { display: flex; gap: 16px; align-items: baseline; }
     .logo { font-size: 19px; font-weight: 600; letter-spacing: -0.045em; color: var(--text); text-decoration: none; }
     .logo span { color: var(--accent); font-weight: 700; }
     .back { font-size: 13px; font-weight: 500; color: var(--text3); text-decoration: none; }
     .back:hover { color: var(--text); }
+    .lang-toggle { border: none; background: none; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; color: var(--text3); white-space: nowrap; padding: 0; }
+    .lang-toggle b { color: var(--text); }
     h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 24px; }
     h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin: 30px 0 10px; }
     p, li { font-size: 14.5px; color: var(--text2); }
@@ -48,7 +51,8 @@
     strong { color: var(--text); font-weight: 600; }
     main a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
     main a:hover { color: var(--text3); }
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    [hidden] { display: none !important; }
   </style>
     <script type="text/javascript">
       // Cookies analytics (Microsoft Clarity) : chargé UNIQUEMENT après consentement.
@@ -89,14 +93,38 @@
   <div class="wrap">
     <div class="top">
       <a href="/" class="logo">Agent<span>Booking</span></a>
-      <a href="/" class="back">← Retour à l'accueil</a>
+      <span class="top-right">
+        <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><b id="lang-fr">FR</b> / <span id="lang-en">EN</span></button>
+        <a href="/" class="back" data-i18n-back>← Retour à l'accueil</a>
+      </span>
     </div>
     <main>
+      <div data-lang="fr">
       <h1>Conditions de service</h1>
       <p>Le service <strong>Agent Booking</strong> permet la gestion automatisée de demandes de réservation et d'information via WhatsApp.</p>
       <p>L'utilisateur accepte de recevoir des messages automatisés. Il peut arrêter le service à tout moment en envoyant "STOP".</p>
       <p>Le service est fourni sans garantie de disponibilité continue.</p>
+      </div>
+      <div data-lang="en" hidden>
+      <h1>Terms of service</h1>
+      <p>The <strong>Agent Booking</strong> service provides automated handling of booking and information requests via WhatsApp.</p>
+      <p>Users agree to receive automated messages. They can stop the service at any time by sending "STOP".</p>
+      <p>The service is provided without any guarantee of continuous availability.</p>
+      </div>
     </main>
   </div>
+    <script>
+      let lang = 'fr'; try { lang = localStorage.getItem('ab_lang') || 'fr'; } catch (e) {}
+      function applyLang() {
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-lang]').forEach(el => { el.hidden = el.getAttribute('data-lang') !== lang; });
+        document.querySelectorAll('[data-i18n-back]').forEach(el => { el.textContent = lang === 'en' ? '← Back to home' : "← Retour à l'accueil"; });
+        const fr = document.getElementById('lang-fr'), en = document.getElementById('lang-en');
+        if (fr) fr.style.color = lang === 'fr' ? 'var(--text)' : 'var(--text3)';
+        if (en) en.style.color = lang === 'fr' ? 'var(--text3)' : 'var(--text)';
+      }
+      function toggleLang() { lang = lang === 'fr' ? 'en' : 'fr'; try { localStorage.setItem('ab_lang', lang); } catch (e) {} applyLang(); }
+      applyLang();
+    </script>
 </body>
 </html>

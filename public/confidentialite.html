@@ -36,10 +36,13 @@
       border-bottom: 1px solid var(--border2);
       margin-bottom: 34px;
     }
+    .top-right { display: flex; gap: 16px; align-items: baseline; }
     .logo { font-size: 19px; font-weight: 600; letter-spacing: -0.045em; color: var(--text); text-decoration: none; }
     .logo span { color: var(--accent); font-weight: 700; }
     .back { font-size: 13px; font-weight: 500; color: var(--text3); text-decoration: none; }
     .back:hover { color: var(--text); }
+    .lang-toggle { border: none; background: none; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; color: var(--text3); white-space: nowrap; padding: 0; }
+    .lang-toggle b { color: var(--text); }
     h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 24px; }
     h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin: 30px 0 10px; }
     p, li { font-size: 14.5px; color: var(--text2); }
@@ -48,7 +51,8 @@
     strong { color: var(--text); font-weight: 600; }
     main a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
     main a:hover { color: var(--text3); }
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    [hidden] { display: none !important; }
   </style>
     <script type="text/javascript">
       // Cookies analytics (Microsoft Clarity) : chargé UNIQUEMENT après consentement.
@@ -89,23 +93,23 @@
   <div class="wrap">
     <div class="top">
       <a href="/" class="logo">Agent<span>Booking</span></a>
-      <a href="/" class="back">← Retour à l'accueil</a>
+      <span class="top-right">
+        <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><b id="lang-fr">FR</b> / <span id="lang-en">EN</span></button>
+        <a href="/" class="back" data-i18n-back>← Retour à l'accueil</a>
+      </span>
     </div>
     <main>
+      <div data-lang="fr">
       <h1>Politique de confidentialité et de cookies</h1>
       <p>Le site <strong>Agent Booking</strong> peut collecter des informations personnelles (nom, prénom, adresse e-mail, etc.) uniquement lorsque l'utilisateur remplit un formulaire de contact ou s'inscrit volontairement à une newsletter.</p>
-
       <h2>Utilisation des données</h2>
       <p>Les données collectées sont utilisées uniquement pour répondre aux demandes de contact, gérer la relation client et, le cas échéant, envoyer des informations commerciales.</p>
-
       <h2>Utilisation de WhatsApp</h2>
       <p>Dans le cadre du service Agent Booking, certaines communications peuvent être envoyées ou reçues via WhatsApp Business API.</p>
       <p>Ces messages peuvent être automatisés afin de répondre aux demandes des utilisateurs (réservations, informations, confirmations).</p>
       <p>Les utilisateurs peuvent à tout moment demander l'arrêt des messages en envoyant "STOP".</p>
-
       <h2>Partage des données</h2>
       <p>Aucune donnée personnelle n'est transmise à des tiers sans consentement explicite, sauf obligation légale.</p>
-
       <h2>Cookies et mesure d'audience</h2>
       <p>Le site utilise <strong>Microsoft Clarity</strong> pour comprendre comment les visiteurs utilisent le site (pages consultées, clics, cartes de chaleur, enregistrements de session). Ces cookies ne sont déposés <strong>qu'après votre consentement</strong>, donné via la bannière affichée lors de votre première visite. Si vous refusez, aucun cookie de mesure d'audience n'est déposé et le site reste pleinement utilisable.</p>
       <p>Votre choix est conservé dans votre navigateur (clé « ab_cookie_consent »). Vous pouvez le modifier à tout moment :
@@ -114,16 +118,55 @@
         <a href="https://privacy.microsoft.com/fr-fr/privacystatement" target="_blank" rel="noopener">déclaration de confidentialité</a>.
         Clarity masque par défaut les contenus sensibles saisis à l'écran.</p>
       <p>Le site utilise par ailleurs le stockage local du navigateur pour des préférences techniques non traçantes : langue choisie et réponses du formulaire de démo. Ces informations restent sur votre appareil et ne sont transmises à aucun tiers.</p>
-
       <h2>Durée de conservation</h2>
       <p>Les données sont conservées pour une durée maximale de 3 ans à compter du dernier contact.</p>
-
       <h2>Droits des utilisateurs</h2>
       <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer vos droits :</p>
       <ul>
         <li>Email : <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a></li>
       </ul>
+      </div>
+      <div data-lang="en" hidden>
+      <h1>Privacy and cookie policy</h1>
+      <p>The <strong>Agent Booking</strong> website may collect personal information (name, email address, etc.) only when a user fills in a contact form or voluntarily subscribes to a newsletter.</p>
+      <h2>Use of data</h2>
+      <p>Collected data is used solely to answer contact requests, manage the client relationship and, where applicable, send commercial information.</p>
+      <h2>Use of WhatsApp</h2>
+      <p>As part of the Agent Booking service, some communications may be sent or received via the WhatsApp Business API.</p>
+      <p>These messages may be automated in order to answer user requests (bookings, information, confirmations).</p>
+      <p>Users can request that messages stop at any time by sending "STOP".</p>
+      <h2>Data sharing</h2>
+      <p>No personal data is shared with third parties without explicit consent, except where required by law.</p>
+      <h2>Cookies and analytics</h2>
+      <p>This site uses <strong>Microsoft Clarity</strong> to understand how visitors use the site (pages viewed, clicks, heatmaps, session recordings). These cookies are only set <strong>after your consent</strong>, given via the banner shown on your first visit. If you decline, no analytics cookie is set and the site remains fully usable.</p>
+      <p>Your choice is stored in your browser (key "ab_cookie_consent"). You can change it at any time:
+        <a href="#" onclick="try{localStorage.removeItem('ab_cookie_consent')}catch(e){};location.reload();return false;">click here to show the consent banner again</a>.</p>
+      <p>Data collected via Clarity is processed by Microsoft in accordance with its
+        <a href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank" rel="noopener">privacy statement</a>.
+        Clarity masks sensitive on-screen content by default.</p>
+      <p>The site also uses the browser's local storage for non-tracking technical preferences: chosen language and demo form answers. This information stays on your device and is never sent to any third party.</p>
+      <h2>Data retention</h2>
+      <p>Data is kept for a maximum of 3 years from the last contact.</p>
+      <h2>Your rights</h2>
+      <p>In accordance with the GDPR, you have the right to access, rectify and delete your data. To exercise your rights:</p>
+      <ul>
+        <li>Email: <a href="mailto:agentbooking.contact@gmail.com">agentbooking.contact@gmail.com</a></li>
+      </ul>
+      </div>
     </main>
   </div>
+    <script>
+      let lang = 'fr'; try { lang = localStorage.getItem('ab_lang') || 'fr'; } catch (e) {}
+      function applyLang() {
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-lang]').forEach(el => { el.hidden = el.getAttribute('data-lang') !== lang; });
+        document.querySelectorAll('[data-i18n-back]').forEach(el => { el.textContent = lang === 'en' ? '← Back to home' : "← Retour à l'accueil"; });
+        const fr = document.getElementById('lang-fr'), en = document.getElementById('lang-en');
+        if (fr) fr.style.color = lang === 'fr' ? 'var(--text)' : 'var(--text3)';
+        if (en) en.style.color = lang === 'fr' ? 'var(--text3)' : 'var(--text)';
+      }
+      function toggleLang() { lang = lang === 'fr' ? 'en' : 'fr'; try { localStorage.setItem('ab_lang', lang); } catch (e) {} applyLang(); }
+      applyLang();
+    </script>
 </body>
 </html>
